@@ -96,29 +96,31 @@ An agency connects one PSA. While ConnectWise or Autotask is enabled, the HaloPS
     </Frame>
   </Step>
   <Step title="Enter the connection details">
-    Turn on the **Enable** switch. In the **HaloPSA Integration** dialog, enter:
+    Turn on the **Enable** switch. The **HaloPSA** dialog opens on its **1. Connect** tab. Enter:
 
     - **HaloPSA URL**: the address you sign in to Halo with, such as `https://yourcompany.halopsa.com`. It must start with `https://`.
     - **Client ID** and **Client Secret**: the values you copied in Step 1.
 
-    Click **Test Connection** to check the details without saving them, then click **Connect & Enable**.
+    Click **Test Connection** to check the details without saving them, then click **Connect & Enable**. The **2. Settings** tab stays unavailable until the connection succeeds.
 
     <Frame>
-      <img src="/images/halopsa/halopsa-6.png" alt="HaloPSA Integration dialog in Telivy with fields for HaloPSA URL, Client ID and Client Secret, and the Test Connection and Connect & Enable buttons" />
+      <img src="/images/halopsa/halopsa-6.png" alt="The Connect tab of the HaloPSA dialog in Telivy with fields for HaloPSA URL, Client ID and Client Secret, and the Test Connection and Connect & Enable buttons" />
     </Frame>
   </Step>
   <Step title="Choose the ticket settings">
-    After connecting, the dialog shows the ticket settings, filled with the ticket types and statuses from your Halo instance:
+    After connecting, the dialog moves to the **2. Settings** tab, filled with the ticket types and statuses from your Halo instance. Under **New tickets**:
 
     - **Ticket Type**: the type Telivy opens tickets as, for example **Incident**. Leave it blank to use Halo's default.
     - **New Ticket Status**: the status a new ticket starts in. Leave it blank to use Halo's default.
+    Under **Finding decisions**:
+
     - **Resolved Status**: the status Telivy sets when you resolve a finding in Telivy. Choose **Closed** so Halo records the ticket as closed. Leave it blank if Telivy should not change ticket status.
     - **Accepted Risk Status**: the status Telivy sets when you accept a finding's risk. If you leave it blank, Telivy uses the **Resolved Status**.
 
-    Click **Save**. You can change these later with the **Configure** button.
+    Click **Save**. To change these later, click **Configure** on the HaloPSA card, which opens the dialog on **2. Settings**.
 
     <Frame>
-      <img src="/images/halopsa/halopsa-7.png" alt="HaloPSA ticket settings in Telivy with Ticket Type, New Ticket Status, Resolved Status and Accepted Risk Status" />
+      <img src="/images/halopsa/halopsa-7.png" alt="The Settings tab of the HaloPSA dialog in Telivy with Ticket Type, New Ticket Status, Resolved Status and Accepted Risk Status" />
     </Frame>
   </Step>
 </Steps>
@@ -129,14 +131,14 @@ Go to **Alerts → Policies** and pick the finding categories that should open P
 
 ## Step 4: Map each company to a Halo client
 
-Telivy needs to know which Halo client a company's tickets belong to. Map each company once:
+Telivy needs to know which Halo client a company's tickets belong to. Map each company once. A Halo client can belong to one Telivy company at a time: mapping a client that is already mapped moves it to the new company, and the previous company shows **Not mapped** again.
 
 <Steps>
   <Step title="Open the mapping dialog">
     In **Companies**, open the actions menu on a company and choose **Map to PSA**. You can also map from an assessment's **Configuration** tab, in the PSA card.
   </Step>
   <Step title="Search for the Halo client">
-    Type at least two characters of the client's name, pick the client from the results, and confirm. Telivy checks that the client exists in Halo before saving.
+    In the **Map to a HaloPSA client** dialog, type at least two characters of the client's name, pick the client from the results, and click **Map client**. Telivy checks that the client exists in Halo before saving.
 
     <Frame>
       <img src="/images/halopsa/halopsa-8.png" alt="Map to a HaloPSA client dialog in Telivy with search results from Halo" />
