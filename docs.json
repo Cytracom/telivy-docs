@@ -141,6 +141,7 @@
               "integrations/rewst",
               "integrations/connectwise",
               "integrations/autotask",
+              "integrations/halopsa",
               "integrations/webhooks"
             ]
           },
