@@ -16,7 +16,7 @@ The server uses the Streamable HTTP transport and authenticates with your agency
 
 ## How it works
 
-Your AI client sends MCP requests to `https://api-v1.telivy.com/mcp` with your API key in the `x-api-key` header. Telivy checks the key, then answers the client's request for the list of available tools. Each tool is generated from an operation in the [Telivy Security API](https://api-v1.telivy.com/api-docs/security). When the assistant calls a tool, Telivy runs it as the matching Security API request under your agency's API User. Validation, permissions and error responses are therefore the same as when you call the API directly, and the result goes back to the assistant as the tool's output.
+Your AI client sends MCP requests to `https://api-v1.telivy.com/mcp` with your API key in the `x-api-key` header. Telivy checks the key, then answers the client's request for the list of available tools. Each tool is generated from an operation in the [Telivy Security API](https://api-v1.telivy.com/api-docs/security), and the list leaves out any operation your key's role is not allowed to call. When the assistant calls a tool, Telivy sends the matching Security API request with the same key. Validation, permissions and error responses are therefore the same as when you call the API directly. A successful response goes back to the assistant as the tool's output, and a failed one comes back as a tool error, as described in [Troubleshooting](#troubleshooting).
 
 ```mermaid
 sequenceDiagram
@@ -56,20 +56,33 @@ Telivy shows the key only once, when it is generated. Each agency has one API ke
 
 The API key acts as your agency's built-in **API User**, which has agency administrator permissions. Anything an assistant does through the MCP server is done with those permissions, and it appears in Telivy as performed by **API User** rather than by the person who typed the prompt.
 
+### Master agencies and sub-agencies
+
+If your agency is a master agency with sub-agencies, the master agency's API key can work across them:
+
+- The list tools, such as `get_external_scan_assessments` and `get_risk_assessments`, return the assessments of the master agency and of all its sub-agencies, and the tools that read a single assessment work on any of them.
+- The `get_agencies` tool returns the master agency followed by each of its sub-agencies, with the ID of each. The assistant uses this tool to find the ID of the sub-agency you name.
+- Passing that ID as `agencyId` to `get_external_scan_assessments` or `get_risk_assessments` limits the list to that agency. Passing it as `agencyId` in the request body of `add_external_scan_assessment` or `add_risk_assessment` creates the assessment in that sub-agency instead of in the master agency.
+
+An `agencyId` for any agency outside the master agency's hierarchy fails with a `403` error. A sub-agency's own API key, like the key of any agency that is not a master agency, works only on that agency's data: `get_agencies` returns only that agency, and passing any `agencyId`, including the agency's own ID, fails with a `403` error.
+
 Signing in per user (OAuth) is not supported at the moment. Because of this, AI products whose remote connectors only offer an OAuth sign-in, such as ChatGPT connectors and the custom connector dialog in Claude on the web, cannot connect to the Telivy MCP server. Anthropic is testing a **Request headers** option for Claude custom connectors with a limited set of organizations; Telivy has not tested that option. Claude Desktop can connect through the local `mcp-remote` bridge described in [Claude Desktop](/integrations/mcp/claude-desktop).
 
 ## What you can do
 
-The MCP server exposes the operations of the [Telivy Security API](https://api-v1.telivy.com/api-docs/security) as tools, so the assistant can do what the API can do. The tools fall into these groups:
+The MCP server exposes the operations of the [Telivy Security API](https://api-v1.telivy.com/api-docs/security) as tools, so the assistant can do what the API can do with your key. Each tool's parameters and response fields are those of the matching API operation, and the [API reference](https://api-v1.telivy.com/api-docs/security) documents them in full.
 
-- **External scans:** list and get external scans, create and update them, read their findings, start a rescan, read breach data, get reports, and uninstall agents.
-- **Risk assessments:** list and get risk assessments, create and update them, convert them, read and change monitoring settings, list devices and rescan a device, check scan status, list Microsoft 365 and Google Workspace users, and read the PII summary.
-- **Security findings:** read the details of a security finding.
-- **Agent versions:** list the available Telivy agent versions.
+For external scans, the assistant can list scans (`get_external_scan_assessments`), get one scan (`get_external_scan_assessment`), create a scan (`add_external_scan_assessment`), update it (`edit_external_scan_assessment`), list its findings (`get_external_scan_assessment_findings`), get the details of one finding on it (`get_external_scan_findings`), and read its breach data (`get_breach_data`). It can also ask every device on an assessment to rescan (`mark_application_rescan_all`) or to uninstall the Telivy agent (`mark_application_uninstall_all`).
 
-The tool names, parameters and response fields follow the Security API. For the full list of operations and their parameters, see the [API reference](https://api-v1.telivy.com/api-docs/security).
+For risk assessments, the assistant can list assessments (`get_risk_assessments`), get one assessment (`get_risk_assessment`), create one (`add_risk_assessment`), update its organization name and domain (`edit_risk_assessment`), preview what a domain change would affect (`get_domain_change_preview`), convert an external scan into a risk assessment (`convert_to_risk_assessment`), and change its monitoring settings (`update_application_settings`). For the devices on an assessment, it can list them (`get_all_deep_scan_devices`), get one device (`get_deep_scan_target`), rescan one device (`rescan_deep_scan_target`), check scan completion for every device (`get_scan_status`), list open device findings from the current scan (`get_device_findings`), and read the PII exposure summary (`get_pii_summary`). It can also list Microsoft 365 users with their sign-in and MFA status (`get_m365_users`) and Google Workspace users with their sign-in and 2-Step Verification status (`get_gws_users`).
 
-Each tool carries MCP annotations. Tools that only read data are marked read-only, and tools that remove or disrupt something, such as uninstalling agents, are marked destructive. Clients that honor these annotations can run read-only tools without interrupting you and ask for confirmation before destructive ones.
+Across both assessment types, the assistant can read the risk progress report of an assessment (`get_risk_progress_report`), read the description of a finding type by its slug, such as `TYPO_SQUATTING` (`get_finding_details_by_slug`), list the latest Telivy agent versions (`get_latest_agent_versions`), and list the agencies your key can target (`get_agencies`, described in [Master agencies and sub-agencies](#master-agencies-and-sub-agencies)).
+
+The report download operations of the API are not available as tools, because they return a file rather than data the assistant can read. Download reports from the Telivy portal or call the API directly. Operations that your key's role is not allowed to call, such as ending a trial, are left out of the tool list.
+
+### Tool annotations
+
+Each tool carries MCP annotations that tell the client what kind of action it is. Every tool that only reads data, which covers all the `get_` tools, is marked read-only. Every other tool is marked as not read-only. Two of them are also marked destructive: `mark_application_uninstall_all`, which removes the Telivy agent from every device on an assessment, and `edit_risk_assessment`, which can change an assessment's domain. A domain change can affect data already collected for the old domain, and `get_domain_change_preview` shows what it would affect. Clients that honor these annotations can run read-only tools without interrupting you and ask for confirmation before the others.
 
 ## Safety recommendations
 
@@ -81,15 +94,29 @@ Keep the API key in an environment variable or in the client's secret storage, a
 
 ## Rate limits
 
-MCP traffic is subject to the same per-key rate limit as the Telivy partner API. Each tool call counts as one API request against your agency's key, and the limit is shared with any other integration that uses the same key. When the limit is reached, tool calls fail with a `429` error until the rate-limit window passes. Long chains of tool calls, such as asking the assistant to open every assessment one by one, use the limit up faster than a single list request.
+MCP traffic is subject to the same per-key rate limit as the Telivy partner API. Each tool call counts as one API request against your agency's key, and the limit is shared with any other integration that uses the same key. Connecting and listing the tools do not count toward the limit. When the limit is reached, tool calls fail with an `HTTP 429` tool error until the rate-limit window passes. Long chains of tool calls, such as asking the assistant to open every assessment one by one, use the limit up faster than a single list request.
 
 ## Troubleshooting
+
+When a tool call fails, the client receives a tool error instead of a result, and the assistant usually tells you what went wrong. Errors from the Security API start with `HTTP` and the API's status code, followed by the API's message, for example `HTTP 403: ...` or `HTTP 404: ...`. For a validation error (`HTTP 400`), the message lists each problem with the request, such as a missing or badly formatted field, separated by semicolons, so the assistant can correct the arguments and try again. A connection problem with the key itself shows up before any tool runs, as a `401` response to the client.
 
 <AccordionGroup>
   <Accordion title="401 Unauthorized or invalid API key">
     The server did not accept the key in the `x-api-key` header. Check that the header name is exactly `x-api-key`, that the value is the full key with no extra spaces or quotes, and that the environment variable your configuration references is set in the environment the client was started from. If the key was regenerated, the old key no longer works and every client needs the new one.
   </Accordion>
-  <Accordion title="429 Too Many Requests">
+  <Accordion title="HTTP 400 validation errors">
+    The arguments the assistant sent did not pass the API's validation. The error message names each field that failed and why. Most assistants read the message and retry with corrected arguments. If it keeps failing, give the assistant the missing value yourself, such as the domain or the organization name, or check the operation's parameters in the [API reference](https://api-v1.telivy.com/api-docs/security).
+  </Accordion>
+  <Accordion title="HTTP 403 Forbidden">
+    The key is valid but is not allowed to do what the tool call asked. For a master agency, this usually means the `agencyId` belongs to an agency outside your hierarchy; ask the assistant to call `get_agencies` and use an ID from that list. For any other agency, including a sub-agency, remove the `agencyId` argument, because only a master agency's key can pass one. See [Master agencies and sub-agencies](#master-agencies-and-sub-agencies).
+  </Accordion>
+  <Accordion title="HTTP 404 Not Found">
+    The assessment, device or finding ID in the tool call does not exist, or it belongs to an agency your key cannot see. Ask the assistant to list the assessments or devices first and take the ID from the result instead of guessing it.
+  </Accordion>
+  <Accordion title="Tool failed with a request id">
+    An error message that names a tool, says it failed, and gives a request id means the call failed inside Telivy for an unexpected reason. Retrying once is safe for tools that only read data. If it keeps failing, contact Telivy support and include the request id from the message.
+  </Accordion>
+  <Accordion title="HTTP 429 Too Many Requests">
     Your agency's key reached its rate limit. Wait for the limit window to pass before retrying, and ask the assistant to use list operations with filters instead of fetching records one at a time. Other integrations that use the same key, such as Rewst workflows, count toward the same limit.
   </Accordion>
   <Accordion title="The client cannot connect or the header is not sent">

@@ -38,14 +38,22 @@ Choose one option. The first makes Telivy available to you in every project. The
 
 <Tabs>
   <Tab title="For you, in every project">
-    Run:
+    On macOS or Linux, run:
 
     ```bash
     claude mcp add --transport http --scope user telivy https://api-v1.telivy.com/mcp \
       --header "x-api-key: $TELIVY_API_KEY"
     ```
 
-    Your shell replaces `$TELIVY_API_KEY` with the key before the command runs, so Claude Code saves the key value itself in `~/.claude.json` in your home folder. That file is private to your user account and is not part of any repository. If you regenerate the key, remove the server and add it again.
+    On Windows, run this in PowerShell:
+
+    ```powershell
+    claude mcp add --transport http --scope user telivy https://api-v1.telivy.com/mcp --header "x-api-key: $env:TELIVY_API_KEY"
+    ```
+
+    PowerShell reads environment variables as `$env:TELIVY_API_KEY`. Written as `$TELIVY_API_KEY`, it refers to an unset PowerShell variable, and Claude Code would save an empty key. Run the command in a PowerShell window opened after `setx`, because `setx` does not change the window it runs in.
+
+    Your shell replaces the variable with the key before the command runs, so Claude Code saves the key value itself in `~/.claude.json` in your home folder. That file is private to your user account and is not part of any repository. If you regenerate the key, remove the server and add it again.
   </Tab>
   <Tab title="For one project, shared with your team">
     Create or edit `.mcp.json` in the root of the project:
@@ -75,7 +83,7 @@ Choose one option. The first makes Telivy available to you in every project. The
 
 ## Approvals
 
-Claude Code asks for permission before it runs an MCP tool. Keep that behavior for any Telivy tool that creates, updates, rescans or uninstalls something. If you add permission rules to allow tools without a prompt, list only read-only tools by their full name, which has the form `mcp__telivy__<tool name>` and appears when you select a tool in `/mcp`. Do not allow `mcp__telivy__*` as a whole.
+Claude Code asks for permission before it runs an MCP tool. Keep that behavior for any Telivy tool that creates, updates, rescans or uninstalls something. If you add permission rules to allow tools without a prompt, list only read-only tools by their full name, which has the form `mcp__telivy__<tool name>`, for example `mcp__telivy__get_risk_assessments`, and appears when you select a tool in `/mcp`. Do not allow `mcp__telivy__*` as a whole.
 
 ## Try it
 
@@ -95,4 +103,8 @@ If you added Telivy for yourself in every project, run:
 claude mcp remove telivy --scope user
 ```
 
-If you added it to a project, delete the `telivy` entry from that project's `.mcp.json`. To stop using the key on this computer, also remove the `TELIVY_API_KEY` line from your shell profile, or run `setx TELIVY_API_KEY ""` on Windows.
+If you added it to a project, delete the `telivy` entry from that project's `.mcp.json`. To stop using the key on this computer, also remove the `TELIVY_API_KEY` line from your shell profile, or run this in PowerShell on Windows:
+
+```powershell
+[Environment]::SetEnvironmentVariable("TELIVY_API_KEY", $null, "User")
+```

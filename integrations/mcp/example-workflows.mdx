@@ -4,7 +4,7 @@ sidebarTitle: "Example workflows"
 description: "Prompts MSP teams can use with the Telivy MCP server, and what the assistant does with each"
 ---
 
-The prompts on this page work in any client connected to the Telivy MCP server. Each example shows the prompt and the tool calls the assistant typically makes. The exact tool sequence depends on the client and the model, and the results depend on the data in your Telivy account. The assistant runs every tool under your agency's API User, so anything it creates or changes appears in Telivy as done by **API User**. For setup, see the [MCP server overview](/integrations/mcp/overview).
+The prompts on this page work in any client connected to the Telivy MCP server. Each example shows the prompt and the tool calls the assistant typically makes. The exact tool sequence depends on the client and the model, and the results depend on the data in your Telivy account. The assistant runs every tool under your agency's API User, so anything it creates or changes appears in Telivy as done by **API User**. For setup and the full list of tools, see the [MCP server overview](/integrations/mcp/overview).
 
 Prompts work best when they name the client company or domain, say what you want back, and say whether the assistant may change anything. If a prompt asks for a change, read the tool call the client shows you before you approve it.
 
@@ -16,7 +16,16 @@ has finished, summarize the critical and high findings in plain language and lis
 the recommended fix for each.
 ```
 
-The assistant first lists your existing external scans to check whether one already exists for `example.com`, so it does not create a duplicate. If none exists, it calls the tool that creates an external scan, and your client asks you to approve that call. Telivy then runs the scan, which takes time. The assistant can check the scan's status by getting the scan again, but most clients do not wait in the background. If the scan is still running, ask again later in the same conversation, for example "Is the example.com scan finished yet?". Once the scan is complete, the assistant reads its findings, groups them by severity, and writes the summary from the finding details.
+The assistant first calls `get_external_scan_assessments` to check whether a scan already exists for `example.com`, so it does not create a duplicate. If none exists, it calls `add_external_scan_assessment` with the organization name and domain, and your client asks you to approve that call. Telivy then runs the scan, which takes time. The assistant can check progress by calling `get_external_scan_assessment` again, but most clients do not wait in the background. If the scan is still running, ask again later in the same conversation, for example "Is the example.com scan finished yet?". Once the scan is complete, the assistant calls `get_external_scan_assessment_findings`, groups the findings by severity, and can call `get_external_scan_findings` for the details and recommendation of an individual finding before it writes the summary.
+
+## Work across sub-agencies from a master agency
+
+```text
+List our sub-agencies. Then start an external scan for brightsmile.com in the
+sub-agency called Northside IT, for the client Bright Smile Orthodontics.
+```
+
+This workflow needs the API key of a master agency. The assistant calls `get_agencies`, which returns your master agency followed by each sub-agency with its ID, and shows you the list. It then calls `add_external_scan_assessment` with the organization name, the domain and `agencyId` set to the ID of Northside IT, so the scan is created in that sub-agency rather than in the master agency. Your client asks you to approve the call; check that the `agencyId` in the request matches Northside IT in the list before you approve it. To see that sub-agency's scans afterwards, ask "List the external scans in Northside IT", and the assistant calls `get_external_scan_assessments` with the same `agencyId`. With a sub-agency's own key, or with an `agencyId` that belongs to another hierarchy, these calls fail with a `403` error, as described in [Master agencies and sub-agencies](/integrations/mcp/overview#master-agencies-and-sub-agencies).
 
 ## List risk assessments with a failing scan status
 
@@ -25,7 +34,7 @@ List my risk assessments where the latest scan failed or has been stuck for more
 than a day. For each one, show the company name, the assessment ID and the scan status.
 ```
 
-The assistant lists your risk assessments, then checks the scan status of each candidate with the scan status tool, and returns a table of the assessments that match. Both tools only read data, so clients that run read-only tools without asking complete this without approval prompts. With many assessments, this makes one request per assessment and counts toward your [rate limit](/integrations/mcp/overview#rate-limits), so narrow the prompt to a company or a time range where you can.
+The assistant calls `get_risk_assessments`, using its `scanStatus` filter where that narrows the list, then calls `get_scan_status` for each candidate to check device-level completion, and returns a table of the assessments that match. Both tools only read data, so clients that run read-only tools without asking complete this without approval prompts. Each `get_scan_status` call counts toward your [rate limit](/integrations/mcp/overview#rate-limits), so with many assessments, narrow the prompt to a company or a time range.
 
 ## Review the devices on an assessment and rescan one
 
@@ -34,7 +43,7 @@ Show me the devices on the risk assessment for Example Dental, including the las
 time each one reported. Then rescan the device named FRONTDESK-01.
 ```
 
-The assistant finds the risk assessment for Example Dental, lists its devices, and shows them with their last-seen times. It then calls the tool that rescans a device, passing the device it matched by name, and your client asks you to approve the rescan. Check that the device ID in the approval request belongs to `FRONTDESK-01` before you approve it, because two devices can have similar names.
+The assistant finds the risk assessment for Example Dental with `get_risk_assessments`, calls `get_all_deep_scan_devices` to list its devices, and shows them with their last-seen times. It then calls `rescan_deep_scan_target` with the assessment ID and the ID of the device it matched by name, and your client asks you to approve the rescan. Check that the `deviceId` in the approval request belongs to `FRONTDESK-01` before you approve it, because two devices can have similar names.
 
 ## Compare breach data between two scans
 
@@ -43,7 +52,7 @@ Compare the breach data for example.com and example-dental.com. Which domain has
 more exposed accounts, and which breaches appear for both?
 ```
 
-The assistant finds the external scan for each domain, reads the breach data for both, and compares them: it reports the number of exposed accounts per domain and the breaches that appear in both results. This uses only read-only tools. Breach data can include email addresses of your client's staff, so share the answer only with people who should see that information.
+The assistant finds the external scan for each domain with `get_external_scan_assessments`, calls `get_breach_data` for both, and compares the results: it reports the number of exposed accounts per domain and the breaches that appear in both. This uses only read-only tools. Breach data can include email addresses of your client's staff, so share the answer only with people who should see that information.
 
 ## Prepare a client-facing summary
 
@@ -54,4 +63,4 @@ risks, what each one means for the business, and what we recommend. Do not chang
 anything in Telivy.
 ```
 
-The assistant reads the latest external scan and risk assessment for the company, their findings and, where useful, the details of individual security findings, then writes the summary from that data. The instruction "Do not change anything in Telivy" makes the read-only intent explicit, and your client's approval settings still stop any write call from running unless you approve it. Review the draft before you send it, and check every number and finding against the Telivy portal or the assessment report, because the assistant writes the wording itself and can misread or misstate the data.
+The assistant reads the latest external scan and risk assessment for the company with `get_external_scan_assessment` and `get_risk_assessment`, their findings with `get_external_scan_assessment_findings` and `get_device_findings`, and where useful the description of a finding type with `get_finding_details_by_slug`, then writes the summary from that data. The instruction "Do not change anything in Telivy" makes the read-only intent explicit, and your client's approval settings still stop any write call from running unless you approve it. The assistant cannot download the Telivy report itself, because report downloads are not available as tools; download the report from the portal if you want to attach it. Review the draft before you send it, and check every number and finding against the Telivy portal or the assessment report, because the assistant writes the wording itself and can misread or misstate the data.
