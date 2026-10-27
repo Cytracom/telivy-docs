@@ -1,0 +1,73 @@
+---
+title: "Connect VS Code (GitHub Copilot) to Telivy"
+sidebarTitle: "VS Code (GitHub Copilot)"
+description: "Use Telivy MCP tools in GitHub Copilot agent mode in Visual Studio Code"
+---
+
+This page shows how to add the Telivy MCP server to Visual Studio Code so GitHub Copilot can use Telivy tools in agent mode. VS Code connects to remote MCP servers over HTTP and can prompt you for the API key once and store it in its secure storage, so the key never has to be written into a configuration file.
+
+## Prerequisites
+
+- Visual Studio Code with GitHub Copilot enabled, and access to Copilot agent mode.
+- Your agency's Telivy API key from [Account → Integrations](https://portal.telivy.com/agent/account/integrations). See [Authentication and permissions](/integrations/mcp/overview#authentication-and-permissions) for what the key can do.
+
+## Add the server
+
+<Steps>
+  <Step title="Choose where to add it">
+    - To use Telivy in one workspace, create or open `.vscode/mcp.json` in that workspace.
+    - To use Telivy in every workspace, open the Command Palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Windows and Linux) and run **MCP: Open User Configuration**.
+  </Step>
+  <Step title="Add the Telivy entry">
+    ```json
+    {
+      "inputs": [
+        {
+          "type": "promptString",
+          "id": "telivy-api-key",
+          "description": "Telivy API key",
+          "password": true
+        }
+      ],
+      "servers": {
+        "telivy": {
+          "type": "http",
+          "url": "https://api-v1.telivy.com/mcp",
+          "headers": {
+            "x-api-key": "${input:telivy-api-key}"
+          }
+        }
+      }
+    }
+    ```
+
+    If the file already has `inputs` or `servers`, add these entries to the existing arrays and objects. VS Code uses `servers` as the top-level key in this file, not `mcpServers`.
+  </Step>
+  <Step title="Enter the key">
+    The first time the server starts, VS Code asks for the **Telivy API key** and hides what you type. It stores the value securely and reuses it on later starts. The file contains only the input reference, so a workspace `.vscode/mcp.json` can be committed and each person enters their own key.
+  </Step>
+</Steps>
+
+## Verify the connection
+
+Run **MCP: List Servers** from the Command Palette, select **telivy**, and choose **Start Server** if it is not running. Choose **Show Output** to open the server's log, where a `401` response means the key is wrong. Then open Copilot Chat in agent mode and check that the Telivy tools are listed in the tools picker. See also [Troubleshooting](/integrations/mcp/overview#troubleshooting).
+
+If you regenerate the Telivy API key, VS Code keeps sending the old value it stored, and Telivy answers with `401`. VS Code stores the value under the input's `id`, so change the `id` in both places (for example to `telivy-api-key-2` in `inputs` and in `${input:telivy-api-key-2}`), save the file and restart the server to be asked for the new key.
+
+## Approvals
+
+Copilot asks you to confirm tool calls from MCP servers before it runs them. Read the tool name and arguments in each confirmation, and approve Telivy tools that create, update, rescan or uninstall something one call at a time instead of allowing them for the whole session.
+
+## Try it
+
+Open Copilot Chat, switch to agent mode, and send a prompt such as:
+
+```text
+Use the Telivy MCP server to list my risk assessments and tell me which ones have a failed scan status.
+```
+
+Expand the tool call in the chat to confirm it came from the `telivy` server. For more prompts, see [Example workflows](/integrations/mcp/example-workflows).
+
+## Remove the server
+
+Run **MCP: List Servers**, select **telivy**, open its menu and choose **Uninstall**. If **Uninstall** is not offered, delete the `telivy` entry and the `telivy-api-key` input from the `mcp.json` file where you added them.

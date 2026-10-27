@@ -1,0 +1,98 @@
+---
+title: "Connect Claude Code to Telivy"
+sidebarTitle: "Claude Code"
+description: "Add the Telivy MCP server to Claude Code with your agency API key"
+---
+
+This page shows how to add the Telivy MCP server to [Claude Code](https://code.claude.com/docs/en/mcp), Anthropic's command-line coding assistant. Claude Code connects to remote MCP servers over HTTP and can send the `x-api-key` header that Telivy requires, so no bridge is needed.
+
+## Prerequisites
+
+- Claude Code installed and signed in.
+- Your agency's Telivy API key from [Account → Integrations](https://portal.telivy.com/agent/account/integrations). See [Authentication and permissions](/integrations/mcp/overview#authentication-and-permissions) for what the key can do.
+
+## Store the key in an environment variable
+
+Both setup options below read the key from an environment variable named `TELIVY_API_KEY`, so the key never has to be typed into a command or a shared file.
+
+<Tabs>
+  <Tab title="macOS and Linux">
+    Add this line to your shell profile (for example `~/.zshrc` or `~/.bashrc`), then open a new terminal:
+
+    ```bash
+    export TELIVY_API_KEY="your-telivy-api-key"
+    ```
+  </Tab>
+  <Tab title="Windows">
+    Run this in PowerShell, then open a new terminal:
+
+    ```powershell
+    setx TELIVY_API_KEY "your-telivy-api-key"
+    ```
+  </Tab>
+</Tabs>
+
+## Add the server
+
+Choose one option. The first makes Telivy available to you in every project. The second adds Telivy to a single repository so everyone who works in it gets the same configuration, with each person supplying their own environment variable.
+
+<Tabs>
+  <Tab title="For you, in every project">
+    Run:
+
+    ```bash
+    claude mcp add --transport http --scope user telivy https://api-v1.telivy.com/mcp \
+      --header "x-api-key: $TELIVY_API_KEY"
+    ```
+
+    Your shell replaces `$TELIVY_API_KEY` with the key before the command runs, so Claude Code saves the key value itself in `~/.claude.json` in your home folder. That file is private to your user account and is not part of any repository. If you regenerate the key, remove the server and add it again.
+  </Tab>
+  <Tab title="For one project, shared with your team">
+    Create or edit `.mcp.json` in the root of the project:
+
+    ```json
+    {
+      "mcpServers": {
+        "telivy": {
+          "type": "http",
+          "url": "https://api-v1.telivy.com/mcp",
+          "headers": {
+            "x-api-key": "${TELIVY_API_KEY}"
+          }
+        }
+      }
+    }
+    ```
+
+    Claude Code expands `${TELIVY_API_KEY}` from the environment when it loads the file, so the file contains only the variable name and can be committed. Each person who uses the project sets `TELIVY_API_KEY` in their own environment.
+  </Tab>
+</Tabs>
+
+## Verify the connection
+
+1. Run `claude mcp list` in a terminal. The `telivy` server should show as connected. A `Failed to connect` status usually means the key is missing or wrong; see [Troubleshooting](/integrations/mcp/overview#troubleshooting).
+2. Start Claude Code and type `/mcp`. Select `telivy` to see its status and the list of Telivy tools.
+
+## Approvals
+
+Claude Code asks for permission before it runs an MCP tool. Keep that behavior for any Telivy tool that creates, updates, rescans or uninstalls something. If you add permission rules to allow tools without a prompt, list only read-only tools by their full name, which has the form `mcp__telivy__<tool name>` and appears when you select a tool in `/mcp`. Do not allow `mcp__telivy__*` as a whole.
+
+## Try it
+
+Start Claude Code and send a prompt such as:
+
+```text
+Using the Telivy tools, list my five most recent external scans and tell me which ones have critical findings.
+```
+
+Claude Code asks for permission to call the Telivy tools it needs, then answers from the data they return. For more prompts, see [Example workflows](/integrations/mcp/example-workflows).
+
+## Remove the server
+
+If you added Telivy for yourself in every project, run:
+
+```bash
+claude mcp remove telivy --scope user
+```
+
+If you added it to a project, delete the `telivy` entry from that project's `.mcp.json`. To stop using the key on this computer, also remove the `TELIVY_API_KEY` line from your shell profile, or run `setx TELIVY_API_KEY ""` on Windows.

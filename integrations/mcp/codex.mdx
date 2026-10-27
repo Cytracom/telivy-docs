@@ -1,0 +1,79 @@
+---
+title: "Connect OpenAI Codex CLI to Telivy"
+sidebarTitle: "OpenAI Codex CLI"
+description: "Add the Telivy MCP server to the OpenAI Codex CLI with your agency API key"
+---
+
+This page shows how to add the Telivy MCP server to the [OpenAI Codex CLI](https://learn.chatgpt.com/docs/extend/mcp?surface=cli). Codex connects to Streamable HTTP MCP servers and can read a header value from an environment variable, so the key never has to be written into its configuration file. The Codex CLI, the ChatGPT desktop app and the Codex IDE extension share the same MCP configuration.
+
+The `codex mcp add` command has no option for custom headers, so you add Telivy by editing the configuration file.
+
+## Prerequisites
+
+- The Codex CLI installed and signed in.
+- Your agency's Telivy API key from [Account → Integrations](https://portal.telivy.com/agent/account/integrations). See [Authentication and permissions](/integrations/mcp/overview#authentication-and-permissions) for what the key can do.
+
+## Store the key in an environment variable
+
+<Tabs>
+  <Tab title="macOS and Linux">
+    Add this line to your shell profile (for example `~/.zshrc` or `~/.bashrc`), then open a new terminal:
+
+    ```bash
+    export TELIVY_API_KEY="your-telivy-api-key"
+    ```
+  </Tab>
+  <Tab title="Windows">
+    Run this in PowerShell, then open a new terminal:
+
+    ```powershell
+    setx TELIVY_API_KEY "your-telivy-api-key"
+    ```
+  </Tab>
+</Tabs>
+
+## Add the server
+
+<Steps>
+  <Step title="Open the configuration file">
+    Open `~/.codex/config.toml` in your home folder, creating it if it does not exist. To add Telivy to one trusted project only, use `.codex/config.toml` in that project instead.
+  </Step>
+  <Step title="Add the Telivy table">
+    ```toml
+    [mcp_servers.telivy]
+    url = "https://api-v1.telivy.com/mcp"
+    env_http_headers = { "x-api-key" = "TELIVY_API_KEY" }
+    default_tools_approval_mode = "writes"
+    ```
+
+    `env_http_headers` maps the `x-api-key` header to the name of the environment variable, and Codex reads the value from the environment when it connects. Write the variable name exactly as shown, without `$` or `${}`. `default_tools_approval_mode = "writes"` makes Codex ask for approval before it runs any Telivy tool that is not marked read-only.
+  </Step>
+</Steps>
+
+## Verify the connection
+
+Run `codex mcp list` in a terminal and check that `telivy` is listed. Then start `codex` and type `/mcp` to see the active MCP servers and their tools. If Telivy is listed without tools or reports an error, see [Troubleshooting](/integrations/mcp/overview#troubleshooting).
+
+## Approvals
+
+With `default_tools_approval_mode = "writes"`, Codex runs Telivy tools that read data without asking and asks before tools that create, update, rescan or uninstall something. To be asked before every Telivy tool call, set the value to `"prompt"`. You can also override a single tool with `tools.<tool name>.approval_mode`, or hide tools with `disabled_tools`. Avoid `"auto"` for the Telivy server, because it lets the assistant change data without asking.
+
+## Try it
+
+Start `codex` and send a prompt such as:
+
+```text
+Use the Telivy MCP tools to list my external scans and tell me which domains have critical findings.
+```
+
+For more prompts, see [Example workflows](/integrations/mcp/example-workflows).
+
+## Remove the server
+
+Run:
+
+```bash
+codex mcp remove telivy
+```
+
+You can also delete the `[mcp_servers.telivy]` table from `config.toml`, or keep it and add `enabled = false` to turn the server off without deleting it.

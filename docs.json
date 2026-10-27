@@ -142,7 +142,20 @@
               "integrations/connectwise",
               "integrations/autotask",
               "integrations/halopsa",
-              "integrations/webhooks"
+              "integrations/webhooks",
+              {
+                "group": "MCP Server",
+                "pages": [
+                  "integrations/mcp/overview",
+                  "integrations/mcp/claude-code",
+                  "integrations/mcp/claude-desktop",
+                  "integrations/mcp/cursor",
+                  "integrations/mcp/vscode",
+                  "integrations/mcp/windsurf",
+                  "integrations/mcp/codex",
+                  "integrations/mcp/example-workflows"
+                ]
+              }
             ]
           },
           {

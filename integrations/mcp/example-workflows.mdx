@@ -1,0 +1,57 @@
+---
+title: "MCP Example Workflows"
+sidebarTitle: "Example workflows"
+description: "Prompts MSP teams can use with the Telivy MCP server, and what the assistant does with each"
+---
+
+The prompts on this page work in any client connected to the Telivy MCP server. Each example shows the prompt and the tool calls the assistant typically makes. The exact tool sequence depends on the client and the model, and the results depend on the data in your Telivy account. The assistant runs every tool under your agency's API User, so anything it creates or changes appears in Telivy as done by **API User**. For setup, see the [MCP server overview](/integrations/mcp/overview).
+
+Prompts work best when they name the client company or domain, say what you want back, and say whether the assistant may change anything. If a prompt asks for a change, read the tool call the client shows you before you approve it.
+
+## Start an external scan and summarize its findings
+
+```text
+Start an external scan for example.com for the client Example Dental. When the scan
+has finished, summarize the critical and high findings in plain language and list
+the recommended fix for each.
+```
+
+The assistant first lists your existing external scans to check whether one already exists for `example.com`, so it does not create a duplicate. If none exists, it calls the tool that creates an external scan, and your client asks you to approve that call. Telivy then runs the scan, which takes time. The assistant can check the scan's status by getting the scan again, but most clients do not wait in the background. If the scan is still running, ask again later in the same conversation, for example "Is the example.com scan finished yet?". Once the scan is complete, the assistant reads its findings, groups them by severity, and writes the summary from the finding details.
+
+## List risk assessments with a failing scan status
+
+```text
+List my risk assessments where the latest scan failed or has been stuck for more
+than a day. For each one, show the company name, the assessment ID and the scan status.
+```
+
+The assistant lists your risk assessments, then checks the scan status of each candidate with the scan status tool, and returns a table of the assessments that match. Both tools only read data, so clients that run read-only tools without asking complete this without approval prompts. With many assessments, this makes one request per assessment and counts toward your [rate limit](/integrations/mcp/overview#rate-limits), so narrow the prompt to a company or a time range where you can.
+
+## Review the devices on an assessment and rescan one
+
+```text
+Show me the devices on the risk assessment for Example Dental, including the last
+time each one reported. Then rescan the device named FRONTDESK-01.
+```
+
+The assistant finds the risk assessment for Example Dental, lists its devices, and shows them with their last-seen times. It then calls the tool that rescans a device, passing the device it matched by name, and your client asks you to approve the rescan. Check that the device ID in the approval request belongs to `FRONTDESK-01` before you approve it, because two devices can have similar names.
+
+## Compare breach data between two scans
+
+```text
+Compare the breach data for example.com and example-dental.com. Which domain has
+more exposed accounts, and which breaches appear for both?
+```
+
+The assistant finds the external scan for each domain, reads the breach data for both, and compares them: it reports the number of exposed accounts per domain and the breaches that appear in both results. This uses only read-only tools. Breach data can include email addresses of your client's staff, so share the answer only with people who should see that information.
+
+## Prepare a client-facing summary
+
+```text
+Prepare a one-page summary for the owner of Example Dental, who is not technical.
+Use the latest external scan and risk assessment. Explain the three most important
+risks, what each one means for the business, and what we recommend. Do not change
+anything in Telivy.
+```
+
+The assistant reads the latest external scan and risk assessment for the company, their findings and, where useful, the details of individual security findings, then writes the summary from that data. The instruction "Do not change anything in Telivy" makes the read-only intent explicit, and your client's approval settings still stop any write call from running unless you approve it. Review the draft before you send it, and check every number and finding against the Telivy portal or the assessment report, because the assistant writes the wording itself and can misread or misstate the data.
