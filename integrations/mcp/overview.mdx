@@ -56,16 +56,6 @@ Telivy shows the key only once, when it is generated. Each agency has one API ke
 
 The API key acts as your agency's built-in **API User**, which has agency administrator permissions. Anything an assistant does through the MCP server is done with those permissions, and it appears in Telivy as performed by **API User** rather than by the person who typed the prompt.
 
-### Master agencies and sub-agencies
-
-If your agency is a master agency with sub-agencies, the master agency's API key can work across them:
-
-- The list tools, such as `get_external_scan_assessments` and `get_risk_assessments`, return the assessments of the master agency and of all its sub-agencies, and the tools that read a single assessment work on any of them.
-- The `get_agencies` tool returns the master agency followed by each of its sub-agencies, with the ID of each. The assistant uses this tool to find the ID of the sub-agency you name.
-- Passing that ID as `agencyId` to `get_external_scan_assessments` or `get_risk_assessments` limits the list to that agency. Passing it as `agencyId` in the request body of `add_external_scan_assessment` or `add_risk_assessment` creates the assessment in that sub-agency instead of in the master agency.
-
-An `agencyId` for any agency outside the master agency's hierarchy fails with a `403` error. A sub-agency's own API key, like the key of any agency that is not a master agency, works only on that agency's data: `get_agencies` returns only that agency, and passing any `agencyId`, including the agency's own ID, fails with a `403` error.
-
 Signing in per user (OAuth) is not supported at the moment. Because of this, AI products whose remote connectors only offer an OAuth sign-in, such as ChatGPT connectors and the custom connector dialog in Claude on the web, cannot connect to the Telivy MCP server. Anthropic is testing a **Request headers** option for Claude custom connectors with a limited set of organizations; Telivy has not tested that option. Claude Desktop can connect through the local `mcp-remote` bridge described in [Claude Desktop](/integrations/mcp/claude-desktop).
 
 ## What you can do
@@ -76,7 +66,7 @@ For external scans, the assistant can list scans (`get_external_scan_assessments
 
 For risk assessments, the assistant can list assessments (`get_risk_assessments`), get one assessment (`get_risk_assessment`), create one (`add_risk_assessment`), update its organization name and domain (`edit_risk_assessment`), preview what a domain change would affect (`get_domain_change_preview`), convert an external scan into a risk assessment (`convert_to_risk_assessment`), and change its monitoring settings (`update_application_settings`). For the devices on an assessment, it can list them (`get_all_deep_scan_devices`), get one device (`get_deep_scan_target`), rescan one device (`rescan_deep_scan_target`), check scan completion for every device (`get_scan_status`), list open device findings from the current scan (`get_device_findings`), and read the PII exposure summary (`get_pii_summary`). It can also list Microsoft 365 users with their sign-in and MFA status (`get_m365_users`) and Google Workspace users with their sign-in and 2-Step Verification status (`get_gws_users`).
 
-Across both assessment types, the assistant can read the risk progress report of an assessment (`get_risk_progress_report`), read the description of a finding type by its slug, such as `TYPO_SQUATTING` (`get_finding_details_by_slug`), list the latest Telivy agent versions (`get_latest_agent_versions`), and list the agencies your key can target (`get_agencies`, described in [Master agencies and sub-agencies](#master-agencies-and-sub-agencies)).
+Across both assessment types, the assistant can read the risk progress report of an assessment (`get_risk_progress_report`), read the description of a finding type by its slug, such as `TYPO_SQUATTING` (`get_finding_details_by_slug`), and list the latest Telivy agent versions (`get_latest_agent_versions`).
 
 The report download operations of the API are not available as tools, because they return a file rather than data the assistant can read. Download reports from the Telivy portal or call the API directly. Operations that your key's role is not allowed to call, such as ending a trial, are left out of the tool list.
 
@@ -108,7 +98,7 @@ When a tool call fails, the client receives a tool error instead of a result, an
     The arguments the assistant sent did not pass the API's validation. The error message names each field that failed and why. Most assistants read the message and retry with corrected arguments. If it keeps failing, give the assistant the missing value yourself, such as the domain or the organization name, or check the operation's parameters in the [API reference](https://api-v1.telivy.com/api-docs/security).
   </Accordion>
   <Accordion title="HTTP 403 Forbidden">
-    The key is valid but is not allowed to do what the tool call asked. For a master agency, this usually means the `agencyId` belongs to an agency outside your hierarchy; ask the assistant to call `get_agencies` and use an ID from that list. For any other agency, including a sub-agency, remove the `agencyId` argument, because only a master agency's key can pass one. See [Master agencies and sub-agencies](#master-agencies-and-sub-agencies).
+    The key is valid but is not allowed to do what the tool call asked. If the assistant added an `agencyId` argument to the call, ask it to retry without one, because the key already works on your agency's data.
   </Accordion>
   <Accordion title="HTTP 404 Not Found">
     The assessment, device or finding ID in the tool call does not exist, or it belongs to an agency your key cannot see. Ask the assistant to list the assessments or devices first and take the ID from the result instead of guessing it.

@@ -18,15 +18,6 @@ the recommended fix for each.
 
 The assistant first calls `get_external_scan_assessments` to check whether a scan already exists for `example.com`, so it does not create a duplicate. If none exists, it calls `add_external_scan_assessment` with the organization name and domain, and your client asks you to approve that call. Telivy then runs the scan, which takes time. The assistant can check progress by calling `get_external_scan_assessment` again, but most clients do not wait in the background. If the scan is still running, ask again later in the same conversation, for example "Is the example.com scan finished yet?". Once the scan is complete, the assistant calls `get_external_scan_assessment_findings`, groups the findings by severity, and can call `get_external_scan_findings` for the details and recommendation of an individual finding before it writes the summary.
 
-## Work across sub-agencies from a master agency
-
-```text
-List our sub-agencies. Then start an external scan for brightsmile.com in the
-sub-agency called Northside IT, for the client Bright Smile Orthodontics.
-```
-
-This workflow needs the API key of a master agency. The assistant calls `get_agencies`, which returns your master agency followed by each sub-agency with its ID, and shows you the list. It then calls `add_external_scan_assessment` with the organization name, the domain and `agencyId` set to the ID of Northside IT, so the scan is created in that sub-agency rather than in the master agency. Your client asks you to approve the call; check that the `agencyId` in the request matches Northside IT in the list before you approve it. To see that sub-agency's scans afterwards, ask "List the external scans in Northside IT", and the assistant calls `get_external_scan_assessments` with the same `agencyId`. With a sub-agency's own key, or with an `agencyId` that belongs to another hierarchy, these calls fail with a `403` error, as described in [Master agencies and sub-agencies](/integrations/mcp/overview#master-agencies-and-sub-agencies).
-
 ## List risk assessments with a failing scan status
 
 ```text
