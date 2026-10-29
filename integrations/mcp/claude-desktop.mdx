@@ -1,0 +1,82 @@
+---
+title: "Connect Claude Desktop to Telivy"
+sidebarTitle: "Claude Desktop"
+description: "Connect Claude Desktop to the Telivy MCP server through the mcp-remote bridge"
+---
+
+This page shows how to connect the Claude desktop app to the Telivy MCP server. Custom connectors that you add by URL in Claude sign in with OAuth, which the Telivy MCP server does not support at the moment. Instead, Claude Desktop starts a small local program, [`mcp-remote`](https://github.com/geelen/mcp-remote), which runs on your computer, adds the `x-api-key` header, and forwards Claude's requests to `https://api-v1.telivy.com/mcp`.
+
+## Prerequisites
+
+- The [Claude desktop app](https://claude.ai/download) for macOS or Windows, updated to the latest version.
+- [Node.js](https://nodejs.org/) (the LTS version), which provides the `npx` command that starts `mcp-remote`. Check that it is installed by running `node --version` in a terminal.
+- Your agency's Telivy API key from [Account → Integrations](https://portal.telivy.com/agent/account/integrations). See [Authentication and permissions](/integrations/mcp/overview#authentication-and-permissions) for what the key can do.
+
+## Set up the connection
+
+<Steps>
+  <Step title="Open the configuration file">
+    In Claude Desktop, open **Settings** from the Claude menu in the system menu bar (not the settings inside the chat window), select the **Developer** tab and click **Edit Config**. This opens `claude_desktop_config.json`, which lives at:
+
+    - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+    - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+  </Step>
+  <Step title="Add the Telivy server">
+    Add a `telivy` entry under `mcpServers`. If the file already has other servers, add `telivy` next to them inside the same `mcpServers` object.
+
+    ```json
+    {
+      "mcpServers": {
+        "telivy": {
+          "command": "npx",
+          "args": [
+            "-y",
+            "mcp-remote",
+            "https://api-v1.telivy.com/mcp",
+            "--transport",
+            "http-only",
+            "--header",
+            "x-api-key:${TELIVY_API_KEY}"
+          ],
+          "env": {
+            "TELIVY_API_KEY": "your-telivy-api-key"
+          }
+        }
+      }
+    }
+    ```
+
+    Replace `your-telivy-api-key` with your key. Keep `x-api-key:${TELIVY_API_KEY}` exactly as written, with no space after the colon: Claude Desktop on Windows does not pass spaces inside `args` correctly, and `mcp-remote` fills in `${TELIVY_API_KEY}` from the `env` block when it starts.
+  </Step>
+  <Step title="Restart Claude Desktop">
+    Save the file, then quit Claude Desktop completely (closing the window is not enough) and open it again. Claude Desktop starts `mcp-remote` when it launches.
+  </Step>
+</Steps>
+
+## Keep the key out of shared files
+
+With this setup the key is stored in `claude_desktop_config.json` on your computer and is passed to `mcp-remote` as an environment variable, so it does not appear in the list of running processes. Do not copy this file to a shared drive or a repository with the key in it. If you share the configuration with colleagues, share it with the placeholder `your-telivy-api-key` and have each person fill in the key on their own computer.
+
+## Verify the connection
+
+In a new chat, click the **+** button (**Add files, connectors, and more**) in the bottom-left corner of the message box, move to **Connectors** and click **Manage connectors**. Select **telivy** to see the Telivy tools.
+
+If `telivy` is missing or shows an error, check the logs in `~/Library/Logs/Claude` on macOS or `%APPDATA%\Claude\logs` on Windows. `mcp.log` records connection failures, and `mcp-server-telivy.log` contains the output of `mcp-remote`, including `401` responses from Telivy when the key is wrong. See also [Troubleshooting](/integrations/mcp/overview#troubleshooting).
+
+## Approvals
+
+Claude Desktop asks for your approval before it runs a tool from a connected server. Read the tool name and arguments in each request. Choose **Always allow** only for Telivy tools that read data, and approve tools that create, update, rescan or uninstall something one call at a time.
+
+## Try it
+
+Start a new chat and send a prompt such as:
+
+```text
+Use the Telivy tools to list my risk assessments and show which ones have a scan that failed or has not completed.
+```
+
+For more prompts, see [Example workflows](/integrations/mcp/example-workflows).
+
+## Remove the server
+
+Open the configuration file again through **Settings → Developer → Edit Config**, delete the `telivy` entry from `mcpServers`, save the file and restart Claude Desktop.

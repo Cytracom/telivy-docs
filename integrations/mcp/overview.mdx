@@ -1,0 +1,146 @@
+---
+title: "MCP Server Overview"
+sidebarTitle: "Overview"
+description: "Connect AI assistants such as Claude, Cursor and Copilot to Telivy through the Telivy MCP server"
+---
+
+Telivy runs a remote [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server at `https://api-v1.telivy.com/mcp`. An MCP-capable AI assistant, such as Claude Code, Cursor or GitHub Copilot in VS Code, can connect to it and work with your Telivy data in conversation: it can list your external scans and risk assessments, read findings, start new scans and rescans, and gather the details you need for a client report.
+
+The server uses the Streamable HTTP transport and authenticates with your agency's Telivy API key, the same key the Telivy Security API and integrations such as Rewst use.
+
+## Prerequisites
+
+- A Telivy agency account with access to **Account → Integrations** in the portal.
+- Your agency's Telivy API key (see [Get your API key](#get-your-api-key)).
+- An MCP client that can send a custom HTTP header with each request, or that can run the `mcp-remote` bridge locally. The client pages linked at the end of this page cover the supported clients.
+
+## How it works
+
+Your AI client sends MCP requests to `https://api-v1.telivy.com/mcp` with your API key in the `x-api-key` header. Telivy checks the key, then answers the client's request for the list of available tools. Each tool is generated from an operation in the [Telivy Security API](https://api-v1.telivy.com/api-docs/security), and the list leaves out any operation your key's role is not allowed to call. When the assistant calls a tool, Telivy sends the matching Security API request with the same key. Validation, permissions and error responses are therefore the same as when you call the API directly. A successful response goes back to the assistant as the tool's output, and a failed one comes back as a tool error, as described in [Troubleshooting](#troubleshooting).
+
+```mermaid
+sequenceDiagram
+    participant You
+    participant Client as AI client
+    participant MCP as Telivy MCP server
+    participant API as Telivy Security API
+    You->>Client: Ask a question or give a task
+    Client->>MCP: initialize and tools/list (x-api-key header)
+    MCP->>MCP: Authenticate the API key
+    MCP-->>Client: Tools generated from the Security API
+    Client->>You: Ask to approve a tool call (if configured)
+    You-->>Client: Approve
+    Client->>MCP: tools/call with arguments
+    MCP->>API: Matching Security API request as API User
+    API-->>MCP: API response or error
+    MCP-->>Client: Tool result
+    Client-->>You: Answer based on the result
+```
+
+The assistant decides which tools to call based on your prompt and the tool descriptions. It only sees the data that the tools return, and it can only do what the Security API allows your API key to do.
+
+## Authentication and permissions
+
+### Get your API key
+
+1. Sign in to the Telivy portal and open [Account → Integrations](https://portal.telivy.com/agent/account/integrations).
+2. Generate the API key, or copy it if you already have one, and store it somewhere safe such as a password manager.
+
+Telivy shows the key only once, when it is generated. Each agency has one API key, and every integration and MCP client your agency uses shares it.
+
+<Warning>
+  Regenerating the API key immediately invalidates the old key. Every MCP client and every integration that uses the old key (for example Rewst workflows) stops working until you update it with the new key.
+</Warning>
+
+### What the key can do
+
+The API key acts as your agency's built-in **API User**, which has agency administrator permissions. Anything an assistant does through the MCP server is done with those permissions, and it appears in Telivy as performed by **API User** rather than by the person who typed the prompt.
+
+Signing in per user (OAuth) is not supported at the moment. Because of this, AI products whose remote connectors only offer an OAuth sign-in, such as ChatGPT connectors and the custom connector dialog in Claude on the web, cannot connect to the Telivy MCP server. Anthropic is testing a **Request headers** option for Claude custom connectors with a limited set of organizations; Telivy has not tested that option. Claude Desktop can connect through the local `mcp-remote` bridge described in [Claude Desktop](/integrations/mcp/claude-desktop).
+
+## What you can do
+
+The MCP server exposes the operations of the [Telivy Security API](https://api-v1.telivy.com/api-docs/security) as tools, so the assistant can do what the API can do with your key. Each tool's parameters and response fields are those of the matching API operation, and the [API reference](https://api-v1.telivy.com/api-docs/security) documents them in full.
+
+For external scans, the assistant can list scans (`get_external_scan_assessments`), get one scan (`get_external_scan_assessment`), create a scan (`add_external_scan_assessment`), update it (`edit_external_scan_assessment`), list its findings (`get_external_scan_assessment_findings`), get the details of one finding on it (`get_external_scan_findings`), and read its breach data (`get_breach_data`). It can also ask every device on an assessment to rescan (`mark_application_rescan_all`) or to uninstall the Telivy agent (`mark_application_uninstall_all`).
+
+For risk assessments, the assistant can list assessments (`get_risk_assessments`), get one assessment (`get_risk_assessment`), create one (`add_risk_assessment`), update its organization name and domain (`edit_risk_assessment`), preview what a domain change would affect (`get_domain_change_preview`), convert an external scan into a risk assessment (`convert_to_risk_assessment`), and change its monitoring settings (`update_application_settings`). For the devices on an assessment, it can list them (`get_all_deep_scan_devices`), get one device (`get_deep_scan_target`), rescan one device (`rescan_deep_scan_target`), check scan completion for every device (`get_scan_status`), list open device findings from the current scan (`get_device_findings`), and read the PII exposure summary (`get_pii_summary`). It can also list Microsoft 365 users with their sign-in and MFA status (`get_m365_users`) and Google Workspace users with their sign-in and 2-Step Verification status (`get_gws_users`).
+
+Across both assessment types, the assistant can read the risk progress report of an assessment (`get_risk_progress_report`), read the description of a finding type by its slug, such as `TYPO_SQUATTING` (`get_finding_details_by_slug`), and list the latest Telivy agent versions (`get_latest_agent_versions`).
+
+The report download operations of the API are not available as tools, because they return a file rather than data the assistant can read. Download reports from the Telivy portal or call the API directly. Operations that your key's role is not allowed to call, such as ending a trial, are left out of the tool list.
+
+### Tool annotations
+
+Each tool carries MCP annotations that tell the client what kind of action it is. Every tool that only reads data, which covers all the `get_` tools, is marked read-only. Every other tool is marked as not read-only. Two of them are also marked destructive: `mark_application_uninstall_all`, which removes the Telivy agent from every device on an assessment, and `edit_risk_assessment`, which can change an assessment's domain. A domain change can affect data already collected for the old domain, and `get_domain_change_preview` shows what it would affect. Clients that honor these annotations can run read-only tools without interrupting you and ask for confirmation before the others.
+
+## Safety recommendations
+
+Configure your client to ask for approval before it runs any Telivy tool that creates, updates, rescans or uninstalls something. Most clients ask before every MCP tool call by default; keep that default for Telivy, or let only read-only tools run automatically. Each client page says where this setting is.
+
+When the client asks for approval, check which tool the assistant chose and the arguments it filled in, especially the assessment or scan ID, before you approve an action that changes data.
+
+Keep the API key in an environment variable or in the client's secret storage, and reference it from the configuration. Do not commit a configuration file that contains the key to a repository, and do not paste the key into the chat. If the key leaks, regenerate it under **Account → Integrations** and update every MCP client and integration that used the old key.
+
+## Rate limits
+
+MCP traffic is subject to the same per-key rate limit as the Telivy partner API. Each tool call counts as one API request against your agency's key, and the limit is shared with any other integration that uses the same key. Connecting and listing the tools do not count toward the limit. When the limit is reached, tool calls fail with an `HTTP 429` tool error until the rate-limit window passes. Long chains of tool calls, such as asking the assistant to open every assessment one by one, use the limit up faster than a single list request.
+
+## Troubleshooting
+
+When a tool call fails, the client receives a tool error instead of a result, and the assistant usually tells you what went wrong. Errors from the Security API start with `HTTP` and the API's status code, followed by the API's message, for example `HTTP 403: ...` or `HTTP 404: ...`. For a validation error (`HTTP 400`), the message lists each problem with the request, such as a missing or badly formatted field, separated by semicolons, so the assistant can correct the arguments and try again. A connection problem with the key itself shows up before any tool runs, as a `401` response to the client.
+
+<AccordionGroup>
+  <Accordion title="401 Unauthorized or invalid API key">
+    The server did not accept the key in the `x-api-key` header. Check that the header name is exactly `x-api-key`, that the value is the full key with no extra spaces or quotes, and that the environment variable your configuration references is set in the environment the client was started from. If the key was regenerated, the old key no longer works and every client needs the new one.
+  </Accordion>
+  <Accordion title="HTTP 400 validation errors">
+    The arguments the assistant sent did not pass the API's validation. The error message names each field that failed and why. Most assistants read the message and retry with corrected arguments. If it keeps failing, give the assistant the missing value yourself, such as the domain or the organization name, or check the operation's parameters in the [API reference](https://api-v1.telivy.com/api-docs/security).
+  </Accordion>
+  <Accordion title="HTTP 403 Forbidden">
+    The key is valid but is not allowed to do what the tool call asked. If the assistant added an `agencyId` argument to the call, ask it to retry without one, because the key already works on your agency's data.
+  </Accordion>
+  <Accordion title="HTTP 404 Not Found">
+    The assessment, device or finding ID in the tool call does not exist, or it belongs to an agency your key cannot see. Ask the assistant to list the assessments or devices first and take the ID from the result instead of guessing it.
+  </Accordion>
+  <Accordion title="Tool failed with a request id">
+    An error message that names a tool, says it failed, and gives a request id means the call failed inside Telivy for an unexpected reason. Retrying once is safe for tools that only read data. If it keeps failing, contact Telivy support and include the request id from the message.
+  </Accordion>
+  <Accordion title="HTTP 429 Too Many Requests">
+    Your agency's key reached its rate limit. Wait for the limit window to pass before retrying, and ask the assistant to use list operations with filters instead of fetching records one at a time. Other integrations that use the same key, such as Rewst workflows, count toward the same limit.
+  </Accordion>
+  <Accordion title="The client cannot connect or the header is not sent">
+    Check that the URL is exactly `https://api-v1.telivy.com/mcp` and that the client is set to the HTTP (Streamable HTTP) transport, not SSE. If the client reports a `401` while the key is correct, the header is probably not being sent: confirm the header is defined in the server entry that the client actually loads, and that any variable such as `${env:TELIVY_API_KEY}` resolves. Desktop applications on macOS do not read your shell profile when started from the Dock, so start the client from a terminal or define the variable where the client documentation says. If your client cannot send custom headers at all, use the `mcp-remote` bridge as shown on the [Claude Desktop](/integrations/mcp/claude-desktop) page.
+  </Accordion>
+  <Accordion title="The server connects but no tools show up">
+    Restart or reload the MCP server in your client so it requests the tool list again, then open the client's MCP or tools view to check that the Telivy tools are listed and enabled. Some clients cap the total number of tools across all servers, or let you turn off individual tools; turn off tools from other servers that you do not need, or turn the Telivy tools back on.
+  </Accordion>
+  <Accordion title="Everything stopped working after the key was regenerated">
+    Regenerating the API key invalidates the old key for every MCP client and integration. Update the key in each client's environment variable or secret storage, restart the client, and update the key in your other integrations.
+  </Accordion>
+</AccordionGroup>
+
+## Set up your client
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" href="/integrations/mcp/claude-code">
+    Add Telivy from the command line or in a project `.mcp.json` file.
+  </Card>
+  <Card title="Claude Desktop" href="/integrations/mcp/claude-desktop">
+    Connect through the local `mcp-remote` bridge.
+  </Card>
+  <Card title="Cursor" href="/integrations/mcp/cursor">
+    Add Telivy to `mcp.json` with the key in an environment variable.
+  </Card>
+  <Card title="VS Code (GitHub Copilot)" href="/integrations/mcp/vscode">
+    Use Telivy tools in Copilot agent mode.
+  </Card>
+  <Card title="Windsurf (Devin Desktop)" href="/integrations/mcp/windsurf">
+    Add Telivy to the MCP configuration file.
+  </Card>
+  <Card title="OpenAI Codex CLI" href="/integrations/mcp/codex">
+    Add Telivy to `config.toml`.
+  </Card>
+</CardGroup>
+
+For prompts that MSP teams use with the Telivy MCP server, see [Example workflows](/integrations/mcp/example-workflows).

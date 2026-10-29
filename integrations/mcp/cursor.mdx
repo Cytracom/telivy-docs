@@ -1,0 +1,87 @@
+---
+title: "Connect Cursor to Telivy"
+sidebarTitle: "Cursor"
+description: "Add the Telivy MCP server to Cursor with your agency API key in an environment variable"
+---
+
+This page shows how to add the Telivy MCP server to [Cursor](https://cursor.com/docs/context/mcp). Cursor connects to remote MCP servers over HTTP and sends the headers you define in its `mcp.json` file, so it can connect to Telivy directly.
+
+## Prerequisites
+
+- Cursor installed and signed in.
+- Your agency's Telivy API key from [Account → Integrations](https://portal.telivy.com/agent/account/integrations). See [Authentication and permissions](/integrations/mcp/overview#authentication-and-permissions) for what the key can do.
+
+## Store the key in an environment variable
+
+The configuration below reads the key from an environment variable named `TELIVY_API_KEY`, so the key does not appear in `mcp.json`.
+
+<Tabs>
+  <Tab title="macOS and Linux">
+    Add this line to your shell profile (for example `~/.zshrc` or `~/.bashrc`):
+
+    ```bash
+    export TELIVY_API_KEY="your-telivy-api-key"
+    ```
+
+    On macOS, Cursor reads your shell profile only when you start it from a terminal. Quit Cursor and start it from a new terminal with `cursor .`, or set the variable for the whole system.
+  </Tab>
+  <Tab title="Windows">
+    Run this in PowerShell, then restart Cursor:
+
+    ```powershell
+    setx TELIVY_API_KEY "your-telivy-api-key"
+    ```
+  </Tab>
+</Tabs>
+
+## Add the server
+
+<Steps>
+  <Step title="Open the configuration file">
+    Create or open one of these files:
+
+    - `~/.cursor/mcp.json` in your home folder makes Telivy available in every project.
+    - `.cursor/mcp.json` in a project makes it available in that project only. Because the file contains only the variable name, it can be committed and shared, and each person sets `TELIVY_API_KEY` on their own computer.
+  </Step>
+  <Step title="Add the Telivy entry">
+    ```json
+    {
+      "mcpServers": {
+        "telivy": {
+          "url": "https://api-v1.telivy.com/mcp",
+          "headers": {
+            "x-api-key": "${env:TELIVY_API_KEY}"
+          }
+        }
+      }
+    }
+    ```
+
+    If the file already lists other servers, add `telivy` next to them inside `mcpServers`. Cursor replaces `${env:TELIVY_API_KEY}` with the value of the environment variable when it loads the server.
+  </Step>
+  <Step title="Save and reload">
+    Save the file. If the server does not appear, restart Cursor.
+  </Step>
+</Steps>
+
+## Verify the connection
+
+Open **Customize** in Cursor and find **telivy** in the list of MCP servers. Make sure its toggle is on. If it shows an error, open the Output panel (`Cmd+Shift+U` on macOS, `Ctrl+Shift+U` on Windows), choose **MCP Logs**, and look for a `401` response, which means the key was missing or wrong. See also [Troubleshooting](/integrations/mcp/overview#troubleshooting).
+
+## Approvals
+
+Cursor asks for approval before it uses an MCP tool by default, and you can expand the request to see the tool's arguments. Keep that default for Telivy tools that create, update, rescan or uninstall something. If your team uses an allowlist so that some MCP tools run without approval, add only Telivy tools that read data to it.
+
+## Try it
+
+Open the Agent chat and send a prompt such as:
+
+```text
+Using the Telivy MCP tools, list my five most recent external scans and summarize the critical and high findings for each.
+```
+
+For more prompts, see [Example workflows](/integrations/mcp/example-workflows).
+
+## Remove the server
+
+Remove **telivy** from **Customize**, or delete the `telivy` entry from the `mcp.json` file where you added it. To keep the configuration but stop using it, turn its toggle off in **Customize**; disabled servers do not load or appear in chat.

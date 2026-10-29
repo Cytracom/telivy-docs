@@ -1,0 +1,93 @@
+---
+title: "Connect Windsurf (Devin Desktop) to Telivy"
+sidebarTitle: "Windsurf (Devin Desktop)"
+description: "Add the Telivy MCP server to Windsurf, now called Devin Desktop"
+---
+
+This page shows how to add the Telivy MCP server to Windsurf. In June 2026 Windsurf was renamed **Devin Desktop**, and its default agent became **Devin Local**, with the older Cascade agent kept for existing conversations. The MCP configuration described here is the one the [Devin Desktop documentation](https://docs.devin.ai/desktop/cascade/mcp) and the [Devin CLI documentation](https://docs.devin.ai/cli/extensibility/mcp/configuration) give for remote HTTP servers.
+
+## Prerequisites
+
+- Devin Desktop (formerly Windsurf), updated to the latest version.
+- Your agency's Telivy API key from [Account → Integrations](https://portal.telivy.com/agent/account/integrations). See [Authentication and permissions](/integrations/mcp/overview#authentication-and-permissions) for what the key can do.
+
+## Store the key in an environment variable
+
+The configuration below reads the key from an environment variable named `TELIVY_API_KEY`, so the key does not appear in the configuration file. If the variable is not set, Devin Desktop sends an empty header and Telivy answers with `401`.
+
+<Tabs>
+  <Tab title="macOS and Linux">
+    Add this line to your shell profile (for example `~/.zshrc` or `~/.bashrc`):
+
+    ```bash
+    export TELIVY_API_KEY="your-telivy-api-key"
+    ```
+
+    On macOS, a desktop application started from the Dock does not read your shell profile. Quit Devin Desktop and start it from a new terminal, or set the variable for the whole system.
+  </Tab>
+  <Tab title="Windows">
+    Run this in PowerShell, then restart Devin Desktop:
+
+    ```powershell
+    setx TELIVY_API_KEY "your-telivy-api-key"
+    ```
+  </Tab>
+</Tabs>
+
+## Add the server
+
+<Steps>
+  <Step title="Open the MCP configuration file">
+    The user-level MCP configuration file is at:
+
+    - macOS and Linux: `~/.config/devin/mcp_config.json`
+    - Windows: `%APPDATA%\devin\mcp_config.json`
+
+    You can also open it from the app: click the **...** (Actions) menu at the top right of the agent panel and click **Open MCP config file** in the **MCPs** section.
+  </Step>
+  <Step title="Add the Telivy entry">
+    ```json
+    {
+      "mcpServers": {
+        "telivy": {
+          "url": "https://api-v1.telivy.com/mcp",
+          "headers": {
+            "x-api-key": "${env:TELIVY_API_KEY}"
+          }
+        }
+      }
+    }
+    ```
+
+    If the file already lists other servers, add `telivy` next to them inside `mcpServers`. Older Windsurf examples use `serverUrl` instead of `url`; the Cascade agent accepts either field, and the Devin CLI configuration documents `url`. Devin Desktop replaces `${env:TELIVY_API_KEY}` with the value of the environment variable when it loads the server.
+  </Step>
+  <Step title="Save the file">
+    Save the file and restart Devin Desktop so it loads the new server.
+  </Step>
+</Steps>
+
+To share the configuration with a project instead, put the same `telivy` entry in `.devin/mcp_config.json` in the repository. The file contains only the variable name, so it can be committed, and each person sets `TELIVY_API_KEY` on their own computer.
+
+## Verify the connection
+
+Open the **...** menu in the agent panel. The **MCPs** section lists each configured server and how many of its tools are enabled; **telivy** should appear with its tools. You can also ask the agent to list the MCP servers and tools it has. If the tool count is zero or the server shows an error, see [Troubleshooting](/integrations/mcp/overview#troubleshooting).
+
+The agent can use at most 100 tools across all MCP servers at once. If you have several servers connected and Telivy tools are missing, turn off servers or tools you do not need.
+
+## Approvals
+
+By default the Devin Local agent asks for approval before it calls any MCP tool, and lets you allow a single tool or every tool on a server, for the session or permanently. For Telivy, allow only tools that read data, and approve tools that create, update, rescan or uninstall something one call at a time. Do not allow every tool on the `telivy` server.
+
+## Try it
+
+Send the agent a prompt such as:
+
+```text
+Using the Telivy MCP tools, list my external scans from the last month and summarize which domains have critical findings.
+```
+
+For more prompts, see [Example workflows](/integrations/mcp/example-workflows).
+
+## Remove the server
+
+To turn Telivy off without deleting the configuration, use the toggle next to **telivy** in the **MCPs** section. To remove it, delete the `telivy` entry from `mcp_config.json` and restart Devin Desktop.
