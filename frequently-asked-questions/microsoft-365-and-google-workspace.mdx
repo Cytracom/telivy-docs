@@ -16,6 +16,19 @@ description: "Common questions and answers"
 
     To trigger a re-fetch of the data, go to Setup \> Connect Cloud and click on the "Reconnect Microsoft 365 account" button. You will be notified via email when Microsoft 365 insights are ready.
   </Accordion>
+  <Accordion title="Why Did My Microsoft 365 Connection Disconnect?">
+    Telivy checks every few hours that each Microsoft 365 connection still works. When Microsoft refuses to renew Telivy's access for a client, the assessment is marked as needing a reconnect and you get an email that says why. Most of these causes come from changes made inside the client's own Microsoft tenant, so reconnecting only helps once that change is undone or accounted for.
+
+    The reasons you may see:
+
+    - **Access was revoked.** Someone changed or reset the password of the admin account that connected Telivy, or removed the permissions it granted. Reconnect from Setup \> Connect Cloud \> Connect Microsoft 365.
+    - **The connection was inactive for too long.** The tenant's sign-in policy ended the session. Reconnect.
+    - **The connecting admin account was removed or its credential expired.** Reconnect with an admin account that is still active in the tenant.
+    - **The Telivy app was disabled or removed in the tenant.** An administrator turned off or deleted the Telivy enterprise application. To turn it back on, open the Microsoft Entra admin center, go to Enterprise applications \> Telivy \> Properties, set "Enabled for users to sign in?" to Yes, and then reconnect. If the app was deleted, reconnecting adds it again.
+    - **The tenant no longer exists.** Microsoft reports the tenant as not found, which happens when the tenant was deleted or has no active subscription left. Nothing can be renewed for that tenant. If the client moved to a new Microsoft 365 tenant, reconnect with an admin account from the new tenant. If the client no longer uses Microsoft 365, you can leave the connection as it is.
+
+    Until the connection is restored, the client's Microsoft 365 findings stay as they were at the last successful check and are not updated.
+  </Accordion>
   <Accordion title="Why Do I Keep Receiving An Authorization Error When Attempting To Connect My Google Workspace?">
     There are two possible options:
 
