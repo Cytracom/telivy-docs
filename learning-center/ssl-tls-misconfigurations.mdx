@@ -1,64 +1,49 @@
 ---
-title: SSL/TLS Misconfigurations
-description: 'Risks and Remediation'
+title: SSL/TLS Certificate and HTTPS Misconfigurations
+sidebarTitle: SSL/TLS Misconfigurations
+description: 'Common SSL/TLS misconfigurations Telivy finds on client websites, such as expired certificates, missing HTTPS or HSTS, and weak CSP, with severity and fixes.'
 ---
 
-SSL/TLS misconfiguration refers to errors or mistakes in the setup and configuration of Secure Sockets Layer (SSL) or Transport Layer Security (TLS) protocols, which are used to secure data transmission over the internet. These misconfigurations can lead to security vulnerabilities and may expose sensitive information to potential attackers.
+SSL/TLS is the encryption that protects traffic between a browser and a website. A misconfiguration is any mistake in how it is set up: an expired or untrusted certificate, a site that still answers over plain HTTP, or missing security headers that tell browsers how to protect the connection. Each one weakens the protection SSL/TLS is supposed to give.
 
-## Risks
+## Why it matters
 
-1. Data Interception: Without properly configured SSL/TLS on a website, traffic exchanged between a browser and the server is susceptible to interception by unauthorized parties. This means that sensitive information, such as login credentials, session tokens, or form submissions, could be intercepted and potentially exploited by cybercriminals or eavesdroppers. This interception can occur at various points along the connection, including network hops, proxies, or wireless networks, especially on public Wi-Fi where security is typically weaker.
-2. Data Tampering: In addition to interception, web traffic sent without enforced HTTPS or without protections like HSTS is vulnerable to tampering or modification by malicious actors. Attackers could intercept a connection and alter page content, inject scripts, or redirect users to malicious destinations before the response reaches the browser. This could lead to the insertion of malicious links or scripts, the modification of transaction details, or the impersonation of a legitimate site, resulting in financial fraud, data manipulation, or reputational damage.
-3. Compliance Violations: Many regulatory frameworks, industry standards, and data protection laws require organizations to implement encryption and secure communication protocols to protect sensitive information exchanged over the web. Failure to properly configure SSL/TLS, HSTS, and related security headers on customer-facing sites may result in non-compliance with regulations such as the General Data Protection Regulation (GDPR), the Health Insurance Portability and Accountability Act (HIPAA), or the Payment Card Industry Data Security Standard (PCI DSS). Non-compliance with these regulations can lead to regulatory fines, legal liabilities, and reputational damage for organizations.
+- **Interception.** Without properly configured SSL/TLS, anyone on the network path, for example on public Wi-Fi, can read logins, session tokens, and form data.
+- **Tampering.** If HTTPS is not enforced, or HSTS is missing, an attacker can downgrade a connection and change the page before it reaches the browser: injecting scripts, swapping payment details, or redirecting to a fake site.
+- **Compliance.** GDPR, HIPAA, and PCI DSS all expect sensitive data to be encrypted in transit. A misconfigured customer-facing site can put a client out of compliance.
+- **Trust.** Browser certificate warnings drive visitors away and make the site look compromised even when it is not.
 
-Overall, SSL/TLS misconfigurations on a website raise significant concerns about data security, privacy, and regulatory compliance. To mitigate these risks, organizations should prioritize valid, properly maintained certificates, enforced HTTPS, and the security headers covered below to ensure the confidentiality and integrity of information exchanged with their site. Email transmission security is evaluated separately as part of Telivy's mail authentication checks, which look for mail servers that don't support STARTTLS.
+Email encryption is checked separately: Telivy's mail authentication checks look for mail servers that do not support STARTTLS.
 
-## Determining Severity
-The severity of an SSL/TLS misconfiguration depends on various factors, including the specific vulnerability, the context in which it is used, and the potential for exploitation.
+## How Telivy rates severity
 
-1. **High Severity:**
+### High
 
-- Certificate Not Found or No Issuer: When a domain has no valid certificate or the certificate has no identifiable issuer, secure connections cannot be established or trusted, exposing the site to man-in-the-middle attacks.
-- Revoked Certificates: A certificate that has been revoked by its certificate authority should no longer be trusted, and continuing to serve it puts visitors at risk.
-- HTTPS Not Enforced: When a site doesn't redirect HTTP traffic to HTTPS, connections can be made or downgraded to an unencrypted channel, exposing data in transit.
+- **Certificate not found or no issuer.** The site has no valid certificate, or the certificate has no identifiable issuer, so a secure connection cannot be established or trusted. This leaves it open to man-in-the-middle attacks.
+- **Revoked certificate.** The certificate authority has revoked the certificate and it should no longer be trusted.
+- **HTTPS not enforced.** The site does not redirect HTTP to HTTPS, so connections can be made, or downgraded, without encryption.
 
-2. **Medium Severity:**
+### Medium
 
-- Expired or Soon-to-Expire Certificates: Certificates that have expired, or that are within 30 days of expiring, disrupt secure connections and erode user trust.
-- Self-Signed Certificates: Using self-signed certificates in production environments results in browser security warnings and trust issues for users.
-- Weak Certificate Signing Algorithm: Certificates signed with outdated hashing algorithms (weaker than SHA-256) are more susceptible to forgery.
-- Missing Content Security Policy (CSP): A missing CSP header leaves a site without a key defense against cross-site scripting and data injection attacks.
-- Missing or Misconfigured HSTS: Absent, low-expiry, or improperly scoped Strict-Transport-Security headers leave a site exposed to protocol downgrade and cookie hijacking attacks.
+- **Expired or expiring certificate.** The certificate has expired or expires within 30 days.
+- **Self-signed certificate.** Browsers show security warnings for self-signed certificates on public sites.
+- **Weak signing algorithm.** The certificate is signed with a hash weaker than SHA-256, which makes forgery easier.
+- **Missing Content Security Policy (CSP).** Without a CSP header, the site lacks a key defense against cross-site scripting and data injection.
+- **Missing or misconfigured HSTS.** A missing, short-lived, or wrongly scoped Strict-Transport-Security header leaves the site open to protocol downgrade and cookie hijacking.
 
-3. **Low Severity:**
+### Low
 
-- Overly Broad CSP Directives: A Content Security Policy that relies on wildcard directives provides much weaker protection than a tightly scoped policy, even though a policy is technically present.
-- Excessive Certificate Validity Period: Certificates issued for longer than the industry-standard 398-day maximum lifetime increase the window of exposure if a key is ever compromised.
+- **Overly broad CSP.** A Content Security Policy built on wildcards gives much weaker protection than a tightly scoped one, even though a policy exists.
+- **Excessive certificate validity.** The certificate is valid for longer than the 398-day industry maximum, which extends the exposure window if the key is ever compromised.
 
-## How Can It Be Exploited
+## How attackers exploit it
 
-SSL/TLS misconfigurations can be exploited by attackers to compromise the security of encrypted communications, leading to various security risks and potential data breaches. Here are some ways in which SSL/TLS misconfigurations can be exploited:
-1. Man In the Middle Attacks
-2. Certificate Related Attacks
-3. Session Hijacking and Session Fixation
-4. Downgrade Attacks
-5. Content Injection
-6. Exposure of Sensitive Information
-7. Service Disruption
-8. Data Leakage
+Attackers use these gaps for man-in-the-middle attacks, downgrade attacks that force a weaker protocol, session hijacking with stolen cookies, content injection, and phishing sites that copy a real one. The results are data breaches, fraud, regulatory penalties, and lost customer trust.
 
-## Security Impact
- 
-SSL/TLS misconfigurations can have a wide range of impacts, and the severity of these impacts depends on the specific misconfiguration and the context in which it occurs. Here are some of the potential impacts of SSL/TLS misconfigurations:
-1. Data Breaches
-2. Loss of User Trust
-3. Phishing and Spoofing Attacks
-4. Regulatory Non-Compliance
-5. Operational Costs
-6. Reputation Damage
-7. Legal and Regulatory Penalties
-8. Reduced Performance
+## Remediation
 
-## Remediation Action Plan
-
-Organizations should regularly audit and maintain their SSL/TLS configurations, keep software up-to-date, follow security best practices, and monitor for any anomalies or security events related to SSL/TLS usage. This helps ensure that SSL/TLS remains effective in providing secure communication while minimizing the risk of exploitation due to misconfigurations.
+- Renew certificates before they expire and automate renewal where possible. [SSL/TLS certificates](/products/external-assessments/unsecured-emails/ssl-tls-certificates) covers certificate findings in Telivy.
+- Replace self-signed, revoked, or weakly signed certificates with ones from a trusted certificate authority.
+- Redirect all HTTP traffic to HTTPS and add an HSTS header with a long `max-age`.
+- Add a Content Security Policy and tighten wildcard directives over time.
+- Rescan after each change to confirm the finding is gone.

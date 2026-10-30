@@ -1,73 +1,102 @@
 ---
-title: Microsoft 365 Security
-description: 'Gain actionable Insights'
+title: Microsoft 365 Security Assessment
+sidebarTitle: Microsoft 365 Security
+description: 'Connect a client Microsoft 365 tenant to Telivy to review MFA coverage, sign-ins, Secure Score gaps as findings, and Entra ID risks, and fix tenant policies.'
 ---
+
+Connecting a client's Microsoft 365 tenant adds identity and tenant-configuration data to a Risk Assessment: who has MFA, who is signing in from where, which Secure Score controls are not in place, and which tenant policies drift from a security baseline.
 
 ## Requirements
 
-To get login and security data from M365, a Microsoft Entra ID P1 (NCE) license and Global admin is required. This license allows us to retrieve and monitor login statistics like location and MFA status from Microsoft. This license comes with audit logging which enables us to monitor M365 security. Check out plans, cost, and features [here](https://www.microsoft.com/en-us/security/business/microsoft-entra-pricing).
+- A **Risk Assessment**. External Assessments cannot connect cloud accounts.
+- A **Global Administrator** in the client's tenant to approve the connection.
+- A **Microsoft Entra ID P1** license on the tenant for sign-in data. Without it, Telivy still reads accounts, MFA, and Secure Score, but the account table cannot show account type, sign-in status, last login, or login counts. Microsoft lists the plans on its [Entra pricing page](https://www.microsoft.com/en-us/security/business/microsoft-entra-pricing).
 
-## Configuration
+## Connect Microsoft 365
 
-To configure the M365 security, go to your Risk Assessment > Configuration > Configure Microsoft 365 and follow the steps to connect your M365 admin account. Make sure you have the required licenses as described in the previous sections.
+1. Open the assessment and go to **Setup > Connect Cloud**.
+2. On the **Microsoft 365** card, select **Connect Microsoft 365**. If someone else is the tenant admin, use the copy button next to it and send them the link.
+3. Sign in with a Global Administrator account and approve the permissions Microsoft asks for.
 
-<img alt="Microsoft 365 configuration screen in a Telivy risk assessment" src="/images/microsoft-365-security/microsoft-365-security-1.jpg" />
+<img alt="Microsoft 365 connection card on the Connect Cloud step of a Telivy risk assessment" src="/images/microsoft-365-security/microsoft-365-security-1.jpg" />
 
-To refetch the data, you can refresh the data from Assets > Softwares > M365 Security and refetch the data as needed.
+### What the connection can do
 
-<img alt="Refetching Microsoft 365 data from Assets, Softwares, M365 Security" src="/images/microsoft-365-security/microsoft-365-security-2.png" />
+Once connected, the card shows a row of product icons: **Microsoft Entra ID**, **Exchange**, **SharePoint**, **OneDrive**, and **Policy management**. Each icon stands for a set of permissions. A full-color icon means the tenant has granted it, and hovering shows what Telivy reads with it. A grey icon means the permission has not been granted. Select it to open Microsoft's consent screen for that permission. If more than one is missing, the link asks for all of them on a single screen.
 
-Telivy helps you manage your Microsoft 365 security posture with dashboards and reports. This article covers three areas Telivy supports for M365 and how to configure the M365 section along with the requirements.
+### Refetch, reconnect, and disconnect
 
-## M365 Security Score
+The card header shows the connection status and when the tenant last synced. The actions menu (three dots) has:
 
-<AccordionGroup>
-  <Accordion title="Understanding Your Score">
-    Telivy presents your M365 security score in a clear, actionable format. You'll see an overall score and detailed breakdowns for different security domains, plus a benchmark of how your peers are scoring, so you can identify areas for improvement. The M365 security score is determined based on your M365 security configurations. The dashboard provides possible improvements to increase your score.
-  </Accordion>
+- **Refetch now** to pull fresh data from Microsoft immediately.
+- An option to copy the connect link.
+- **Disconnect**, which revokes Telivy's access. Synced data is kept and no new data is pulled. Disconnecting Microsoft 365 also disconnects Policy Management.
 
-  <Accordion title="Tracking Progress" >
-    Monitor your security score over time to measure the effectiveness of your security efforts. Telivy helps you visualize trends over time.
+If the card says "Microsoft 365 stopped syncing and needs to be reconnected", select **Reconnect Microsoft 365** and approve again. The [Microsoft 365 and Google Workspace FAQ](/frequently-asked-questions/microsoft-365-and-google-workspace) explains the usual reasons a connection drops.
 
-    <img alt="Microsoft Secure Score trend charted over time" src="/images/microsoft-365-security/microsoft-365-security-3.jpg" />
-  </Accordion>
+## Where to find the results
 
-  <Accordion title="Prioritizing Improvements">
-    Telivy goes beyond just showing your score. It provides specific recommendations tailored to your environment and the change in the score by completing those actions.
+Results are on the assessment's **Cloud** tab. If both Microsoft 365 and Google Workspace are connected, pick the provider first. Under Microsoft 365 there are two sections:
 
-    <img alt="Recommended Microsoft 365 improvement actions and their score impact" src="/images/microsoft-365-security/microsoft-365-security-4.jpg" />
-  </Accordion>
-</AccordionGroup>
+- **Identity / Entra ID**: accounts, MFA, sign-in activity, and Secure Score. It has two views, **Signals & Inventory** and **Risk Insights**.
+- **Policy Management**: tenant policy checks with one-click remediation.
 
-## Account Status
+## Signals & Inventory
 
-<AccordionGroup>
-  <Accordion title="Ensuring User Account Security">
-    Telivy displays the MFA status of all user accounts within your organization. This allows you to easily identify accounts without MFA enabled, a critical security control.
-  </Accordion>
+### Summary
 
-  <Accordion title="Auditing User Accounts" >
-    Verify existing user accounts in M365 to catch unauthorized access.
+The summary card shows the tenant's Microsoft **Security Score**, a **Benchmark Score** for organizations of a similar size, **Points Achieved**, **Total Accounts**, **Accounts without MFA**, **Total Failed Logins**, and **Orphaned Accounts**. Select the score to open the **Security Score History** chart.
 
-    <img alt="Microsoft 365 user account audit table" src="/images/microsoft-365-security/microsoft-365-security-5.jpg" />
-  </Accordion>
-</AccordionGroup>
+<img alt="Microsoft Secure Score history chart for a client tenant" src="/images/microsoft-365-security/microsoft-365-security-3.jpg" />
 
-## Login Successes And Failures
+For why two tenants can have very different maximum scores, see [Understanding Microsoft Secure Score](/scoring/m365).
 
-<AccordionGroup>
-  <Accordion title="Monitoring Suspicious Activity">
-    Telivy tracks login attempts for all user accounts, highlighting successful and failed logins. This helps you identify potential breaches or unauthorized access attempts.
+### Accounts Status
 
-    <img alt="Microsoft 365 login attempts showing successful and failed sign-ins" src="/images/microsoft-365-security/microsoft-365-security-6.jpg" />
-  </Accordion>
+This table lists every account with its email, admin role, **MFA Status**, authentication methods, account type, **Sign-in Status**, last login, and successful and failed logins. Search by name or email, or select **Show No MFA** to list only accounts without MFA.
 
-  <Accordion title="Investigating Suspicious Logins" >
-    Telivy provides information for each login attempt for all user agents. This equips you to investigate suspicious activity thoroughly.
+**MFA Status** is **Enforced** when an account has at least two authentication methods registered and **Not Enforced** when it has fewer, which usually means a password only. Disabled accounts show **N/A**, since nobody can sign in to them, and they are not counted in **Accounts without MFA**.
 
-    <img alt="Detail view of a single Microsoft 365 login attempt" src="/images/microsoft-365-security/microsoft-365-security-7.jpg" />
-    <img alt="User agent and location details for a suspicious Microsoft 365 login" src="/images/microsoft-365-security/microsoft-365-security-8.jpg" />
-  </Accordion>
-</AccordionGroup>
+<img alt="Accounts Status table listing Microsoft 365 users with MFA status and sign-in counts" src="/images/microsoft-365-security/microsoft-365-security-5.jpg" />
 
+### Login Status
 
+The login section counts total, successful, and failed login events, maps where sign-ins came from, and charts failed logins by user and login activity over time. Locations are colored by severity, so sign-ins from unusual places stand out, and failed logins are listed with Microsoft's failure reason.
+
+<img alt="Microsoft 365 sign-in summary with successful and failed logins" src="/images/microsoft-365-security/microsoft-365-security-6.jpg" />
+
+<img alt="Detail view of a single Microsoft 365 sign-in attempt" src="/images/microsoft-365-security/microsoft-365-security-7.jpg" />
+
+<img alt="Location and user agent details for a suspicious Microsoft 365 sign-in" src="/images/microsoft-365-security/microsoft-365-security-8.jpg" />
+
+**License Information** at the bottom lists the tenant's subscriptions and how many seats are in use.
+
+## Risk Insights
+
+**Risk Insights** lists the identity problems found in the last directory scan: missing MFA, legacy authentication, tenant policy issues, account hygiene, and Secure Score controls the tenant has not applied. The columns are **Severity**, **Risk Insight**, **Detail**, **Protects Against**, and **Detected**. Each condition is checked again on every scan, so once it is fixed it drops off the list.
+
+Select a row to open that finding on the assessment's **Risk** tab, where all Microsoft 365 findings also appear alongside the rest of the assessment's findings.
+
+### Secure Score controls as findings
+
+Telivy turns every Secure Score control that still needs action into a Cloud finding named "*control name* is not implemented in Microsoft 365". Controls that are already in place, not covered by the tenant's licenses, not applicable, or that belong to third-party products Microsoft lists in every tenant (such as Salesforce or Okta connectors) are left out.
+
+Each finding gets a severity of Critical, High, Medium, or Low from Telivy's own control registry, so it ranks alongside other findings and feeds the assessment's risk score and alerts. In the findings table, Secure Score findings have three extra columns:
+
+- **Setting**: the control name and the Microsoft product it belongs to.
+- **Protects Against**: the kind of attack it stops, such as "Stop account takeover", "Stop email compromise", or "Control admin access".
+- **Score Impact**: how many Secure Score points the tenant would gain, out of the control's maximum.
+
+Opening a finding shows a **Microsoft 365 Setting** panel with the product, score impact, **How to fix it** (Microsoft's remediation steps), **What your users will notice** after the change, the attacks it blocks, and how the control is marked in Microsoft.
+
+## Policy Management
+
+Policy Management checks tenant policies against a security baseline and can fix them for you. It uses its own Microsoft 365 connection, so it can be connected even when the directory scan is not. Select **Enable Policy Management** (or **Connect M365 Policy Management**) and approve the consent screen. Telivy fetches the policies as soon as the connection is made.
+
+The **Policy Compliance** tab lists each policy as **Compliant** or **Non-Compliant**, with **Fix Available** on the ones Telivy can change, plus when each was last checked. Agency admins also see **Remediate**, which changes that policy in the tenant after a confirmation, and **Inspect**, which shows the current and desired state. Policies Telivy cannot change link to the right page with **Change in Admin Portal**.
+
+The **Remediation Activity** tab keeps an **Activity Log** of every check and fix. **Refresh compliance scan** runs the checks again, and **Check + Auto-remediate** checks every policy and fixes all the non-compliant ones in one go.
+
+<Warning>
+  Remediation changes live tenant settings and can affect every user in the client's organization. Agree on the change with the client before you run it.
+</Warning>

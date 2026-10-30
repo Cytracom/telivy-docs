@@ -1,66 +1,77 @@
 ---
-title: "Risk Monitoring"
-description: "Keep a live pulse on every client's security posture, with automated rescans on your schedule and real-time alerts when something worth your attention happens."
+title: "Risk Monitoring: Continuous Client Rescans"
+sidebarTitle: "Risk Monitoring"
+description: "Turn on Telivy Continuous Monitoring to rescan a client weekly, monthly or quarterly, track posture trends, and pair rescans with real-time security alerts."
 ---
 
 ## Overview
 
-A point-in-time assessment tells you where a client stands today. Risk Monitoring keeps that picture current.
+A one-time assessment shows where a client stands on the day it ran. Risk Monitoring, labelled **Continuous Monitoring** in the portal, keeps that picture current by rescanning the client on a schedule you choose and recording a snapshot after each scan, so you can show the client how their posture moves over time.
 
-When Risk Monitoring is enabled for an assessment, Telivy automatically rescans the client on a cadence you control. Pair that with [Alerts](/products/risk-monitoring/alerts), which fire the moment a specific security event is detected, and you shift from reactive to proactive without adding manual effort.
+Pair it with [Alerts](/products/risk-monitoring/alerts), which tell you about specific changes such as a new breach or a new critical vulnerability as soon as Telivy finds them.
 
 ## Requirements
 
 | Requirement | Detail |
 |---|---|
-| Assessment type | Risk Assessment (not applicable to External-only or Lead Magnet assessments) |
-| Agency plan | Risk Monitoring must be enabled on your Telivy account; contact [accounts@telivy.com](mailto:accounts@telivy.com) to activate |
-| Telivy Agent | Agent must be deployed and reporting on the target assessment |
+| Assessment type | Risk Assessment. External scans can be monitored as a prospect with **Monitor Prospect**. |
+| Plan | Monitoring must be included in your Telivy plan, either for your agency or for the client's company. If it is not, the button shows **Monitoring is not enabled on your plan**. Contact [accounts@telivy.com](mailto:accounts@telivy.com) to add it. |
+| Telivy Agent | Installed and reporting on the client's devices, so endpoint data can be refreshed on each rescan |
 
-## Configuring Scan Frequency
+## Turn on Continuous Monitoring
 
-Once Risk Monitoring is enabled on your account, each assessment gets a **Scan Settings** button in the assessment header. Use it to set how often Telivy automatically rescans that client.
+You can turn it on when you create the assessment, or later on an existing one.
+
+- **When creating an assessment**, tick **Schedule Recurring Scans** under **Recurring Scans** and pick a **Scan Frequency**.
+- **On an existing assessment**, click **Enable Continuous Monitoring** on the assessment and confirm. The first scan runs straight away, and the assessment then rescans monthly by default. Unity partners manage monitoring per client through Unity: for a client linked to a Unity customer, the assessment offers **Enable Recurring Scans** or a link to the client's row on the **Unity** tab instead.
+
+<Warning>
+  Turning on Continuous Monitoring for an existing one-time assessment clears its current data and starts recording snapshots from the first monitored scan onward.
+</Warning>
+
+## Change the scan frequency
+
+Once monitoring is on, the assessment's **More** menu has **Scan Settings**.
 
 1. Open the assessment in the Telivy portal.
-2. Click **Scan Settings** in the top right of the assessment header.
-3. Under **Automated Scan Frequency**, choose your cadence.
-4. Click **Save**.
+2. Click **More**, then **Scan Settings**.
+3. Under **Automated Scan Frequency**, choose a frequency.
 
-| Frequency | Best for |
+| Frequency | Suits |
 |---|---|
 | Weekly | High-risk clients, clients under active remediation, or clients with a recent incident |
-| Monthly | Standard managed clients: balances coverage with noise |
-| Quarterly | Low-complexity clients or assessments used primarily for annual reviews |
-| Disable | Assessments where you want manual-only control |
+| Monthly | Most managed clients |
+| Quarterly | Simple environments, or assessments used mainly for periodic reviews |
+| Disable Monitoring | Assessments where you want to run scans manually |
 
-Frequency is set per assessment, so each client can run on its own schedule. You can trigger a manual rescan at any time regardless of the cadence.
+Frequency is set per assessment, so each client can run on its own schedule. You can still trigger a manual rescan at any time.
 
-This setting controls how often the client's computers are fully rescanned. Some checks run on their own schedule no matter what you pick here: everything Telivy checks from the outside is refreshed weekly, and connected Microsoft 365 and Google Workspace tenants are read daily. [Scanning Schedule](/products/risk-monitoring/scanning-schedule) explains what is checked when, and why findings sometimes change between rescans.
+This setting controls how often the client's computers are fully rescanned. Some checks keep their own schedule whatever you pick: everything Telivy checks from the outside is refreshed weekly, and connected Microsoft 365 and Google Workspace tenants are read daily. [Scanning Schedule](/products/risk-monitoring/scanning-schedule) explains what is checked when, and why findings sometimes change between rescans.
 
 ## FAQ
 
 <AccordionGroup>
-  <Accordion title="I don't see the Scan Settings button. Why?">
-    The Scan Settings button only appears when Risk Monitoring is active on your agency account. If you don't see it, reach out to [accounts@telivy.com](mailto:accounts@telivy.com) to get it enabled.
+  <Accordion title="I don't see Scan Settings in the More menu. Why?">
+    **Scan Settings** appears only once Continuous Monitoring is on for that assessment. Turn it on with **Enable Continuous Monitoring** first. If that button says monitoring is not enabled on your plan, contact [accounts@telivy.com](mailto:accounts@telivy.com).
   </Accordion>
 
-  <Accordion title="Does a rescan count as a new assessment for billing purposes?">
-    No. Automated rescans are part of the monitoring cadence and do not create new billable assessments. They update the existing assessment's findings.
+  <Accordion title="Does a rescan count as a new assessment for billing?">
+    No. Scheduled rescans update the existing assessment and do not create new billable assessments.
   </Accordion>
 
-  <Accordion title="What gets rescanned: the full assessment or just selected checks?">
-    A rescan runs the full suite of checks included in the original assessment. If the assessment has an agent deployed and cloud integrations connected (M365, Google Workspace), those are all included. Note that a rescan **replaces** the existing assessment data. It does not create a separate snapshot or historical record alongside the current one.
+  <Accordion title="What does a rescan cover?">
+    The full set of checks in the assessment: devices with the agent installed, the external view of the client, and any connected Microsoft 365 or Google Workspace tenant. A rescan replaces the current findings. Earlier results are kept as snapshots in the assessment's history, which is what the trend charts are drawn from.
   </Accordion>
 
   <Accordion title="Why did findings change between rescans?">
-    Some checks run on their own schedule. The outside view of the client refreshes weekly, connected cloud tenants are read daily, and newly published vulnerabilities are compared against the software Telivy already knows about weekly, so findings can appear without any device being touched. [Scanning Schedule](/products/risk-monitoring/scanning-schedule) breaks it down.
+    Some checks run on their own schedule. The outside view refreshes weekly, connected cloud tenants are read daily, and newly published vulnerabilities are compared weekly against the software Telivy already knows about, so findings can appear without any device being touched. [Scanning Schedule](/products/risk-monitoring/scanning-schedule) breaks it down.
   </Accordion>
 
-  <Accordion title="Can I set different scan frequencies for different clients?">
-    Yes. Frequency is per assessment, so each client can have its own cadence independently.
+  <Accordion title="Can different clients use different frequencies?">
+    Yes. Frequency is set per assessment.
   </Accordion>
 
-  <Accordion title="How do I get notified when a rescan finds something new?">
-    Use [Alerts](/products/risk-monitoring/alerts) to get notified for specific security events: new vulnerabilities, dark web exposures, M365 and Google Workspace activity.
+  <Accordion title="How do I hear about new findings between reviews?">
+    Set up [alert policies](/products/risk-monitoring/alerts) for the categories you care about, such as new vulnerabilities, dark web exposure, or Microsoft 365 accounts without MFA.
   </Accordion>
 </AccordionGroup>

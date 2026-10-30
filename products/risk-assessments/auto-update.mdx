@@ -1,11 +1,10 @@
 ---
-title: "Auto Update (Beta)"
-description: "Keep the Telivy agent up to date automatically, with account, assessment, and per-machine release controls."
+title: "Telivy Agent Auto-Update"
+sidebarTitle: "Auto Update (Beta)"
+description: "Keep the Telivy agent on Windows and macOS up to date automatically, with account, assessment, and per-device settings and Stable or Beta release channels."
 ---
 
-# Telivy Agent Auto-Update
-
-## How Auto-Update Works
+## How auto-update works
 
 On each hourly check-in, before starting the scanner, the agent checks the update manifest. If an update is available, the system:
 
@@ -15,13 +14,12 @@ On each hourly check-in, before starting the scanner, the agent checks the updat
 4. Shuts down the agent, completes the upgrade, and restarts it.
 5. On restart, the agent detects the previous update metadata and sends a final confirmation that the update succeeded.
 
-If the update is unsuccessful, an error message with a log is sent to the backend. The agent will retry the upgrade up to **3 times** before stopping further attempts.
+If the update fails, the agent sends the error and its log to Telivy and tries again, up to **3 times** in total. After that it stops trying and keeps running its current version.
 
----
 
-## Configuring Auto-Update
+## Configuring auto-update
 
-Auto-update settings follow a priority hierarchy. More specific settings always override broader ones:
+You can set auto-update at three levels. A more specific setting overrides a broader one:
 
 | Level | Priority | Scope |
 | --- | --- | --- |
@@ -29,74 +27,67 @@ Auto-update settings follow a priority hierarchy. More specific settings always 
 | Assessment | #2 | Overrides account settings for all machines in the assessment |
 | Machine | #1 (highest) | Overrides both account and assessment settings for a specific machine |
 
-The system uses the most specific setting available. For example, if auto-update is enabled at the assessment level, the setting applies to all machines in that assessment unless overridden at the machine level.
+Telivy uses the most specific setting it finds. If auto-update is on for an assessment, every machine in it updates unless a machine has its own setting. This lets you turn updates on for everyone, try beta versions on a few machines first, or hold back machines that need to stay stable.
 
-This allows granular control: you can enable auto-updates broadly at the account level, test beta versions on a few machines first, or disable updates for specific machines that require stability.
 
----
+### Account level
 
-### Account Level
+Go to **Account > Assessment Defaults** (`https://portal.telivy.com/agent/account/assessments`) and find the **Agent Updates** card.
 
-Navigate to **Account Settings -\> Assessment Defaults**: `https://portal.telivy.com/agent/account/assessments`
+![Agent Updates card on the Assessment Defaults page with the auto-update switch and release channel](/images/account-settings-agent-updates.png)
 
-![Account Settings Agent Updates](/images/account-settings-agent-updates.png)
+Turn on the switch and choose a **Release Channel**. Use **Stable** at the account level.
 
-Use the switch to turn on the feature and select the **Release Channel**. For the account level, **Stable** is recommended.
 
----
+### Assessment level
 
-### Assessment Level
+Open the assessment and go to **Setup > Deploy Agents > Deployment Status**.
 
-Navigate to a specific **Assessment -\> Setup -\> 2. Deploy Agents -\> Deployment Status**.
+![Deployment Status section of an assessment with the Update Settings button](/images/assessment-deployment-status-2.png)
 
-![Assessment Deployment Status 2](/images/assessment-deployment-status-2.png)
+Select **Update Settings** to open the assessment's update settings and override the account setting for this assessment.
 
-Click **Update Settings** to open the Assessment Update Settings dialog.
+![Assessment update settings dialog with override checkboxes for auto-update and release channel](/images/assessment-update-settings.png)
 
-![Assessment Update Settings](/images/assessment-update-settings.png)
+<Note>
+  Auto-update needs agent version **30.3.6.1** or later on Windows and **3.3.0** or later on macOS. Older agents have to be redeployed by hand.
+</Note>
 
-Here you can override account settings with assessment-specific settings.
-
-> **Minimum agent version required:** Auto-update requires agent version **30.3.6.1** (Windows) or **3.3.0** (macOS). Agents running older versions do not support auto-update and must be redeployed manually.
+When an assessment is created with ThreatLocker as its antivirus, Telivy turns auto-update off for it, because ThreatLocker blocks MSI-based updates. You can turn it back on here.
 
 Options:
 
 - **Auto-Update**: Check "Override account setting" to set a different auto-update toggle for this assessment. The dialog shows the current inherited status (e.g., "Currently **enabled** (inherited from account)").
 - **Release Channel**: Check "Override global default setting" to select a different channel for this assessment.
 
----
 
-### Machine Level
+### Machine level
 
-Navigate to a specific **Assessment -\> Setup -\> 2. Deploy Agents -\> Deployment Status**, then open the **Actions** menu for a specific machine.
+In **Setup > Deploy Agents > Deployment Status**, open the **Actions** menu for a machine.
 
-![Machine Actions Menu](/images/machine-actions-menu.png)
+![Actions menu for a single machine with the Update Settings option](/images/machine-actions-menu.png)
 
-Select **Update Settings** to open the Target Update Settings dialog.
+Select **Update Settings** to override the account and assessment settings for that machine.
 
-![Machine Update Settings](/images/machine-update-settings.png)
-
-Here you can override both account and assessment settings for an individual target.
+![Machine update settings dialog showing inherited auto-update status and release channel](/images/machine-update-settings.png)
 
 Options:
 
 - **Auto-Update**: Check "Override account setting" to enable or disable auto-update for this specific machine. The dialog shows the current inherited status (e.g., "Currently **enabled** (inherited from account)").
 - **Release Channel**: Check "Override assessment setting" to assign a different channel to this machine. The dialog shows the inherited channel (e.g., "Currently using **Beta** channel (inherited from assessment)").
 
----
 
-## Release Channels
+## Release channels
 
 | Channel | Purpose |
 | --- | --- |
 | Stable | Production-ready releases, recommended for most deployments |
 | Beta | Pre-release versions for early testing |
 
-Select the release channel at whichever configuration level is appropriate for your deployment strategy. The **Stable** channel is recommended for production environments.
+Use **Stable** for client environments.
 
----
 
-## Configuration Examples
+## Examples
 
 **Example 1, Enable auto-update for all clients:** Set Auto-Update to Enabled at the Account level with the Stable channel. All assessments and machines inherit this setting automatically.
 
@@ -106,16 +97,15 @@ Select the release channel at whichever configuration level is appropriate for y
 
 **Example 4, Opt a machine out of auto-update:** Enable auto-update at the Account or Assessment level. Override a specific machine's Auto-Update setting to Disabled. That machine will not auto-update while all others continue as configured.
 
----
 
-## Frequently Asked Questions
+## FAQ
 
-**Q: What happens if an update fails?** The agent logs the error, sends the log to the backend, and retries the upgrade up to 3 times. If all retries fail, the agent continues running on its current version.
+**Q: What happens if an update fails?** The agent sends the error log to Telivy and retries up to 3 times. If every attempt fails, it keeps running its current version.
 
-**Q: Do I need to uninstall the old agent before updating?** No. The auto-update process performs an upgrade-in-place. Manual uninstallation of the previous version is not required.
+**Q: Do I need to uninstall the old agent before updating?** No. Auto-update upgrades the agent in place.
 
 **Q: What is the minimum agent version that supports auto-update?** Windows: **30.3.6.1** | macOS: **3.3.0**. Agents running older versions must be redeployed manually with a current installer.
 
 **Q: How often does the agent check for updates?** Every hour, on the same check-in where it sends its heartbeat and picks up any pending instruction. See [Scanning Schedule](/products/risk-monitoring/scanning-schedule) for what else happens on that cycle.
 
-**Q: Can I mix Stable and Beta across my environment?** Yes. The priority hierarchy (Account \< Assessment \< Machine) allows you to run different channels at different levels. For example, you can keep your account on Stable while testing Beta on a specific assessment or individual machines.
+**Q: Can I mix Stable and Beta?** Yes. Keep the account on Stable and set Beta on one assessment or on individual machines.

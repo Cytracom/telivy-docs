@@ -1,19 +1,10 @@
 ---
-title: "Telivy Webhook"
-description: "This guide will help you integrate with Telivy's webhook system to receive real-time updates when certain events occur in your agency's account"
+title: "Telivy Webhooks"
+sidebarTitle: "Webhooks"
+description: "Receive Telivy assessment status changes and security alerts as signed HTTP POST requests, with HMAC signature checks, custom headers and payload encryption."
 ---
 
-### **Table of Contents**
-
-1. Introduction
-2. Webhook Events
-3. Setting Up Webhooks
-4. Processing Webhooks
-5. Authentication
-6. Custom Authentication Headers
-7. Payload Encryption
-8. Handling Webhook Data
-9. Troubleshooting
+Telivy webhooks send an HTTP POST request to your endpoint when an assessment changes status or an alert is raised, so your own systems can react without polling the API. The sections below cover setup, signature verification, custom authentication headers, payload encryption and troubleshooting.
 
 <AccordionGroup>
   <Accordion title="Introduction">
@@ -26,7 +17,7 @@ description: "This guide will help you integrate with Telivy's webhook system to
     - ALERT_RAISED: Triggered when an alert is raised for your agency
   </Accordion>
   <Accordion title="Setting Up Webhooks">
-    Webhooks are set up through your Telivy dashboard. For each webhook, you'll need to specify:
+    Set up webhooks in the Telivy portal under **Account → Webhooks**. For each webhook, you specify:
 
     1. A destination URL that will receive the webhook requests
     2. The events you want to subscribe to

@@ -1,50 +1,45 @@
 ---
-title: Identity and Access Management
-description: 'Use Telivy to Create and Manage Passwords'
+title: Password Analysis for Weak, Reused and Breached Passwords
+sidebarTitle: Identity and Access Management
+description: 'How Telivy analyzes passwords saved in Chromium browsers to find weak, reused, and breached credentials without storing cleartext passwords off the device.'
 ---
 
-## Password Management
+Weak, reused, and leaked passwords are one of the most common ways attackers get in. As part of a Risk Assessment, Telivy checks the passwords saved in users' browsers and shows which ones are weak, which are used in more than one place, and which already appear in breach data.
 
-Weak, reused, and leaked passwords are a common entry point for attackers. Telivy analyzes the passwords in use across an organization to surface these weaknesses.
+## How passwords are collected
 
-## Password Capture 
+When you deploy the Telivy agent, it includes a password analysis tool that reads the passwords saved in Chromium-based browsers such as Chrome and Edge. Chromium encrypts saved passwords per user, so the tool can only read them while that user is signed in. If a user is not signed in during the scan, the capture runs the next time they sign in.
 
-The Telivy platform captures passwords from users to analyze them for weaknesses (next section). When deploying the Telivy executable, a password analysis capture tool is deployed to securely analyze the passwords stored in the user's Chromium-based browsers. Because of how Chromium encrypts passwords, a user has to be logged in to capture the passwords or the capture will be triggered once the user(s) log in.
+The analysis runs on the device. Cleartext passwords are never sent to or stored on Telivy's servers. Telivy stores a hash of each password, and a hash cannot be turned back into the password.
 
-To reduce any liability for you, we perform password analysis on the device and the clear text passwords are never stored in our servers. Telivy however stores the hash of the password. Hashes cannot be reverse-engineered to generate the password.
+When the agent runs as an administrator, it schedules password capture for most user profiles on the device. Telivy works out the list of users from the profile folders, Microsoft Entra ID (Azure AD) accounts, and local and domain accounts on the machine. Some users can still be missed. The assets table shows which users each device has scheduled for password analysis.
 
-If the executable is deployed as an admin, the executable will schedule password capture for most of the users that are present on the asset. The list of users is determined by the folder structure, Microsoft Azure AD user setup, local and global users configured on the system and a few different heuristics. In some cases, not all users are covered for password analysis. The assets table should show you the list of users the password analysis is scheduled for.
+<img alt="Assets table listing the users scheduled for password analysis on each device" src="/images/identity-and-access-management/identity-and-access-management-1.jpg" />
 
-<img alt="Assets table listing the users scheduled for password analysis" src="/images/identity-and-access-management/identity-and-access-management-1.jpg" />
-
-## Why Analyze Passwords? It's More Than Just "123456"
-
-Password analysis examines each password for weaknesses. Here's why it matters:
+## What the analysis finds
 
 <AccordionGroup>
-  <Accordion title="Identifying Leaked Credentials">
-    Hackers often sell stolen usernames and passwords on the dark web. Telivy's password analysis tool scans your passwords against these databases, alerting you to potentially compromised credentials before attackers can exploit them. The password analysis table shows you the number of hits a password or username has been found on the dark web. Hackers generally start brute forcing by using leaked credentials. It is advised to not use any password that has been found on the dark web.
+  <Accordion title="Breached credentials">
+    Stolen usernames and passwords are traded on the dark web, and attackers try them first. Telivy checks each saved password and username against known breach data. The **Password Breaches** column shows how many breaches a password appeared in, counted across all usernames. Any password with breach hits should be changed.
 
-    For example, the first entry has been leaked 9.65 million times on the dark web. This includes the password "p******d", and the username cool_dude.
+    In the example below, the first password has appeared in breach data 9.65 million times.
 
-    <img alt="Password analysis table showing dark web hit counts per credential" src="/images/identity-and-access-management/identity-and-access-management-2.jpg" />
+    <img alt="Password analysis table showing breach counts for each saved credential" src="/images/identity-and-access-management/identity-and-access-management-2.jpg" />
   </Accordion>
 
-  <Accordion title="Unmasking Weak Links">
-    Not all passwords are created equal. Some, like dictionary words or simple numerical sequences, are easily cracked. Telivy's password analysis tool assesses password complexity, length, and character diversity, highlighting passwords that need urgent replacement.
-
-For example, **qwerty** is a Weak password. **G00dPassw0rd?!**  is a Moderate password and **V3ryG00dPassw0rd?!**  is a Strong password. For more interested users, Telivy's analysis tool uses this library to determine the strength of a password.
+  <Accordion title="Weak passwords">
+    Dictionary words and simple sequences such as `qwerty` take seconds to crack. Telivy rates each password on length, complexity, and character variety, and the **Password Strength** column shows **Weak**, **Moderate**, or **Strong**. **N/A** means the browser did not save the password or it could not be decrypted.
   </Accordion>
 
-  <Accordion title="Reused Passwords">
-    We're creatures of habit, often recycling passwords across multiple accounts. This creates a domino effect: one compromised password could grant access to a multitude of accounts. Telivy's password analysis tool detects reused passwords so you can replace them with unique ones.
+  <Accordion title="Reused passwords">
+    One password used across many accounts means one leak opens all of them. The reuse table groups identical passwords and shows **Total Reuse**, plus how many hosts, users, browsers, and URLs share each one.
 
-    <img alt="Password analysis table highlighting passwords reused across accounts" src="/images/identity-and-access-management/identity-and-access-management-3.jpg" />
+    <img alt="Password reuse table showing how many hosts, users and sites share each password" src="/images/identity-and-access-management/identity-and-access-management-3.jpg" />
 
-    In the above table, click on the Show All and the previous table will filter to show the instances where the password has been used.
+    Select **Show All** on a row to see every place that password is used.
   </Accordion>
 </AccordionGroup>
 
-## Acting on password findings
+## Acting on the results
 
-Identifying and fixing weak or reused passwords reduces the risk of account compromise.
+Start with passwords that have breach hits, then the ones reused across many URLs, then the weak ones. For each, have the user change the password and turn on MFA for the account. A password manager makes unique passwords practical, and the next scan shows whether the old passwords are gone.

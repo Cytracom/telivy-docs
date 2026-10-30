@@ -1,23 +1,30 @@
 ---
-title: "Rewst"
-description: "Integrating Telivy + Rewst"
+title: "Rewst Integration"
+sidebarTitle: "Rewst"
+description: "Set up a Telivy custom integration in Rewst with your agency API key so Rewst workflows can read assessments and automate MSP security tasks."
 ---
 
-1. Set up a custom configuration - call it Telivy
+Rewst connects to Telivy through a custom configuration that calls the Telivy Security API with your agency's API key. Once it is set up, Rewst workflows can read and act on your Telivy assessments.
 
-   ![Set up a custom configuration named Telivy](/images/rewst/rewst-1.png)
-2. In Authentication Method, add _api-v1.telivy.com_ as "Hostname" and choose API Key
+## Set up the Telivy configuration in Rewst
 
-   ![Add api-v1.telivy.com as Hostname and choose API Key](/images/rewst/rewst-2.png)
-3. Navigate to the Telivy portal and look under Account \> Integrations to find your Telivy API key.
+1. In Rewst, create a custom configuration and name it **Telivy**.
 
-   ![Find your Telivy API key under Account > Integrations](/images/rewst/rewst-3.png)
-4. In Authentication Details, enter your team's Telivy API key.
+   ![New custom configuration named Telivy in Rewst](/images/rewst/rewst-1.png)
+2. Under **Authentication Method**, enter `api-v1.telivy.com` as the **Hostname** and choose **API Key**.
 
-   ![Enter your Telivy API key in Authentication Details](/images/rewst/rewst-4.png)
-5. In Test Configuration, set up _/api/v1/security/risk-assessments_ as your Test Action URL Path
+   ![Rewst authentication method with api-v1.telivy.com as hostname and API Key selected](/images/rewst/rewst-2.png)
+3. In the Telivy portal, go to **Account → Integrations** and copy your Telivy API key.
 
-   ![Set the Test Action URL Path in Test Configuration](/images/rewst/rewst-5.png)
-6. Start configuring your workflow\!
+   ![Telivy API key under Account > Integrations](/images/rewst/rewst-3.png)
+4. In Rewst, paste the key under **Authentication Details**.
 
-   ![Start configuring your workflow](/images/rewst/rewst-6.png)
+   ![Telivy API key entered in Rewst authentication details](/images/rewst/rewst-4.png)
+5. Under **Test Configuration**, set the **Test Action URL Path** to `/api/v1/security/risk-assessments`.
+
+   ![Rewst test configuration with the risk assessments path as the test action URL](/images/rewst/rewst-5.png)
+6. Save, then build your workflows on the new configuration.
+
+   ![Rewst workflow builder using the Telivy configuration](/images/rewst/rewst-6.png)
+
+Each agency has one Telivy API key, shared by every integration. Regenerating it in Telivy stops Rewst workflows until you paste the new key into the configuration. The [MCP server overview](/integrations/mcp/overview#get-your-api-key) explains how the key works.

@@ -1,47 +1,77 @@
 ---
-title: Navigating an Assessment
-description: 'What each tab inside an assessment is for, and which ones you will see'
+title: Navigating a Telivy Assessment
+sidebarTitle: Navigating an Assessment
+description: 'What each tab and header action in a Telivy assessment does, and why a Risk Assessment shows more tabs than an External Scan.'
 ---
 
-Open an assessment and a tab rail runs down the side. Which tabs you get depends on the
-assessment type, so an External Scan shows a deliberately shorter set than a Risk
-Assessment.
+When you open an assessment, the header sits at the top and a tab rail runs down the side.
+The tabs you get depend on the assessment type, so an External Scan shows a shorter set
+than a Risk Assessment.
+
+## The header and the More menu
+
+The header shows the client's name and domain, their client status, the score badge on an
+External Scan, and the next scheduled scan once monitoring is on. The action buttons sit on
+the right:
+
+- **Convert to Risk Assessment** on an External Scan, to add the agent and cloud scans.
+  If your plan doesn't include standalone Risk Assessments, the confirmation dialog says so
+  and shows how to upgrade instead of converting.
+- **Enable Continuous Monitoring** on a Risk Assessment, or **Monitor Prospect** on an
+  External Scan, to put the assessment on recurring scans with trend history. See
+  [Risk Monitoring](/products/risk-monitoring/overview).
+- **More**, which holds everything else.
+
+The **More** menu contains:
+
+| Item | When you see it |
+| --- | --- |
+| Edit Name | Always |
+| Manage Access | Always. See [sharing an assessment](/getting-started/set-up-telivy-account/overview) |
+| Risk Scoring Weights | When the assessment is linked to a company |
+| Scan Settings | When monitoring is on |
+| Device Health Log | When monitoring is on |
+| Archive or Unarchive | Always |
+| Delete | Only on an archived assessment |
 
 ## The tabs
 
 | Tab | What it is for |
 | --- | --- |
-| **Setup** | Deploy the agent, connect Microsoft 365 or Google Workspace, add targets, configure the scan |
-| **Overview** | The headline result: score, top findings, what changed |
-| **Inventory** | What Telivy found: devices, network targets, installed software |
-| **Security** | The findings themselves, grouped by section, with evidence on each one |
+| **Setup** | Add domains, deploy the agent, connect Microsoft 365 or Google Workspace, and configure the scan |
+| **Overview** | The headline result: score, top findings, and what changed |
+| **Inventory** | What Telivy found: devices, network targets, and installed software |
+| **Security** | The findings, grouped by section, with evidence on each one |
 | **Cloud** | SaaS posture for connected Microsoft 365 and Google Workspace accounts |
 | **Compliance** | Findings mapped to the CIS Critical Security Controls |
 | **Register** | The risk register for the assessment |
-| **Reports** | Generate client-ready reports, or upload your own documents |
+| **Reports** | Generate client-ready reports. See [Reports](/products/reports) |
 | **Alerts** | Alerts raised for this client |
 | **Company** | Company details and contacts |
 | **Services** | Services offered to this client, unless your agency uses its own branding |
 
-**Risk** and **Priorities**, which chart risk over time and rank findings across
-severities, appear once prospect monitoring is available to your account. **Trends** only
-shows up while the assessment has monitoring enabled.
+**Risk** and **Priorities** chart risk over time and rank findings across severities. They
+appear once prospect monitoring is available on your account. **Trends** only appears while
+the assessment has monitoring turned on.
 
 ## The Cloud tab
 
-Cloud is Risk Assessment only. On an External Scan it reads "Not enabled" and gives you a
-contact address, because there's no agent and no cloud connection to read from.
+Cloud is only on Risk Assessments. On an External Scan it reads "Not enabled" and gives a
+contact address, because there is no agent and no cloud connection to read from.
 
-Sub-views appear as connections are made, so an assessment with only Microsoft 365
-connected won't show Google Workspace at all:
+A switch at the top picks the provider, Microsoft 365 or Google Workspace. Under Microsoft 365
+the tab has two sections:
 
-- **Microsoft 365** for secure score, MFA coverage, and login monitoring on the tenant
-- **M365 Policy Management** for the policy baseline and where the tenant drifts from it
-- **Sharing Risks** for Exchange, SharePoint, and OneDrive exposure, where your account has it
-- **Google Workspace** for the same posture view on a connected Workspace domain
+- **Identity / Entra ID**, with **Signals & Inventory** for MFA coverage, accounts, and sign-in
+  activity, and **Risk Insights** for Secure Score controls raised as findings
+- **Policy Management**, for the policy baseline and where the tenant drifts from it
 
-An empty tab means nothing is connected. Connect an account under **Setup > Cloud** and the
-views turn up on the next data refresh.
+Google Workspace shows the same posture view for a connected Workspace domain. See
+[Microsoft 365 security](/products/risk-assessments/microsoft-365-security) for what each
+section contains.
+
+An empty tab means nothing is connected yet. Connect an account under
+**Setup > Connect Cloud** and the views appear after the next data refresh.
 
 <CardGroup cols={2}>
   <Card
@@ -60,8 +90,8 @@ views turn up on the next data refresh.
   </Card>
 </CardGroup>
 
-## What an External Scan shows instead
+## Tabs on an External Scan
 
-No endpoints means a shorter rail: Setup, Overview, Security, Company, Register, Reports,
-and Alerts. Anything that depends on the agent or a cloud connection is absent by design,
-not missing.
+An External Scan has no endpoints, so the rail is shorter: Setup, Overview, Security,
+Company, Register, Reports, and Alerts. Anything that needs the agent or a cloud connection
+is left out on purpose.

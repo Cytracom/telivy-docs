@@ -1,516 +1,164 @@
 ---
-title: "Autotask"
-description: "Step by Step Autotask Integration"
+title: "Autotask PSA Integration"
+sidebarTitle: "Autotask"
+description: "Connect Datto Autotask PSA to Telivy so security findings open Autotask tickets with severity-based priority and resolve in Telivy when tickets complete."
 ---
 
-Please contact [support@telivy.com](mailto:support@telivy.com) to request early access to this integration. After doing so, please follow the steps below.
+The Autotask integration opens a Datto Autotask PSA ticket for each security finding Telivy raises for a mapped client. When a technician completes the ticket, Telivy marks the finding as resolved. When you resolve or accept a finding in Telivy, Telivy can move its ticket to a status you choose.
 
-<iframe src="https://www.youtube.com/embed/dvwwmxbiz44" title="YouTube video player" frameborder="0" className="w-full aspect-video rounded-xl" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
+**Who should set this up:** an MSP administrator with admin access to Autotask and access to **Account → Integrations** in Telivy.
 
-_Created: January 16th, 2026 by Samantha Carroll_
+<iframe src="https://www.youtube.com/embed/dvwwmxbiz44" title="Autotask integration walkthrough" frameborder="0" className="w-full aspect-video rounded-xl" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
 
-# Overview
+## How the integration works
 
-Connect your Autotask PSA account to Telivy to automatically synchronize security and compliance tasks as tickets in your PSA system. This integration enables MSP technicians to manage Telivy findings directly within their existing Autotask workflow.
+Once Autotask is connected and a company is mapped, the integration does four things:
 
-**Use Case:** Automatically create and update Autotask tickets when security or compliance issues are identified in Telivy assessments, so critical findings are tracked and resolved through your standard service desk process.
+1. **Opens a ticket per finding.** When a scan raises a finding in a category you chose to sync, Telivy creates a ticket against the Autotask account mapped to that client. The title starts with `[Telivy]`, the severity and the finding name. The description covers the finding, the detected value, the risk, the recommended fix and references, and a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab.
+2. **Sets priority from severity.** Telivy matches the finding's severity to your Autotask priority labels (for example Critical, High, Medium, Low), so a customized priority list works too.
+3. **Reads resolutions back from Autotask.** Every hour Telivy checks the tickets it opened. A ticket that Autotask records as completed, or that sits in a status whose name means closed (such as **Complete**, **Closed** or **Resolved**, but not a waiting or on-hold status), marks the finding **Resolved in PSA** in Telivy. If the issue is still there, the next scan raises the finding again.
+4. **Updates tickets from Telivy decisions.** When you resolve or accept a finding in Telivy, Telivy moves its ticket to the status you choose in the ticket settings.
 
-**Who Should Use This:** MSP technicians and administrators who manage security assessments and need to track remediation tasks in Autotask PSA.
+## One PSA at a time
 
----
+An agency connects one PSA. While ConnectWise or HaloPSA is enabled, the Autotask switch is disabled and Telivy shows **Disable ConnectWise to connect Autotask** (or HaloPSA). Disconnecting a PSA keeps its credentials, ticket settings and company mappings, so you can switch back later.
 
 ## Prerequisites
 
-- Kaseya (Datto) Autotask PSA subscription
-- Telivy subscription with access to Assessments and Tasks
-- Admin role access to your Autotask PSA tenant
-- Admin or appropriate permissions in your Telivy account
+- A Datto Autotask PSA subscription and an Autotask account with admin access.
+- A Telivy account with access to **Account → Integrations**.
+
+Some terms below are Autotask defaults. If your instance uses different names, see Datto's [Local Terms and Symbols](https://ww2.autotask.net/help/Content/4_Admin/2FeaturesSettings/ApplicationWide/LocalTermsandSymbols.htm) help page.
+
+## Step 1: Activate Telivy in the Autotask Integration Center
+
+<Steps>
+  <Step title="Open the Integration Center">
+    In Autotask, go to **Admin → Extensions & Integrations → Other Extensions & Tools → Integration Center**.
+  </Step>
+  <Step title="Edit the Telivy entry">
+    Search for **Telivy - Security/Risk Monitoring**, right-click it and choose **Edit**.
+  </Step>
+  <Step title="Turn it on">
+    Under **General**, select **Active**. Under **Integration Vendor Widgets**, select **Enable Integration Vendor Widgets**. Under **Vendor Insights**, select both **Enable Integration Vendor Ticket Insights** and **Enable Integration Vendor Configuration Item Insights**. Save.
+  </Step>
+</Steps>
+
+## Step 2: Create a security level for the API user
+
+<Steps>
+  <Step title="Copy an API security level">
+    Go to **Admin → Company Settings & Users → Security Level**. Right-click a security level with the **API User** licence type and choose **Copy**.
+  </Step>
+  <Step title="Name it and clear every permission">
+    Name the copy, for example **Telivy API Integration**. Set every permission on every tab to **No Permission**.
+  </Step>
+  <Step title="Grant only what Telivy needs">
+    Then turn on these permissions:
+
+    | Area | Permission |
+    | --- | --- |
+    | CRM | Customers & Contact Access → Customer and Cancelation → **All** |
+    | CRM | Object Permissions → Contacts → Add → **Yes** |
+    | Service Desk | Object Permissions → Tickets → View → **All** |
+    | Service Desk | Object Permissions → Tickets → Edit → **Yes** |
+    | Admin | Feature Access → **Your Organization**, **Resources/Users (HR)**, **Customers & Contacts**, **Service Desk (Tickets)** |
+    | Other | Miscellaneous → **Not required to change password** |
+    | Other | Webhooks → **Can create Webhooks**, maximum 50 |
+    | Web Services API | Feature Access → **Can login to Web Services API** |
+
+    Click **Save and Close**.
+  </Step>
+</Steps>
+
+## Step 3: Create the API user
+
+<Steps>
+  <Step title="Add a new API user">
+    Go to **Admin → Company Settings & Users → Resources/Users (HR)**, open the **New** dropdown and choose **New API User**.
+  </Step>
+  <Step title="Assign the security level and generate credentials">
+    Fill in the required fields and select the security level from Step 2. Click **Generate** to create the **Key** (username) and **Secret**. Copy both now.
+  </Step>
+  <Step title="Set the tracking identifier">
+    Under **API Tracking Identifier**, select **Telivy - Security/Risk Monitoring** as the vendor. Click **Save & Close**.
+  </Step>
+</Steps>
+
+## Step 4: Connect Autotask in Telivy
+
+<Steps>
+  <Step title="Pick Autotask as your platform">
+    In Telivy, go to **Account → Integrations**. Under **PSA Integrations**, choose **Autotask** in the **Platform** picker and turn on the **Enable** switch. The **Autotask** dialog opens on its **1. Connect** tab.
+  </Step>
+  <Step title="Enter the API user credentials">
+    Enter the API user's key as **Username** and its **Secret**. Click **Test Connection** to check them without saving, then **Connect & Enable**. The **2. Settings** tab stays unavailable until the connection succeeds.
+  </Step>
+  <Step title="Choose the ticket settings">
+    On the **2. Settings** tab, **New tickets** lists the ticket fields your Autotask instance marks as required, such as **Queue** or **Status**, read from your own picklists. Pick a default for each, and a **Sub Issue Type** if your instance requires one.
+
+    **Ticket Source** defaults to `telivy-task-manager`. Add the same name under **Admin → Features & Settings → Service Desk → Sources** in Autotask if you want workflow rules to act on Telivy tickets.
+
+    Under **Finding decisions**:
+
+    - **Resolved Status**: used when a finding is accepted or resolved. Autotask applies the same status to both.
+    - **Complete Status**: used only when no Resolved Status is set.
+
+    Leave both blank to keep tickets as they are. Click **Save**. To change these later, click **Configure** on the Autotask card.
+  </Step>
+</Steps>
+
+## Step 5: Choose which findings open tickets
+
+Go to **Alerts → Policies** and turn on **PSA sync** for the categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls.
+
+Under **Account → Integrations → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether Telivy uses the statuses from Step 4. Without those statuses, tickets are left open.
+
+## Step 6: Map each company and turn on sync
+
+<Steps>
+  <Step title="Open the mapping dialog">
+    In **Companies**, open the actions menu on a company and choose **Map to PSA**. You can also map from the PSA card on an assessment's **Configuration** tab.
+  </Step>
+  <Step title="Pick the Autotask account">
+    In the **Map to an Autotask account** dialog, type at least two characters, pick the account, and click **Map account**. An Autotask account can belong to one Telivy company at a time: mapping it again moves it to the new company, and the previous company shows **Not mapped**.
+  </Step>
+  <Step title="Turn on PSA sync for the assessment">
+    Tick **Start syncing findings to Autotask after mapping** in the dialog, or turn on **Sync findings to PSA** on the assessment's PSA card later. Telivy then opens tickets for the assessment's existing findings that match your sync policy, and tells you how many it queued.
+  </Step>
+</Steps>
 
-**Note:** Some terms in this guide refer to default Autotask values. If you see different terms in your environment, refer to the [Datto Autotask Terms and Symbols documentation](https://ww2.autotask.net/help/Content/4_Admin/2FeaturesSettings/ApplicationWide/LocalTermsandSymbols.htm#).
+## Work with tickets from Telivy
 
----
+- **PSA column.** Finding tables on the **Risk** tab show a **PSA** column. Each dot shows whether the finding is synced, synced but not yet resolved or accepted in Telivy, failed, or not synced. Click a dot to open the existing ticket, or to create one for a finding that has none.
+- **Sync in bulk.** Select findings and click **Sync to PSA** to open tickets for all of them at once. **Find unsynced in Autotask** lists the assessment's findings that should have a ticket but do not, and queues them.
+- **Unmap a company.** **Unmap** on the PSA card stops new tickets for that company. Tickets already in Autotask are left alone, and findings that were synced before do not sync again if you map the company somewhere else.
+- **Disconnect.** **Disconnect** in the Autotask dialog stops Telivy opening and updating tickets for the whole agency. Credentials, ticket settings and mappings are kept.
 
-## How to Configure Autotask PSA Integration for Telivy
+Completed tickets are read back on the hourly schedule only. Unlike ConnectWise and HaloPSA, the assessment's PSA card has no button to run the check on demand for Autotask.
 
-### Step 1: Add 'Telivy - Security/Risk Monitoring' in Integration Center
+Deleting a company in Telivy releases its Autotask mapping, so the Autotask account can be mapped to another client.
 
-Navigate to **Admin → Extensions & Integrations → OTHER EXTENSIONS & TOOLS → Integration Center** in Autotask PSA.
+## Check that it works
 
-**Where to find it:** In the Autotask PSA main navigation menu, under the Admin section.
-
-**What you'll see:** A list of available integrations and extensions.
-
----
-
-Search for 'Telivy - Security/Risk Monitoring', right-click on it, and select **Edit**.
-
-**Where to find it:** In the Integration Center list.
-
-**What you'll see:** The integration configuration window opens.
-
----
-
-Under **General**, select **Active**. Under **Integration Vendor Widgets**, select **Enable Integration Vendor Widgets**. Under **Vendor Insights**, select both **Enable Integration Vendor Ticket Insights** and **Enable Integration Vendor Configuration Item Insights**.
-
-**Where to find it:** In the integration configuration window, under the General tab.
-
-**What you'll see:** Checkboxes for each option that you can enable.
-
----
-
-### Step 2: Add a new Security Level for Telivy Integration
-
-Navigate to **Admin → Company Settings & Users** in Autotask PSA, then click on **Security Level** to open the security levels list.
-
-**Where to find it:** In the Autotask PSA main navigation menu, under the Admin section.
-
-**What you'll see:** A list of existing security levels in your Autotask instance.
-
----
-
-Right-click and copy a security level with the **API User Licence type** to set up a new security level.
-
-**Where to find it:** In the security levels list, right-click on an existing security level.
-
-**What you'll see:** A context menu with options including "Copy".
-
----
-
-Give the new security level a relevant name such as 'Telivy API Integration' and make sure feature access for **Your Organization** and **Resources/Users (HR)** is checked on.
-
-**Where to find it:** In the security level configuration window, in the General section.
-
-**What you'll see:** Fields for naming and feature access checkboxes.
-
----
-
-For the role permissions, select **No Permission** for all options, for each tab/dropdown.
-
-**Where to find it:** In the security level configuration window, under the various permission tabs.
-
-**What you'll see:** Dropdown menus for each permission category.
-
----
-
-Then, select the following specific permissions:
-
-**CRM** - Customers & Contact Access \> Customer and Cancelation \> All
-
-**CRM** - Object Permissions \> Contacts \> Add \> Yes
-
-**SERVICE DESK** - Object Permissions \> Tickets \> View \> All
-
-**SERVICE DESK** - Object Permissions \> Tickets \> Edit \> Yes
-
-**ADMIN** - Feature Access \> Your Organization
-
-**ADMIN** - Feature Access \> Resources/Users (HR)
-
-**ADMIN** - Feature Access \> Customers & Contacts
-
-**ADMIN** - Feature Access \> Service Desk (Tickets)
-
-**Other** - Miscellaneous \> Not required to change password (password does not expire)
-
-**Other** - Webhooks \> Can create Webhooks and Maximum Number of Webhooks 50
-
-**WEB SERVICES API** - Feature Access \> Can login to Web Services API
-
-**Where to find it:** In the security level configuration window, navigate through each permission tab (CRM, SERVICE DESK, ADMIN, Other, WEB SERVICES API).
-
-**What you'll see:** Permission dropdowns and checkboxes for each category.
-
----
-
-Click **Save and Close** at the top of the window.
-
-**Where to find it:** At the top of the security level configuration window.
-
-**What you'll see:** The security level is saved and the window closes.
-
----
-
-### Step 3: Create a new API user for Telivy
-
-Navigate to **Admin → Company Settings & Users** in Autotask PSA, then click on **Resources/Users (HR)** to open the list of users and resources.
-
-**Where to find it:** In the Autotask PSA main navigation menu, under the Admin section.
-
-**What you'll see:** A list of all users and resources in your Autotask instance.
-
----
-
-Select **New API User** from the New button dropdown at the top.
-
-**Where to find it:** At the top of the Resources/Users (HR) list, click the New button dropdown.
-
-**What you'll see:** A dropdown menu with options including "New API User".
-
----
-
-On the 'Add API user' page, fill in the required fields. Make sure you **select the Security Level** you created in Step 2 (Telivy API Integration).
-
-**Where to find it:** In the Add API user form.
-
-**What you'll see:** Fields for username, security level dropdown, and other user details.
-
----
-
-Click **Generate** to create the **Key** and **Secret** for the user.
-
-**Where to find it:** In the Add API user form, in the API credentials section.
-
-**What you'll see:** Buttons to generate Key and Secret, and fields that populate with the generated values.
-
----
-
-**IMPORTANT:** Copy both the **username and password** (Key and Secret) as they will be used for setting up the integration within Telivy.
-
-**Where to find it:** In the Add API user form, after generating the credentials.
-
-**What you'll see:** The generated Key and Secret values displayed in the form.
-
----
-
-Select **Telivy - Security/Risk Monitoring** as the vendor in the API tracking identifier section.
-
-**Where to find it:** In the Add API user form, in the API tracking identifier section.
-
-**What you'll see:** A dropdown menu with available vendors.
-
----
-
-Click **Save & Close**.
-
-**Where to find it:** At the top of the Add API user form.
-
-**What you'll see:** The API user is created and the window closes.
-
----
-
-### Step 4: Configure the Autotask PSA Integration in Telivy
-
-Open the **Account** section to access account-related settings.
-
-**Where to find it:** In the Telivy navigation menu.
-
-**What you'll see:** Account settings and configuration options.
-
----
-
-Navigate to **Integrations** to view and manage third-party integrations for your account.
-
-**Where to find it:** In the Account section or main navigation menu.
-
-**What you'll see:** A list of available integrations.
-
----
-
-Under **PSA Integrations**, choose **Autotask** in the **Platform** picker and turn on its **Enable** switch.
-
-**Where to find it:** In the Integrations page, in the PSA Integrations section.
-
-**What you'll see:** The Autotask dialog opens on its **1. Connect** tab. Only one PSA can be connected at a time: if ConnectWise or HaloPSA is connected, the switch is disabled and Telivy tells you which PSA to disable first.
-
----
-
-Enter your Autotask username (API Key) to begin the integration setup.
-
-**Where to find it:** In the Autotask integration configuration window, in the credentials section.
-
-**What you'll see:** A field labeled **Username** where you enter the Key generated in Step 3.
-
----
-
-Enter your Autotask password (API Secret) to connect your account.
-
-**Where to find it:** In the Autotask integration configuration window, in the credentials section.
-
-**What you'll see:** A field labeled **Secret** where you enter the Secret generated in Step 3.
-
----
-
-Click **Connect & Enable** to authenticate and activate the Autotask integration. You can click **Test Connection** first to check the credentials without saving them.
-
-**Where to find it:** At the bottom of the **1. Connect** tab.
-
-**What you'll see:** Once the connection succeeds, the dialog moves to the **2. Settings** tab, where you choose the ticket defaults below. The Settings tab is unavailable until Autotask is connected.
-
----
-
-Choose a default **Queue** for new tickets to control where synchronized tickets are routed.
-
-**Where to find it:** In the Autotask integration configuration window, after successful connection.
-
-**What you'll see:** A dropdown menu with available Autotask queues.
-
----
-
-Select the **Client Portal** queue to categorize new tickets appropriately in Autotask.
-
-**Where to find it:** In the Queue dropdown menu.
-
-**What you'll see:** A list of available queues from your Autotask instance.
-
----
-
-Set a default **Priority** for synchronized tickets to help manage urgency.
-
-**Where to find it:** In the Autotask integration configuration window, in the ticket settings section.
-
-**What you'll see:** A dropdown menu with priority options.
-
----
-
-Choose a default priority to ensure tickets are marked accordingly in Autotask. **Note:** Tickets will also auto-assign status based on issue severity.
-
-**Where to find it:** In the Priority dropdown menu.
-
-**What you'll see:** Priority options such as Low, Medium, High, Critical.
-
----
-
-Select a default **Status** for new tickets to define the initial ticket workflow state.
-
-**Where to find it:** In the Autotask integration configuration window, in the ticket settings section.
-
-**What you'll see:** A dropdown menu with status options.
-
----
-
-Set the ticket status to **New** so tickets enter Autotask as fresh items.
-
-**Where to find it:** In the Status dropdown menu.
-
-**What you'll see:** Status options from your Autotask workflow.
-
----
-
-Map the **Open** status to match how open tasks should be reflected in Autotask.
-
-**Where to find it:** In the Autotask integration configuration window, in the status mapping section.
-
-**What you'll see:** Status mapping fields for different task states.
-
----
-
-Select **New** for the Open status to synchronize open tickets with your system's workflow.
-
-**Where to find it:** In the Open status mapping dropdown.
-
-**What you'll see:** Available Autotask statuses to map to.
-
----
-
-Map the **In Progress** status to ensure tasks update correctly during synchronization.
-
-**Where to find it:** In the Autotask integration configuration window, in the status mapping section.
-
-**What you'll see:** Status mapping fields for different task states.
-
----
-
-Choose **In Progress** as the status for tasks currently being worked on.
-
-**Where to find it:** In the In Progress status mapping dropdown.
-
-**What you'll see:** Available Autotask statuses to map to.
-
----
-
-Open the dropdown to select a status mapping for tasks marked as **Resolved**.
-
-**Where to find it:** In the Autotask integration configuration window, in the status mapping section.
-
-**What you'll see:** Status mapping fields for different task states.
-
----
-
-Select a status mapping for tasks marked as **Resolved** to reflect ticket resolution in Autotask.
-
-**Where to find it:** In the Autotask integration configuration window, in the status mapping section, open the Resolved status dropdown.
-
-**What you'll see:** Available Autotask statuses to map to.
-
----
-
-Set the ticket status to **Complete** for tickets that have been resolved.
-
-**Where to find it:** In the Resolved status mapping dropdown.
-
-**What you'll see:** The status mapping is set to Complete.
-
----
-
-Open the dropdown to select a status mapping for tasks marked as **Complete**.
-
-**Where to find it:** In the Autotask integration configuration window, in the status mapping section, locate the Complete status mapping field.
-
-**What you'll see:** A dropdown menu with available Autotask statuses.
-
----
-
-Choose **Complete** to mark and map all finished tasks accurately.
-
-**Where to find it:** In the Complete status mapping dropdown.
-
-**What you'll see:** The Complete status mapping is set to Complete.
-
----
-
-Click **Save** to apply all integration and status mapping changes. To change them later, click **Configure** on the Autotask card, which opens the dialog on **2. Settings**.
-
-**Where to find it:** At the bottom of the **2. Settings** tab.
-
-**What you'll see:** A button to save all configuration settings.
-
----
-
-### Step 5: Sync Company/Assessment & Tasks with Autotask PSA to Create Tickets
-
-Navigate to the **Assessments** section to review available clients for mapping.
-
-**Where to find it:** In the Telivy main navigation menu.
-
-**What you'll see:** A list of client assessments.
-
----
-
-Select a client to view their assessment details and ready them for mapping.
-
-**Where to find it:** In the Assessments list.
-
-**What you'll see:** Client assessment cards or a list of clients with their assessment status.
-
----
-
-Go to the **Tasks** section to manage or synchronize security-related tasks.
-
-**Where to find it:** Within the selected client's assessment view, or in the main navigation.
-
-**What you'll see:** A list of security and compliance tasks for the selected client.
-
----
-
-Click **Map Company** to begin linking the client with an Autotask account.
-
-**Where to find it:** In the client assessment or tasks view, typically in a header or action area.
-
-**What you'll see:** A button or link to initiate company mapping.
-
----
-
-Search for the appropriate **Autotask account** (type at least two characters), pick it, then select **Map account** to continue. You can also map from **Companies** by choosing **Map to PSA** in a company's actions menu.
-
-**Where to find it:** In the **Map to an Autotask account** dialog.
-
-**What you'll see:** A list of Autotask accounts to choose from, and a **Map account** button to confirm the selection. An Autotask account can be mapped to one Telivy company at a time.
-
----
-
-Select a specific issue, such as **DMARC Critical Problems**, to view its task details.
-
-**Where to find it:** In the Tasks list for the mapped client.
-
-**What you'll see:** A list of security and compliance tasks with their status and details.
-
----
-
-Click **Sync Now** to manually synchronize task information with Autotask.
-
-**Where to find it:** In the Task Details dialog or task action menu.
-
-**What you'll see:** A button to trigger immediate synchronization with Autotask.
-
----
-
-Close the Task Details dialog to return to the task list after reviewing sync results.
-
-**Where to find it:** In the Task Details dialog, typically an X button or Close button.
-
-**What you'll see:** The dialog closes and you return to the tasks list.
-
----
-
-Sync your remaining tasks by repeating the same steps.
-
-**Where to find it:** In the Tasks list, select any additional tasks you want to sync.
-
-**What you'll see:** Additional tasks that can be synchronized using the same Sync Now process.
-
----
-
-## Expected Result
-
-After completing all steps, your Telivy account is connected to Autotask PSA, and security and compliance tasks from Telivy assessments will automatically synchronize as tickets in your Autotask service desk. Companies and assessments are mapped between systems, allowing you to track remediation work directly in Autotask.
-
-**You'll know it worked when:**
-
-- The Autotask integration shows as enabled in Telivy with a checkmark or active status
-- You can successfully map Telivy clients to Autotask accounts
-- Tasks from Telivy assessments appear as tickets in your Autotask queue
-- Task status changes in Telivy update the corresponding tickets in Autotask
-- The integration configuration is saved and persists across sessions
-
----
-
-## Common Tasks
-
-### Viewing Synchronized Tickets
-
-- Navigate to Autotask PSA → Service Desk to view tickets created from Telivy tasks
-- Tickets will appear in the queue and priority you configured during setup
-
-### Manually Syncing Tasks
-
-- Open any task in Telivy and click **Sync Now** to immediately create or update the corresponding Autotask ticket
-- Use this for urgent issues that need immediate ticket creation
-
-### Updating Status Mappings
-
-- Return to Account → Integrations → Autotask to modify status mappings if your Autotask workflow changes
-- Changes take effect for new synchronizations
-
----
+- **Account → Integrations** shows Autotask as **Connected**.
+- The **PSA** column on **Companies** shows the Autotask account name.
+- New tickets appear in your chosen queue with titles starting with `[Telivy]`.
+- Within an hour of a technician completing one of those tickets, the finding shows **Resolved in PSA** in Telivy.
 
 ## Troubleshooting
 
-### Issue: Integration connection fails with authentication error
-
-**Solution:**
-
-- Verify the API Key and Secret were copied correctly from Autotask (no extra spaces)
-- Ensure the API user in Autotask has the correct security level with Web Services API access enabled
-- Check that the API user account is active in Autotask
-
-### Issue: Tasks are not creating tickets in Autotask
-
-**Solution:**
-
-- Verify the company/assessment is mapped to an Autotask account (Step 5)
-- Check that the default queue, priority, and status settings are valid in your Autotask instance
-- Ensure the API user has permissions to create tickets in the selected queue
-- Try manually syncing a task using the "Sync Now" button to test the connection
-
-### Issue: Status mappings are not updating tickets correctly
-
-**Solution:**
-
-- Review your Autotask workflow to ensure the mapped statuses (New, In Progress, Complete) exist
-- Update the status mappings in Telivy integration settings to match your Autotask workflow
-- Verify the API user has edit permissions for tickets
-
----
-
-## Additional Information
-
-- **Webhook Requirements:** The integration requires permission to create webhooks in Autotask. This is included in the security level configuration in Step 2.
-- **Status Synchronization:** Task status changes in Telivy will update the corresponding Autotask ticket status based on your configured mappings.
-- **Auto-Assignment:** Tickets will automatically assign status based on issue severity in addition to your default status setting.
-- **Status Mappings:** You can map both Resolved and Complete task statuses to different Autotask statuses to match your workflow.
-- **Multiple Assessments:** Each client assessment can be mapped to a different Autotask account if needed.
-- **Manual Sync:** Use the "Sync Now" button for immediate synchronization; otherwise, tasks sync automatically based on status changes.
-
-**Related Feature:** For information on managing assessments and tasks in Telivy, see the Telivy user documentation.
-
----
+<AccordionGroup>
+  <Accordion title="Test Connection fails with an authentication error">
+    Check that the key and secret were copied without extra spaces, that the API user is active, and that its security level includes **Can login to Web Services API**.
+  </Accordion>
+  <Accordion title="The Autotask switch is greyed out">
+    Another PSA is connected. Disable it under **Account → Integrations** first. Its settings and mappings are kept.
+  </Accordion>
+  <Accordion title="Findings are not creating tickets">
+    Check that the company is mapped, that **Sync findings to PSA** is on for the assessment, and that the finding's category has PSA sync turned on in **Alerts → Policies**. If Autotask rejects a ticket, hover the finding's dot in the **PSA** column to see the reason, then check the queue, status and other defaults on the **2. Settings** tab.
+  </Accordion>
+  <Accordion title="Completed tickets are not resolving findings in Telivy">
+    Telivy checks once an hour. A ticket counts as resolved when Autotask records a completed date for it, or when its status name means closed. Statuses named as waiting, pending or on hold are not read back, even if they also contain a word like Complete.
+  </Accordion>
+</AccordionGroup>

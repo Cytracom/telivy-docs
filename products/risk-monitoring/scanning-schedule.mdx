@@ -1,6 +1,7 @@
 ---
-title: "Scanning Schedule"
-description: "What Telivy checks, how often each check runs, and why a client's findings can change even when you have not asked for a rescan."
+title: "Scanning Schedule: How Often Telivy Scans"
+sidebarTitle: "Scanning Schedule"
+description: "How often Telivy scans endpoints, external assets, dark web, Microsoft 365 and Google Workspace, and why findings change between scheduled rescans."
 ---
 
 Telivy does not run one big scan on one timer. It runs four different kinds of checking, and each one has its own rhythm.
@@ -45,7 +46,7 @@ They also recover on their own. If a scan is interrupted, it gets picked up and 
 
 The Telivy Agent runs quietly in the background on every device where it is installed, on both Windows and Mac. It wakes up roughly once an hour.
 
-Waking up hourly is not the same as scanning hourly, and this trips people up more than anything else on this page.
+Waking up hourly is not the same as scanning hourly.
 
 On each hourly wake-up, the agent:
 
@@ -80,7 +81,7 @@ On each hourly wake-up, the agent:
 
 "On rescan" means the check runs when the agent is first installed, then again the next time a rescan happens, either because you asked for one or because the client's monitoring schedule came round.
 
-That is a deliberate choice. A full endpoint scan is heavy, and a laptop's installed software rarely changes hour to hour. Disk encryption is the exception because it can be switched off in a moment and it matters immediately, particularly for insurance and compliance evidence.
+A full endpoint scan is heavy, and a laptop's installed software rarely changes hour to hour. Disk encryption is the exception because it can be switched off in a moment and it matters immediately, particularly for insurance and compliance evidence.
 
 <Warning>
   A device that is switched off, asleep, or away from the network when a rescan is triggered simply collects the instruction the next time it comes online. Nothing is lost. That one device's data just arrives later than the rest.
@@ -116,13 +117,11 @@ For Microsoft 365, sign-in and audit activity can also be collected every hour w
 
 Telivy also checks every few hours that the connection itself is still healthy. Cloud connections expire or get revoked, usually when someone changes an admin password or adjusts consent. When that happens the assessment flags it so you can reconnect, instead of quietly collecting nothing.
 
-Daily cloud scanning applies to clients with Risk Monitoring switched on, and you can turn it off per client separately from endpoint scanning. Keeping daily Microsoft 365 coverage while endpoints rescan monthly is a perfectly normal setup.
+Daily cloud scanning applies to clients with Risk Monitoring switched on. You can turn it off per client, separately from endpoint scanning, in the **M365 monitoring** and **Workspace monitoring** columns under **Account → Usage**. Keeping daily Microsoft 365 coverage while endpoints rescan monthly is a common setup.
 
 See [Microsoft 365 Security](/products/risk-assessments/microsoft-365-security) and [Google Workspace Security](/products/risk-assessments/google-workspace-security) for what is assessed.
 
 ## Against threat data: why findings appear on their own
-
-This is the part that surprises people most, so it is worth saying plainly.
 
 New findings can appear without any device being scanned again.
 
@@ -136,11 +135,10 @@ This also works in the other direction. A finding's severity can rise or fall as
 
 ## What you actually control
 
-Per client, from the assessment's scan settings, you choose:
+For each client you choose:
 
-- how often endpoints are fully rescanned: weekly, monthly, quarterly, or off
-- whether Microsoft 365 monitoring is on
-- whether Google Workspace monitoring is on
+- how often endpoints are fully rescanned (weekly, monthly, quarterly, or off), under **More → Scan Settings** on the assessment
+- whether Microsoft 365 and Google Workspace are monitored daily, with the **M365 monitoring** and **Workspace monitoring** switches under **Account → Usage**
 
 Everything else runs on the shared schedule described above and is the same for every partner.
 

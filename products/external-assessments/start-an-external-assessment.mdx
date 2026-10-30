@@ -1,29 +1,35 @@
 ---
-title: Start an External Assessment
-description: 'Create a domain-only scan that finishes in about ten minutes'
+title: Start an External Assessment (External Scan)
+sidebarTitle: Start an External Assessment
+description: 'Create a Telivy External Scan from a domain in under a minute, with nothing to install, and get dark web, network, DNS, and website findings in ten minutes.'
 ---
 
-An External Assessment looks at a company from the public internet and nowhere else.
-Nothing gets installed, so there's nothing for the prospect to deploy or approve. Setup
-takes under a minute and the scan is usually done in ten.
+An External Assessment, shown in the portal as an **External Scan**, looks at a company from
+the public internet only. Nothing gets installed, so the prospect has nothing to deploy or
+approve. Setup takes under a minute and the scan usually finishes in about ten.
 
-It covers dark web exposure, external network vulnerabilities, DNS evaluation, and website
-vulnerability checks.
+It covers the dark web monitor, an external network vulnerability scan, DNS evaluation, and
+a website vulnerability check.
+
+## Create the scan
 
 <Steps>
   <Step title="Open the assessment picker">
-    Click **Create Assessment** in the top right corner of the portal, then choose
-    **External Scan**.
+    Click **Create Assessment** in the top right corner of the portal. A card for each
+    assessment type opens.
+  </Step>
+  <Step title="Select External Scan">
+    On the **External Scan** card, click **Select**.
   </Step>
   <Step title="Enter the company details">
-    Fill in **Company Name** and **Domain**, and set **Company Status** to record whether
-    this is a prospect or an existing client.
+    Fill in **Company Name** and **Domain**, and set **Company Status** to **Prospect** or
+    **Client**. You can also pick the company's **Industries**.
 
-    Tick **Notify me via email when external scan completes** if you'd rather not sit on
-    the assessment page waiting.
+    Tick **Notify me via email when external scan completes** if you don't want to wait on
+    the assessment page.
   </Step>
   <Step title="Create the assessment">
-    Click **Create**. The scan starts immediately and findings appear as they land.
+    Click **Create**. The scan starts right away and findings appear as they come in.
   </Step>
 </Steps>
 
@@ -31,6 +37,25 @@ vulnerability checks.
   Scanning many prospects at once? Upload a CSV instead of creating them one by one. See
   [Create and Export in Bulk](/products/external-assessments/unsecured-emails/create-and-export-in-bulk).
 </Note>
+
+## What the assessment cards tell you
+
+Each card shows its setup time, typical scan duration, and what it includes. Above the
+**Select** button, it also says whether your plan covers it:
+
+| Card says | Meaning |
+| --- | --- |
+| Included in your plan | You can create this assessment type now |
+| Requires Assess | Your agency is billed through Unity and needs the Assess subscription for this type. A Unity admin sees **Unlock with Assess** to buy it in the portal, and other users are asked to contact their agency admin |
+| Not included in your plan | Your plan doesn't cover this type. Use **Contact support to upgrade** |
+| Available through Unity | Your agency has Cytracom Foundations coverage, and this type is added in Unity. Admins get **Manage in Unity** |
+
+A card your plan doesn't cover has a dashed border and a greyed-out title, so it doesn't
+look like an equal choice.
+
+Unity agencies also see a third card, **Monitored Risk Assessment**, for a Risk Assessment
+that goes straight onto recurring scans. It is billed per client, and you choose the plan in
+the next step. For Foundations partners it says **Included with Foundations coverage**.
 
 ## Next steps
 
@@ -40,7 +65,7 @@ vulnerability checks.
     icon="plus"
     href="/products/external-assessments/add-domains-and-ips"
   >
-    Scan additional domains, subdomains, and addresses
+    Scan more domains, subdomains, and IP addresses
   </Card>
   <Card
     title="What the scan reports"

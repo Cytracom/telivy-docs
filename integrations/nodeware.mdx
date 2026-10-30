@@ -1,21 +1,27 @@
 ---
-title: "Nodeware"
-description: "Steps for common integrations"
+title: "Nodeware Integration"
+sidebarTitle: "Nodeware"
+description: "Connect Nodeware to Telivy with your Nodeware API key and customer ID to pull network vulnerability data into a client's Risk Assessment."
 ---
 
-1. Go to Account \> Integrations and enable Nodeware
+Connecting Nodeware brings a client's Nodeware network scan data into their Telivy Risk Assessment. You add your Nodeware API key once for the agency, then link each assessment to the matching Nodeware customer.
 
-   ![Enable Nodeware under Accounts > Integrations](/images/nodeware/nodeware-1.png)
-2. Enter the Nodeware API key and save
+## Connect Nodeware
 
-   ![Enter the Nodeware API key and save](/images/nodeware/nodeware-2.png)
-3. Open the client in Nodeware and click on Manage Customer
+1. In Telivy, go to **Account → Integrations** and enable Nodeware.
 
-   ![Open the client in Nodeware and click Manage Customer](/images/nodeware/nodeware-3.png)
-4. Copy the Customer ID shown in the sidebar
+   ![Nodeware enabled under Account > Integrations in Telivy](/images/nodeware/nodeware-1.png)
+2. Enter your Nodeware API key and save.
 
-   ![Copy the Customer ID from the sidebar](/images/nodeware/nodeware-4.png)
-5. On the Risk Assessment for the same client, enable Nodeware by visiting Setup \> Optional Steps \> Connect Nodeware and adding the customer ID.
+   ![Nodeware API key field and Save button in Telivy](/images/nodeware/nodeware-2.png)
+3. In Nodeware, open the client and click **Manage Customer**.
 
-   ![Connect Nodeware and add the Customer ID under Setup > Optional Steps](/images/nodeware/nodeware-5.png)
-6. Once done, we will start fetching data, and it should show up under Security \> Network in 24 hours.
+   ![Nodeware client page with the Manage Customer button](/images/nodeware/nodeware-3.png)
+4. Copy the **Customer ID** shown in the sidebar.
+
+   ![Nodeware sidebar showing the Customer ID to copy](/images/nodeware/nodeware-4.png)
+5. In Telivy, open the same client's Risk Assessment, go to **Setup → Optional Steps → Connect Nodeware**, and add the customer ID.
+
+   ![Connect Nodeware step under Setup > Optional Steps with the Customer ID field](/images/nodeware/nodeware-5.png)
+
+Telivy starts fetching Nodeware data after you save. It shows up under **Security → Network** within 24 hours.
