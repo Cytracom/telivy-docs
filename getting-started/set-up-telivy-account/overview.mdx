@@ -1,75 +1,123 @@
 ---
-title: "Overview"
-description: "Branding, Admin Actions, Managing Your Team and More"
+title: "Telivy Account Settings Overview"
+sidebarTitle: "Overview"
+description: "Set up your Telivy account: branding, users and permissions, sharing and reassigning assessments, sub-agencies, assessment defaults, and integrations."
 ---
 
-The Account tab is where you manage your Telivy settings. This page explains what each section does.
+The **Account** area holds your agency's Telivy settings, and only account admins can open
+it. The sections below follow the order of the side menu.
 
-Note: Currently the Account tab is only visible to account admins.
+| Section | What it is for |
+| --- | --- |
+| Profile | Your details, the agency name and logo, and a usage snapshot |
+| Users | Inviting teammates and setting what they can see |
+| Assessment Defaults | Default PII capture settings and the agent update channel for new assessments |
+| Lead Magnet | Your lead magnet link, for Lead Magnet subscribers |
+| Integrations | PSA, Nodeware, and other connections |
+| Unity | Unity-linked agencies only. See [Billing, Usage, and Early Access](/getting-started/set-up-telivy-account/billing-usage-and-early-access#unity) |
+| Webhooks | Sending Telivy events to your own systems. See [Webhooks](/integrations/webhooks) |
+| Early Access, Billing, Usage | See [Billing, Usage, and Early Access](/getting-started/set-up-telivy-account/billing-usage-and-early-access) |
 
-## Home: Branding And Overview
+## Profile: branding and usage
 
 <AccordionGroup>
-  <Accordion title="Customize Your Identity">
-    Upload your logo to brand those white-labeled reports you send out. Or, if you're an MSP, display your company name.
+  <Accordion title="Agency name and logo">
+    Upload your logo so white-labeled reports carry your brand instead of Telivy's. Agencies
+    managed through Unity get their name and logo from Unity, so they can't change them here.
   </Accordion>
-  <Accordion title="Keep Tabs On Your Assets">
-    Get a quick snapshot of the number of devices and systems currently covered by your Telivy account.
+  <Accordion title="Usage snapshot">
+    The **Usage** card shows how many users, Risk Assessments, Risk Assessment assets,
+    monitored assessments, and monitored assets your account has.
 
-    ![Account overview showing covered devices and systems](/images/keep-tabs-on-your-assets.jpg)
+    ![Usage card on Account > Profile with users, assessments and monitored asset counts](/images/keep-tabs-on-your-assets.jpg)
   </Accordion>
 </AccordionGroup>
 
-## Users: Manage Your Team (Admins Only)
+## Users: managing your team
 
 <AccordionGroup>
-  <Accordion title="Access Control Made Simple">
-    View a list of your organization's users and their permission levels. Two options are available:
+  <Accordion title="Permission levels">
+    The **Users** page lists everyone in your organization with their permission level.
+    There are two:
 
-    - **All Assessments**: Users can access every assessment conducted within your organization. This will make them an "Account Admin"
-    - **Own Assessments (+ Shared)**: Users can access assessments they personally created **and** any assessments that have been explicitly shared with them by an admin or the original creator. See "Sharing Assessments With Teammates" below for details.
+    - **All Assessments**: the user can open every assessment in your organization. This
+      makes them an Account Admin.
+    - **Own Assessments**: the user can open assessments they created, plus any that an
+      admin or the owner has shared with them. See "Sharing an assessment with a teammate"
+      below.
 
-    ![Users list showing permission levels](/images/access-control-made-simple.jpg)
+    ![Team Members list with each user's role, risk assessments and assets](/images/access-control-made-simple.jpg)
   </Accordion>
-  <Accordion title="Expand Your Team">
-    Invite new users to join your organization and choose the appropriate permission level for each.
+  <Accordion title="Adding a user">
+    Click **Add User**, enter their details, and choose a permission level.
 
-    ![Invite new users and set their permission level](/images/expand-your-team.png)
+    ![Add User dialog with name, email, password and the Own Assessments or All Assessments role](/images/expand-your-team.png)
   </Accordion>
-  <Accordion title="Sharing Assessments With Teammates">
-    Need a teammate to help on a specific assessment without granting them access to every assessment in your agency? Open the assessment and use **Manage Access** to add additional users.
+  <Accordion title="Sharing an assessment with a teammate">
+    To let a teammate help on one assessment without giving them access to every
+    assessment, open the assessment, click **More**, and choose **Manage Access**.
 
-    **Who can manage access?**
-    - The assessment **owner** (the user who originally created it, or whoever the assessment was reassigned to)
+    These people can manage access to an assessment:
+    - The assessment **owner** (whoever created it, or whoever it was reassigned to)
     - **Account Admins** in the same account
     - **Telivy Admins**
 
-    **What shared users can do:** Shared users have the same edit and view permissions as the owner on that single assessment: they can rescan, view reports, archive, convert, and receive the same hourly alert emails. They cannot, however, add or remove other shared users, or transfer ownership.
+    A shared user has the same view and edit rights as the owner on that one assessment.
+    They can rescan, view reports, archive, convert, and receive the same hourly alert
+    emails. They can't add or remove other shared users, reassign the assessment, or see any
+    assessment they weren't added to.
 
-    **What shared users cannot do:** Manage the sharing list, reassign the assessment to someone else, or see other assessments they were not added to.
+    Removing a shared user takes away their access immediately. The assessment keeps an
+    audit record of who was shared, who removed them, and when.
 
-    **Removing access:** Removing a shared user is non-destructive. The assessment retains an audit record (who was shared, who removed them, when), even though the user immediately loses access.
-
-    **Note on Unity:** Your Unity role (Telivy User / Telivy Admin) still controls whether you're an Account Admin in Telivy. Sharing a single assessment with a Telivy User does **not** change their Unity role or give them access to any other assessment.
+    If you use Unity, your Unity role (Telivy User or Telivy Admin) still decides whether
+    you are an Account Admin in Telivy. Sharing one assessment with a Telivy User doesn't
+    change their Unity role or give them access to anything else.
   </Accordion>
-  <Accordion title="Reassigning / Archiving Assessments">
-    Reassigning is different from sharing:
+  <Accordion title="Reassigning and archiving assessments">
+    Reassigning and sharing do different things:
 
-    - **Reassign** transfers full ownership of an assessment from one user to another. The previous owner loses access (unless they were also added as a shared user). Use this when a team member leaves or hands off a client permanently.
-    - **Share** adds a teammate to an assessment without removing anyone. Use this for short-term collaboration or backup coverage.
+    - **Reassign** hands full ownership of an assessment to another user. The previous
+      owner loses access unless they were also added as a shared user. Use it when someone
+      leaves or a client moves to a different account manager for good.
+    - **Share** adds a teammate without removing anyone. Use it for short-term help or
+      cover.
 
-    Bulk re-assign assessments using the check boxes in the Telivy dashboard. Or you can archive those assessments.
+    To reassign, tick the assessments on the Assessments list and click **Reassign**. The
+    button shows how many you selected. In **Confirm reassigning assessments user**, choose
+    the new owner under **Assign assessments to** and click **Confirm**. Only admins can
+    reassign. The **Archive** button next to it archives the selected assessments instead.
 
     ![Bulk reassign or archive assessments from the dashboard](/images/reassigning-archiving-assessments.png)
   </Accordion>
+  <Accordion title="Reassigning assessments to a sub-agency">
+    If your agency is a master agency with sub-agencies, the reassign dialog asks for an
+    **Agency** first and then lists the users in that agency. Your own agency is at the top
+    and sub-agencies follow in alphabetical order. With eight or more sub-agencies, a
+    **Search agencies** box appears at the top of the list.
+
+    When an assessment moves to a user in another agency, Telivy files it under a matching
+    company in that agency and creates the company there if needed. Account Admins can
+    reassign to users in their own agency and its sub-agencies.
+  </Accordion>
 </AccordionGroup>
+
+## Assessment Defaults
+
+**Assessment Defaults** sets what new assessments start with:
+
+- **PII Capture**: the default sensitive-data settings for new Risk Assessments. See
+  [Data Security](/products/risk-assessments/data-security).
+- **Agent Updates**: which release channel the Telivy agent follows. See
+  [Auto Update](/products/risk-assessments/auto-update).
 
 ## Lead Magnet
 
-This is for Lead Magnet subscribers only.
+This section is only for Lead Magnet subscribers.
 
-<Accordion title="Attract New Clients">
-  If you have the Lead Magnet subscription, this page provides step-by-step instructions on using your lead magnet link to generate leads.
+<Accordion title="Using your lead magnet link">
+  The **Lead Magnet** page explains, step by step, how to use your lead magnet link to
+  collect leads from your website.
 
-  ![Lead Magnet page for generating new client leads](/images/attract-new-clients.jpg)
+  ![Lead Magnet settings with the Easy-Go form link, API endpoint, agent ID and payload](/images/attract-new-clients.jpg)
 </Accordion>

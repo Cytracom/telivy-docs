@@ -1,29 +1,30 @@
 ---
-title: "Configure with Custom Form"
-description: "For a more customized implementation"
+title: "Lead Magnet Setup with a Custom Form"
+sidebarTitle: "Configure with Custom Form"
+description: "Send prospect details from your own website form to the Telivy Lead Magnet API with a JavaScript POST request, including validation rules and a full example."
 ---
 
-Here's a detailed guide on making a POST call in JavaScript to submit form input to the Telivy backend when a submit button is clicked on your own form:
+To host the Lead Magnet form on your own website in your own design, build the form yourself and send its data to Telivy with a POST request. The endpoint and your Agent ID are on the **API POST Call** card under **Account → Lead Magnet**.
 
 <Steps>
-  <Step title="Set Up The HTML Form">
+  <Step title="Set up the HTML form">
     Create a form with the method attribute set to POST and a submit button.
   </Step>
-  <Step title="Attach A JavaScript Event Listener">
-    Use _addEventListener_ to listen for the submit event on the form.
+  <Step title="Listen for the submit event">
+    Use `addEventListener` to handle the form's submit event.
   </Step>
-  <Step title="Gather Form Data">
-    Use FormData to construct a data object from the form's input fields. Add the agentId or UTM Source fields to the form data if necessary.
+  <Step title="Collect and check the form data">
+    Build a data object from the form fields with `FormData`, then add your `agentId` and, if you track campaigns, a `utmSource`.
 
     <Warning>
-      Before you proceed any further, please make sure that the following validations to the data are passed:
+      Check these before sending, or the submission will be rejected:
     </Warning>
     <Tabs>
-      <Tab title="Email is Valid">
-        Ensure the email has an "@."
+      <Tab title="Valid email">
+        The email must be a valid address, with an `@` and a domain.
       </Tab>
-      <Tab title="Domain is Valid">
-        Ensure the domain is valid. The following examples are valid domains:
+      <Tab title="Valid domain">
+        The domain must be a valid website address. All of these are accepted:
 
         ```
         https://www.cleansolar.com
@@ -41,10 +42,8 @@ Here's a detailed guide on making a POST call in JavaScript to submit form input
       </Tab>
     </Tabs>
   </Step>
-  <Step title="Send The POST Request">
-    Use the fetch API to send the POST request.
-
-    Here's the full example:
+  <Step title="Send the POST request">
+    Send the data as JSON with `fetch`. A complete example:
 
     ```html file.html
     <form id="myForm" method="POST">

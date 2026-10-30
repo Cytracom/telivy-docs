@@ -1,31 +1,46 @@
 ---
-title: Overview
-description: 'Scan For External Threats'
+title: External Assessments Overview
+sidebarTitle: Overview
+description: 'What a Telivy external security scan checks on a public attack surface: exposed services, known CVEs, open ports, email encryption, and certificates.'
 ---
 
-## Telivy External Scans
+## What an external scan is
 
-An external security scan is a test of your organization's public-facing systems and networks for security vulnerabilities. Imagine that your organization is a castle. An external security scan is like walking around the outside of the castle and looking for any weak points, such as unlocked doors, broken windows, or hidden tunnels. By identifying and fixing these weak points, you can make it more difficult for attackers to break into your castle.
+An external scan tests a company's public-facing systems for vulnerabilities and
+misconfigurations from the outside, the way an attacker would see them. It needs no agent
+and no access to the client's network: Telivy only looks at what anyone on the internet can
+reach.
 
-It is performed from the outside, simulating the perspective of an attacker. External security scans can identify a wide range of vulnerabilities and misconfigurations. Below is a summary of different areas of the assessment:
+To run one, see [Start an External Assessment](/products/external-assessments/start-an-external-assessment).
+The scan reports its findings in these sections:
 
 <Tabs>
   <Tab title="External Vulnerabilities">
-    In this section we scan the publicly accessible services like your websites, external IPs or endpoints that can be accessed via the public internet. Telivy parses your DNS and uses a network mapper to scan these endpoints to infer the existing vulnerabilities.
+    Telivy reads the company's DNS records to find its websites, external IP addresses, and
+    other endpoints reachable from the internet, then scans them with a network mapper to
+    identify the services running and their known vulnerabilities.
 
-    The platform then classifies these vulnerabilities as Low, Medium, or High Severity. Note that these classifications are based on the NVD database maintained by the federal government.
+    Each vulnerability is rated Low, Medium, High, or Critical severity, based on its record in the
+    National Vulnerability Database (NVD) run by the US government.
 
-    <img alt="External vulnerability findings labelled Low, Medium, and High severity" src="/images/external-vulnerabilities.jpg" />
-
-     </Tab>
+    <img alt="External Vulnerabilities findings grouped by Low, Medium, High and Critical severity" src="/images/external-vulnerabilities.jpg" />
+  </Tab>
 
   <Tab title="Network Security">
-    In this section we scan for weaknesses/vulnerabilities in the network itself. Here are some checks we perform for External Network Security.
-    
-    1. **Email Without SSL/TLS**: This check scans for insecure email configuration. You can learn more about it in [this](/products/external-assessments/unsecured-emails) article.
-    2. **Open Ports**: This check scans for open ports and categorizes them as Low, Medium and High Severity. Learn more in [this](/products/external-assessments/close-open-ports) article.
-    3. **Certificate Checks**: These checks scan for healthy certificates on your website. Learn more in [this](/products/external-assessments/unsecured-emails/ssl-tls-certificates) article.
+    These checks look for weaknesses in how the network is exposed:
+
+    1. **Email Without SSL/TLS** finds mail services that accept unencrypted connections.
+       See [Unsecured Emails](/products/external-assessments/unsecured-emails/overview).
+    2. **Open Ports** finds open ports and rates each one Low, Medium, or High severity.
+       See [Close Open Ports](/products/external-assessments/close-open-ports).
+    3. **Certificate checks** look for expired, self-signed, or weak certificates on the
+       company's websites. See [SSL/TLS Certificates](/products/external-assessments/unsecured-emails/ssl-tls-certificates).
 
     <img alt="Network Security findings covering email, open ports, and certificates" src="/images/network-security.jpg" />
   </Tab>
 </Tabs>
+
+## Scanning more than one domain
+
+The scan starts with the domain you entered. To cover other domains, subdomains, or static
+IP addresses the company owns, see [Add Domains and IPs](/products/external-assessments/add-domains-and-ips).

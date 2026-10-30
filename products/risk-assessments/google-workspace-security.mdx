@@ -1,40 +1,42 @@
 ---
-title: Google Workspace Security
-description: 'Gain actionable Insights'
+title: Google Workspace Security Assessment
+sidebarTitle: Google Workspace Security
+description: 'Connect a client Google Workspace domain to Telivy to find accounts without MFA, orphaned accounts, and failed sign-ins, and track login activity by location.'
 ---
+
+Connecting a client's Google Workspace domain adds account and sign-in data to a Risk Assessment: which users have 2-step verification, which accounts look abandoned, and where sign-ins and failures come from.
 
 ## Requirements
 
-Connecting Google Workspace requires a Google Workspace **admin account** with API access enabled. If you run into an authorization or `Admin_Policy_Enforced` error while connecting, see the [Microsoft 365 and Google Workspace FAQ](/frequently-asked-questions/microsoft-365-and-google-workspace) for how to enable API access in the Google Admin Console.
+- A **Risk Assessment**. External Assessments cannot connect cloud accounts.
+- A Google Workspace **admin** account with API access enabled. If you get an authorization or `Admin_Policy_Enforced` error while connecting, the [Microsoft 365 and Google Workspace FAQ](/frequently-asked-questions/microsoft-365-and-google-workspace) shows how to allow API access in the Google Admin console.
 
-## Configuration
+## Connect Google Workspace
 
-To configure the Google Workspace security, go to your Risk Assessment > Configuration > Configure Google Workspace and follow the steps to connect your Google admin account.
+1. Open the assessment and go to **Setup > Connect Cloud**.
+2. On the **Google Workspace** card, select **Connect Google Workspace**. To have the client's admin do it, use the copy button next to it and send them the link.
+3. Sign in with the admin account and approve access.
 
-<img alt="Google Workspace configuration screen in a Telivy risk assessment" src="/images/google-workspace-security/google-workspace-security-1.png" />
+<img alt="Google Workspace connection card on the Connect Cloud step of a Telivy risk assessment" src="/images/google-workspace-security/google-workspace-security-1.png" />
 
-Telivy helps you manage your Google Workspace security posture with dashboards and reports. 
+After connecting, the card header shows the connection status and last sync time. Its actions menu has **Refetch now** and **Disconnect**. If the card says "Google Workspace stopped syncing and needs to be reconnected", select **Reconnect Google Workspace** and approve again.
 
-## Account Status
+## Where to find the results
 
-<AccordionGroup>
-  <Accordion title="Ensuring User Account Security">
-    Telivy displays the MFA status of all user accounts within your organization. This allows you to easily identify accounts without MFA enabled, a critical security control.
-  </Accordion>
+Results are on the assessment's **Cloud** tab, under **Google Workspace**. If Microsoft 365 is also connected, switch provider at the top of the tab.
 
-  <Accordion title="Auditing User Accounts">
-    Verify existing user accounts in Google Workspace to confirm they should still have access.
+### Summary
 
-    <img alt="Google Workspace user account list used for access auditing" src="/images/google-workspace-security/google-workspace-security-2.jpg" />
-  </Accordion>
-</AccordionGroup>
+The summary card shows **Total Accounts**, **Accounts without MFA**, **Total Failed Logins**, and **Orphaned Accounts**.
 
-## Login Monitoring
+### Accounts Status
 
-<AccordionGroup>
-  <Accordion title="Tracking Sign-In Activity">
-    Telivy monitors Google Workspace sign-in activity, highlighting failed sign-in attempts so you can spot potential unauthorized access. Repeated failed logins on an account are a common early signal of a brute-force or credential-stuffing attempt.
-  </Accordion>
-</AccordionGroup>
+This table lists each account with its name, email, **Sign-in Status**, **MFA Status**, last login, and successful and failed logins. Select **Show No MFA** to list only the accounts where MFA is **Not Enforced**. Select **Show All** to go back to the full list.
 
+<img alt="Google Workspace Accounts Status table with MFA status for each user" src="/images/google-workspace-security/google-workspace-security-2.jpg" />
 
+Use this table to check that every account still belongs to someone who should have access. Former employees' accounts that are still enabled are a common way in for attackers.
+
+### Login Status
+
+The login section counts total, successful, and failed login events, maps sign-in locations colored by severity, and charts failed logins by user and login activity over time. Repeated failed logins on one account are often the first sign of password guessing or credential stuffing.

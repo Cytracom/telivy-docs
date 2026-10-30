@@ -1,16 +1,23 @@
 ---
-title: "Uninstallation"
-description: "Common questions and answers"
+title: "Telivy Agent Uninstallation FAQ"
+sidebarTitle: "Uninstallation"
+description: "Why archiving an assessment does not always uninstall the Telivy agent, and how to remove it from offline devices with Uninstall All or an RMM command."
 ---
 
 <AccordionGroup>
-  <Accordion title="I Archived An Assessment. Why is it Not Uninstalled?">
-    When archiving an assessment, you will receive the following notification:
+  <Accordion title="I archived an assessment. Why is the agent still installed?">
+    Archiving sends an uninstall only to devices that are online at that moment. The confirmation says so:
 
-    ![Notification shown when archiving an assessment](/images/uninstallation/uninstallation-1.png)
+    ![Archive confirmation explaining that only online devices are uninstalled](/images/uninstallation/uninstallation-1.png)
 
-    Upon seeing this, please go back and confirm that all devices are online, or they will not be uninstalled upon assessment archive. It is recommended that you first manually uninstall using the "uninstall all button" in red.
+    Before archiving, check that the devices are online, or uninstall first with **Uninstall All**:
 
-    ![Uninstall all button highlighted in red](/images/uninstallation/uninstallation-2.png)
+    ![Uninstall All button in the assessment's device list](/images/uninstallation/uninstallation-2.png)
+
+    For devices that were offline, run the uninstall command on the device or through your RMM. See [Uninstall manually](/products/risk-assessments/uninstall-telivy-agent-windows#uninstall-manually).
+  </Accordion>
+
+  <Accordion title="Do I need to uninstall devices that were scanned without the agent?">
+    No. Agentless scans leave nothing on the device. Those devices show an **Agentless Scan** badge and have no uninstall action.
   </Accordion>
 </AccordionGroup>

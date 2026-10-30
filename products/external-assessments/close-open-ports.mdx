@@ -1,92 +1,103 @@
 ---
-title: Close Open Ports
-description: 'Why Having Open Ports Is Bad And Why You Should Close Them'
+title: Find and Close Risky Open Ports
+sidebarTitle: Close Open Ports
+description: 'Why open ports such as RDP 3389, RPC 135, and database ports are risky, how Telivy rates each one, and how to close the ports a client does not need.'
 ---
 
-Imagine your house with all the doors and windows wide open. While convenient for easy access, it also presents a clear security risk. Similarly, leaving open ports on your computer or network creates vulnerabilities that malicious actors can exploit.
+Every open port on an internet-facing system is a way in. Some have to be open, like HTTPS
+on a web server. Many are left open by accident, and those are what attackers scan for.
 
-## What Are Ports?
+## What ports are
 
-Think of ports as numbered doorways in your digital world. Each port corresponds to a specific service or application, allowing data to flow through for its intended purpose. For example, port 80 is commonly used for web browsing, while port 22 is used for secure shell access. You can access the list of open ports that are visible to the outside world by running a **Telivy External Assessment** or a **Risk Assessment**.
+A port is a numbered endpoint on a device, and each one is tied to a service. Port 443
+carries HTTPS web traffic, port 22 carries SSH, and so on. A Telivy External Assessment
+or Risk Assessment lists the ports on a company's systems that can be reached from
+the internet.
 
-## Why Are Open Ports Bad And Why Should You Close Them?
-
-While necessary for certain functions, open ports present several security risks:
+## Why open ports are a risk
 
 <AccordionGroup>
-  <Accordion title="Increased Attack Surface">
-    Open ports are like open doors: they offer more entry points for attackers to probe and exploit vulnerabilities. The more ports open, the greater the attack surface and the risk of compromise.
+  <Accordion title="A bigger attack surface">
+    Each open port is one more service an attacker can probe. The more ports are open, the
+    more chances there are that one of them runs something vulnerable or misconfigured.
   </Accordion>
 
-  <Accordion title="Exploiting Vulnerabilities" >
-    Hackers can scan for open ports and use known vulnerabilities in the services running on those ports to gain unauthorized access. Unpatched software or outdated configurations further exacerbate this risk.
+  <Accordion title="Known vulnerabilities in the service behind the port">
+    Attackers scan the internet for specific open ports and then try known exploits against
+    the service running there. Unpatched software or an outdated configuration makes that
+    much easier.
   </Accordion>
 
-  <Accordion title="Malware Infiltration" >
-    Open ports can be used to install malware onto your system, potentially leading to data theft, identity theft, or even remote control of your device.
-  </Accordion>
-
-  <Accordion title="Resource Drain" >
-    Even unused open ports can consume system resources, making your device slower and more susceptible to performance issues.
+  <Accordion title="A route for malware">
+    A vulnerable service on an open port can be used to install malware, which can lead to
+    data theft or an attacker taking control of the device.
   </Accordion>
 </AccordionGroup>
 
-## High-Risk Ports (Close Unless Absolutely Necessary)
+## High-risk ports: close unless needed
 
 <AccordionGroup>
   <Accordion title="RPC Endpoint Mapper / NetBIOS (135)">
-    Used by Windows for RPC service location and legacy NetBIOS name resolution. A common target for remote exploitation and worm propagation. Restrict to trusted networks or disable if not needed.
+    Windows uses it to locate RPC services and for legacy NetBIOS name resolution. It is a
+    common target for remote exploits and worms. Restrict it to trusted networks, or turn it
+    off if nothing needs it.
   </Accordion>
 
-  <Accordion title="Remote Desktop (3389)" >
-    Allows remote access to desktops, requires strong password and proper configuration. Consider alternative remote access solutions with better security practices.
+  <Accordion title="Remote Desktop (3389)">
+    Gives remote access to a Windows desktop. If it has to be reachable, put a VPN or a
+    dedicated remote access tool in front of it, and require strong passwords.
   </Accordion>
 
-  <Accordion title="Database ports (MySQL 3306, PostgreSQL 5432)" >
-Used for accessing a database. Make sure there are proper access controls and strong passwords with MFA are used. Try avoiding public access to these ports.
+  <Accordion title="Database ports (MySQL 3306, PostgreSQL 5432)">
+    Used to connect to a database. Avoid exposing them to the internet. If you must, enforce
+    access controls, strong passwords, and MFA.
   </Accordion>
 </AccordionGroup>
 
-## Medium-Risk Ports (Use With Caution)
+## Medium-risk ports: use with caution
 
 <AccordionGroup>
   <Accordion title="NetBIOS / SMB (137, 139)">
-    Used for file and printer sharing in older Windows systems. Often exploited by malware for lateral movement. Disable if not needed, or restrict to trusted internal networks.
+    Used for file and printer sharing on older Windows systems, and often abused by malware
+    to move between machines. Turn them off if they aren't needed, or limit them to trusted
+    internal networks.
   </Accordion>
 </AccordionGroup>
 
-## Low-Risk Ports (Lower Priority, But Still Worth Reviewing)
+## Low-risk ports: lower priority, still worth reviewing
 
 <AccordionGroup>
   <Accordion title="FTP (21)">
-    Used for file transfer, but known for security vulnerabilities and lack of encryption. Telivy rates an open FTP port as low severity, but it's still worth replacing with secure alternatives like SFTP (22) or FTPS (990).
+    Transfers files without encryption. Telivy rates an open FTP port as low severity, but
+    it's still worth replacing with SFTP (22) or FTPS (990).
   </Accordion>
 
-  <Accordion title="Telnet (23)" >
-    Unencrypted remote access protocol. Telivy rates it low severity, but SSH (22) is the safer choice for remote access.
-  </Accordion>
-
-  <Accordion title="HTTPS (443)">
-    Secure web browsing, essential for online transactions and secure communication.
-  </Accordion>
-
-  <Accordion title="VPN (various ports)" >
-   Virtual Private Network, encrypts internet traffic for secure remote access. Choose reputable VPN providers and follow best practices.
-  </Accordion>
-
-  <Accordion title="Gaming servers (various ports)" >
-    Used for online gaming, often require specific ports open depending on the game. Research necessary ports before opening them.
+  <Accordion title="Telnet (23)">
+    Remote access without encryption. Telivy rates it low severity, but SSH (22) is the
+    safer choice.
   </Accordion>
 </AccordionGroup>
 
-## How Telivy Scores Open Ports
+## How Telivy scores open ports
 
-When you run a Telivy External Assessment, each open port it finds is checked against the table above and assigned the matching severity (high, medium, or low) based on the service most commonly associated with that port.
+In an External Assessment, each open port Telivy finds is matched against the lists above
+and gets that severity (high, medium, or low), based on the service most commonly
+associated with the port.
 
-A Risk Assessment (device-based scan) works differently. Open ports found on a device are reported together as a single Device Open Ports Detected finding at one flat severity, rather than being broken out and scored port-by-port the way External Assessment results are.
+A Risk Assessment, which scans devices through the agent, works differently. Open ports
+found on a device are reported together as a single **Device Open Ports Detected** finding
+with one severity, instead of being scored port by port.
 
-A few common ports aren't part of the open-port severity table at all. SSH (22), DNS (53), HTTP (80), and HTTPS (443) are expected to be open on most servers and aren't flagged as open-port findings on their own. SMTP (25) is evaluated separately: Telivy checks whether your mail service uses SSL/TLS encryption and reports missing encryption as its own finding, rather than treating an open SMTP port as a port-severity issue.
+Some common ports aren't in the severity lists at all. SSH (22), DNS (53), HTTP (80), and
+HTTPS (443) are expected to be open on most servers and aren't flagged as open-port findings
+on their own. SMTP (25) is checked separately: Telivy looks at whether the mail service uses
+SSL/TLS encryption and reports missing encryption as its own finding.
 
-## How To Close Unused Ports
+## How to close unused ports
 
-The process of closing unused ports depends on your specific device or network configuration. The first step is to use a port scanner like Telivy to identify which ports are open on your network. Next, understand the purpose of the ports and close the service behind the ports if you don't need them.
+How you close a port depends on the device or firewall. Start with the list of open ports
+from the Telivy scan. For each one, work out which service is listening and whether anyone
+still needs it. If not, stop the service or block the port at the firewall. If it is
+needed, restrict who can reach it, for example to a VPN or a list of trusted IP addresses.
+Ports opened for things like games or old VPN setups are worth checking too, since they are
+often forgotten once the reason for them goes away.

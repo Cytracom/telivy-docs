@@ -1,107 +1,128 @@
 ---
-title: "Alerts"
-description: "Get notified the moment something worth your attention happens across a client's endpoints, dark web exposure, Microsoft 365, and Google Workspace."
+title: "Security Alerts and Alert Policies"
+sidebarTitle: "Alerts"
+description: "Set up Telivy alert policies for dark web, typosquatting, vulnerability and Microsoft 365 events, pick who gets the hourly email, and sync findings to your PSA."
 ---
 
 ## Overview
 
-Rescans tell you how a client's posture has shifted over a period. Alerts tell you right now.
+Alerts tell you about a specific change as soon as Telivy finds it, such as a new dark web breach, a look-alike domain, a new critical vulnerability on an endpoint, or a Microsoft 365 account without MFA.
 
-When Telivy detects a specific security event (a new dark web breach, a string of M365 login failures, an admin account with MFA suddenly disabled), it fires a notification to whoever on your team needs to know. You define which events matter and which team members get notified.
+Alert policies decide two things for each category: which of your team members get an email, and whether matching findings open a ticket in your connected PSA. Policies are set once for the whole agency and apply to every assessment.
 
-Alerts work across these coverage areas:
+## The Alerts page
 
-- **Internal Security**: vulnerability changes on managed endpoints
-- **Typosquatting**: newly registered look-alike domains impersonating the client
-- **Dark Web**: new breach and account exposures
-- **Microsoft 365**: identity and access events across connected tenants
-- **Google Workspace**: the same coverage for GWS environments
+Open **Alerts** in the Telivy portal to see every alert raised across your clients, newest first. Each row shows:
 
-## Configuring Alert Policies
-
-Alert policies are configured at the agency level and apply across all your assessments. Navigate to **Alerts → Alert Policies** in the Telivy portal to manage them.
-
-To add a new policy:
-
-1. Click **Add Policy**.
-2. In the **Configure Alert Policy** step, select the **Alert Category** you want to monitor.
-3. Set the condition that triggers the alert. For Internal Vulnerabilities, for example, you can trigger on severity level, CVSS score, or EPSS score above a threshold.
-4. Click **Continue**.
-5. In the **Configure Alert Delivery** step, select which team members on your agency account should receive the notification.
-6. Click **Save**.
-
-You can view alert history for a specific client by opening that assessment and navigating to the **Alerts** tab.
-
-Alerts fire as soon as Telivy detects the triggering event: during a scheduled rescan, a cloud sync, or when the agent reports new data.
-
-## Alert Categories
-
-<Note>
-  Internal Vulnerabilities, Typosquatting, and both Dark Web alerts are fully active. Microsoft
-  365 and Google Workspace event alert coverage is expanding: the cloud event alerts that fire
-  today are **No MFA User** and **Failed Logins**. More categories are rolling out (see
-  [Rolling out](#rolling-out) below).
-</Note>
-
-### Internal Security
-
-| Alert | What triggers it |
+| Column | What it tells you |
 |---|---|
-| Internal Vulnerabilities | New CVEs discovered on managed endpoints during a scan |
+| **Detected** | When Telivy raised the alert. Unread alerts are marked. |
+| **Alert** | What was detected and which category it belongs to. |
+| **Risk** | How urgent it is. Telivy uses the finding's [Risk Priority Score](/scoring/risk-scoring) where one exists, then the finding's severity, then the severity set on the policy. Hover the value to see which one it is. Activity records, such as a sign-in event, are labelled separately from standing risks. |
+| **Affected** | The device, account, mailbox or domain the alert is about, and the state of the finding behind it: **Open**, **Accepted**, **Resolved**, **Ticketed**, or **No open item**. |
+| **Client** | The assessment the alert was raised on. Click it to open that assessment. |
 
-### Typosquatting
+Clicking an alert that belongs to a finding opens the assessment's **Risk** tab filtered to that finding, where you can accept it, resolve it, or open a PSA ticket. Other alerts open their own details page.
 
-| Alert | What triggers it |
+Use the filters to show unread alerts, a single category, or a time window such as **In the last 7 days**. **Mark N as read** clears the unread markers, and the chart button shows **Alerts over time**. Each assessment also has its own **Alerts** tab with the same list for that client.
+
+## Alert email
+
+Alerts are emailed once an hour as a digest, so a busy hour produces one email instead of one per finding. Only users selected on a policy receive it.
+
+The digest groups alerts by client. For each alert it shows the risk level, what was detected, the affected device or account, the evidence behind it, a short recommended action, and a link to investigate in Telivy. Activity records, such as sign-in events, follow under their own heading so they are not mistaken for open risks. When a client has more alerts than fit, the email says how many more are waiting in the portal.
+
+## Alert policies
+
+Go to **Alerts → Policies**. The page lists every alert category in one table, grouped by source (for example Dark Web, TypoSquatting, Internal Vulnerabilities, Microsoft 365 and Google Workspace), with a count of how many are enabled.
+
+| Column | Meaning |
 |---|---|
-| Typosquatting Domains | A newly registered look-alike domain impersonating the client is detected |
+| **Source** | The area the category belongs to. |
+| **When** | The category and the condition that fires it. Categories Telivy recommends carry a **Recommended** badge. |
+| **Enabled** | A switch to turn the policy on or off. |
+| **Users to Notify** | How many team members receive the email for this policy. |
+| **Delivery** | Whether the policy also opens PSA tickets, and from what severity. |
 
-### Dark Web
+Search by name, or filter by source, by enabled status, or by PSA delivery.
 
-| Alert | What triggers it |
+<Frame>
+  <img src="/images/alerts/alerts-1.png" alt="Alerts Policies list with Enable recommended and the bulk actions bar for three selected policies" />
+</Frame>
+
+### Turn on the recommended set
+
+Click **Enable recommended** to add policies for every recommended category that does not have one yet. The **Apply recommended policies** dialog shows how many categories and users it will add. Existing policies are not changed, so it is safe to run again after Telivy adds a category.
+
+### Add or edit a policy
+
+1. Click **Add Policy**, or **Edit** on an existing row.
+2. In **Configure Alert Policy**, choose the **Alert Category** and the **Trigger Condition**. Some categories take an **Alert Metric** and a **Value**, for example a CVSS or EPSS threshold for Internal Vulnerabilities.
+3. Click **Next: Select Users**.
+4. In **Configure Alert Delivery**, select the users to email. If a PSA is connected, the **Open a PSA ticket** switch also sends this category's findings to it.
+5. Click **Save**.
+
+A policy needs at least one recipient or PSA delivery. Saving with neither removes the policy.
+
+### Change many policies at once
+
+Tick rows to select them, then use the bar above the table:
+
+- **Enable** or **Disable** the selected policies. Disabling keeps the policies in the list, but their recipients are not kept.
+- **Set recipients…** makes every selected policy email exactly the users you pick.
+- **Turn off email** removes every recipient from the selected policies without touching PSA ticket sync.
+- **Enable PSA sync** or **Disable PSA sync** for the selected categories.
+
+## Send findings to your PSA
+
+With [ConnectWise](/integrations/connectwise), [Autotask](/integrations/autotask) or [HaloPSA](/integrations/halopsa) connected, alert policies also decide which findings open PSA tickets. Turn on PSA sync for a category from **Edit** (the **Open a PSA ticket** switch) or with **Enable PSA sync** in bulk. The **Delivery** column then shows **PSA** with the severity floor, such as **High and above**.
+
+PSA sync covers every finding category in the list, including external-surface ones such as Email / DNS Authentication or Web Application Security that do not send alert emails yet. A ticket is only opened when the client's company is mapped to the PSA and **Sync findings to PSA** is on for its assessment.
+
+## Alert categories
+
+Every category appears in **Alerts → Policies**. These categories raise alerts today:
+
+| Category | What triggers it |
 |---|---|
+| Internal Vulnerabilities | New CVEs found on managed endpoints during a scan, optionally above a severity, CVSS or EPSS threshold |
+| TypoSquatting Domains | A newly registered look-alike domain that impersonates the client |
 | Dark Web Breach | A client domain or asset appears in a newly indexed data breach |
-| Dark Web Account | A specific user account credential is found in a breach dataset |
-
-### Microsoft 365
-
-| Alert | What triggers it |
-|---|---|
-| Failed Logins | A user account records repeated failed sign-in attempts |
-| No MFA User | A user account is detected without any MFA method enrolled |
-
-### Google Workspace
-
-Google Workspace mirrors the Microsoft 365 coverage for organizations running GWS instead of (or alongside) Microsoft 365.
-
-| Alert | What triggers it |
-|---|---|
-| Failed Logins | Repeated failed sign-in attempts on a GWS account |
-| No MFA User | A GWS account has no MFA enrolled |
+| Dark Web Account | A specific user's credentials appear in a breach dataset |
+| Microsoft 365 Posture | A new Microsoft 365 posture finding, raised from an actionable Microsoft Secure Score control on a connected tenant |
+| Microsoft 365 Failed Logins | Repeated failed sign-ins on a Microsoft 365 account |
+| Microsoft 365 No MFA User | A Microsoft 365 account with no MFA method registered |
+| Google Workspace Failed Logins | Repeated failed sign-ins on a Google Workspace account |
+| Google Workspace No MFA User | A Google Workspace account without MFA |
 
 ### Rolling out
 
-More Microsoft 365 and Google Workspace event alerts are being rolled out. Planned categories include Authentication Token Revoked, MFA Failed, MFA Disabled, MFA Enabled, Password Reset, Login Using Token, Login From Unapproved Location, User Created, User Deleted, Registered Device, Admin Role Assignment, Group Membership Change, and Admin Policy Change. Conditional Access Violation is planned for Microsoft 365 only.
+The other Microsoft 365 and Google Workspace categories in the list are being rolled out and do not raise alerts yet. They include Authentication Token Revoked, MFA Failed, MFA Disabled, MFA Enabled, Password Reset, Login Using Token, Login From Unapproved Location, User Create, User Delete, Registered Device, Admin Role Assignment, Group Membership Change, and Admin Policy Change, plus Conditional Access Violation for Microsoft 365 only. Microsoft 365 mailbox and file activity categories, such as Mailbox Forwarding Rule Created, External File Sharing and Mass File Deletion, are also in the list ahead of their rollout. You can create policies for these categories now, and they start firing once the category goes live.
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="How quickly does an alert fire after an event is detected?">
-    Cloud events (M365, Google Workspace) are evaluated on each sync cycle. Endpoint-based alerts (Internal Vulnerabilities) are evaluated after each completed agent scan. Manual rescans trigger alert evaluation immediately. Notification emails are then batched and sent hourly, so you receive one grouped message rather than one per finding. See [Scanning Schedule](/products/risk-monitoring/scanning-schedule) for when each type of data is collected.
+    Cloud events (Microsoft 365, Google Workspace) are evaluated on each sync. Endpoint alerts such as Internal Vulnerabilities are evaluated after each completed agent scan, and a manual rescan triggers evaluation straight away. The alert shows on the Alerts page as soon as it is raised. The email follows in the next hourly digest. See [Scanning Schedule](/products/risk-monitoring/scanning-schedule) for when each kind of data is collected.
   </Accordion>
 
-  <Accordion title="Can I notify multiple team members from the same policy?">
-    Yes. In the Configure Alert Delivery step, you can select as many agency users as needed. Each selected user is notified independently when the policy triggers.
+  <Accordion title="Can I notify several team members from one policy?">
+    Yes. Select as many agency users as you need in **Configure Alert Delivery**, or use **Set recipients…** to set them on several policies at once.
   </Accordion>
 
   <Accordion title="Are alert policies scoped to individual clients?">
-    No. Policies are configured at the agency level and apply across all assessments. You can view alert history filtered to a specific client from that assessment's Alerts tab, but the policy itself is agency-wide.
+    No. Policies are set at the agency level and apply to every assessment. Each assessment's **Alerts** tab shows the alerts raised for that client.
   </Accordion>
 
   <Accordion title="Do alerts require Risk Monitoring to be enabled?">
-    No. Alerts are available independently of the automated rescan feature. You can configure alerts on any eligible Risk Assessment without enabling the monitoring cadence.
+    No. Alerts are raised for any eligible Risk Assessment whenever new data arrives. Risk Monitoring adds the recurring rescans that keep that data fresh.
   </Accordion>
 
-  <Accordion title="Can I use webhooks instead of email or SMS?">
-    Yes. Telivy supports outbound webhooks for alert delivery to external systems. See the [Webhooks](/integrations/webhooks) integration guide for configuration details.
+  <Accordion title="Can I stop the emails but keep PSA tickets?">
+    Yes. Select the policies and use **Turn off email**. PSA ticket sync on those categories keeps working.
+  </Accordion>
+
+  <Accordion title="Can I send alerts to another system?">
+    Yes. Subscribe to the `ALERT_RAISED` event with a [webhook](/integrations/webhooks) to receive each alert as an HTTP request.
   </Accordion>
 </AccordionGroup>

@@ -1,20 +1,43 @@
 ---
-title: Overview
-description: 'Assess complete attack surface'
+title: Risk Assessment Overview
+sidebarTitle: Overview
+description: 'What a Telivy Risk Assessment covers: internal network scans, PII on endpoints, password analysis, web activity and AI use, dark web, Microsoft 365, and CIS.'
 ---
 
-This assessment quantifies the security posture of your organization. It covers network vulnerabilities, PII exposure, application security, password analysis, cloud security, compliance, and everything in the External Assessment. It covers:
+A Risk Assessment measures a client's security from the inside as well as the outside. It includes everything in an [External Assessment](/products/external-assessments/overview) and adds data from the Telivy agent on the client's devices and from their cloud accounts.
 
-- **Network scanning:** Scans the external attack surface and internal assets for vulnerabilities.
+A Risk Assessment scans the external attack surface and the client's internal devices for vulnerabilities, and gives each vulnerability a [Risk Priority Score](/scoring/risk-scoring#risk-priority-score) so you know what to fix first. On top of that, it collects:
 
-- **Application scanning:** Audits access of cloud and desktop applications.
+- The applications installed on each device, listed under **Inventory > Installed Apps**.
+- The websites people visit from company devices, including AI tools and sites that need review. See [Web activity and AI use](#web-activity-and-ai-use) below.
+- PII stored on devices, such as SSNs, card numbers, and health IDs, with a dollar value for the exposure. See [Data Security](/products/risk-assessments/data-security).
+- Passwords saved in browsers, checked for breaches, weakness, and reuse. See [Identity and Access Management](/products/risk-assessments/identity-and-access-management).
+- Leaked credentials and personal details tied to the client's domains on the dark web, such as usernames, passwords, IP addresses, emails, physical addresses, and phone numbers.
+- Accounts, MFA, sign-ins, Secure Score gaps, and tenant policies from [Microsoft 365](/products/risk-assessments/microsoft-365-security) and [Google Workspace](/products/risk-assessments/google-workspace-security).
+- A mapping of findings to the CIS Critical Security Controls on the [Compliance](/products/risk-assessments/compliance) tab.
 
-- **[Data Security](/products/risk-assessments/data-security):** Detects and quantifies the PII data present on the assets.
+## Web activity and AI use
 
-- **[Identity & Access Management](/products/risk-assessments/identity-and-access-management):** Analyses passwords for stolen credentials, weak passwords and repeated password usage.
+The agent records which websites are visited from each device. Find them on the assessment's **Inventory** tab under **Web Activity**, which has two views:
 
-- **Dark Web (Security Awareness):** Scans the dark web for any relevant credentials that have been leaked. Credentials include usernames, passwords, IP addresses, emails, physical addresses, and phone numbers.
+- **Websites** lists each site once, with its **Category**, whether it is an **AI** tool, **Total Visits**, a **Risk** rating, and the number of **Users**. The summary above it shows **Total Websites Found** and **High Risk Websites**. Expand a row to see why the site got its rating, its characteristics (for example "Generative AI", "Handles health data", or "File sharing"), and which users and devices visited it.
+- **Activity** lists every visit by website, user, and device with the last visit date. Filter it by device, user, category, or website. Selecting a site in the **Websites** view opens its activity.
 
-- **[Microsoft 365](/products/risk-assessments/microsoft-365-security) & [Google Workspace](/products/risk-assessments/google-workspace-security) Security:** Connects to your cloud tenants to surface the security score, MFA status, account activity, and login monitoring.
+The **AI** column reads **Yes** when Telivy has classified the site as a generative AI tool, **No** when it has classified it and it is not one, and **Unknown** when the site has not been classified yet. Treat **Unknown** as unreviewed, not as safe.
 
-- **[Compliance](/products/risk-assessments/compliance):** Maps findings to the CIS Critical Security Controls to track the client's compliance posture.
+<Frame>
+  <img src="/images/risk-assessments-overview/risk-assessments-overview-1.png" alt="Web Activity Websites view filtered to AI, showing the AI type, category and risk for each website" />
+</Frame>
+
+Two different things raise a site's **Risk** rating: it can carry company or personal data off the network, or it should not be used on a work machine at all. An AI assistant and a gambling site can both be High for different reasons, so expand the row to see which applies.
+
+Use the **Needs review** filters to narrow the list:
+
+| Filter | Shows |
+| --- | --- |
+| AI | Sites classified as AI tools, where prompts can carry company data off the network |
+| Sensitive data | Sites that handle health, financial, payment, or credential data |
+| Not work-related | Social, streaming, gaming, shopping, adult, and gambling sites |
+| Shadow IT | File sharing, remote access, and unsanctioned tools that bypass IT |
+
+On the **Overview** tab, the **AI Exposure Score** card summarizes AI use with **Total AI Websites**, **Unique AI Users**, and the top AI sites. **View all websites** opens the **Web Activity** tab. [AI scoring](/scoring/ai-scoring) explains how the score is calculated.

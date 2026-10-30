@@ -1,33 +1,49 @@
 ---
-title: Create and Export in Bulk
-description: 'A guide to performing bulk external assessment operations in Telivy'
+title: Bulk Create and Export External Scans (CSV)
+sidebarTitle: Create and Export in Bulk
+description: 'Create up to 50 Telivy external scans at once from a CSV of domains, and export grades and top findings for all your external scans to a CSV file.'
 ---
 
-## Upload Bulk External Assessments
+## Create external scans from a CSV
 
-### Use the bulk upload feature to scan and qualify multiple leads
+Use the bulk upload to scan a list of prospects in one go.
 
-1. To add multiple external scans to your Telivy portal click on "Create Assessment" > "External Scan" > "Upload Multiple Domains" > Upload the CSV File
+<Steps>
+  <Step title="Open the bulk upload">
+    Click **Create Assessment**, select the **External Scan** card, and click
+    **Upload Multiple Domains**.
+  </Step>
+  <Step title="Prepare the CSV">
+    Click **Download Sample CSV** for the template. It has two columns, `domain` and
+    `companyName`, with one company per row. You can submit up to 50 domains per file,
+    unless your account has a different limit, which the dialog shows.
 
-2. You can download the template for the CSV as shown below ("Download Sample CSV")
+    <img alt="Download Sample CSV option in the bulk upload dialog" src="/images/create-and-export-in-bulk/create-and-export-in-bulk-1.png" />
+  </Step>
+  <Step title="Upload the file">
+    Choose the file under **Upload CSV File**. The scans appear in your portal and start
+    straight away.
+  </Step>
+</Steps>
 
-<img alt="Download Sample CSV option in the bulk upload dialog" src="/images/create-and-export-in-bulk/create-and-export-in-bulk-1.png" />
+## Export findings from all external scans
 
-3. Once you upload the CSV, the external scans should be visible in your Telivy portal. All the scans should start immediately
+<Steps>
+  <Step title="Open the export">
+    Click **Export External Scans (CSV)** at the bottom of the Assessments list.
 
-## Export Bulk External Assessments
+    <img alt="Export External Scans (CSV) link at the bottom of the dashboard" src="/images/create-and-export-in-bulk/create-and-export-in-bulk-2.png" />
+  </Step>
+  <Step title="Choose a date range (optional)">
+    Set a **Start Date** and **End Date** to export only scans from that period. Leave them
+    empty to export every external scan in your account.
 
-### Download findings in Bulk
+    <img alt="Date range selection dialog for the external scans CSV export" src="/images/create-and-export-in-bulk/create-and-export-in-bulk-3.png" />
+  </Step>
+  <Step title="Download">
+    Click **Download**. The CSV has the grade for each section and the top 10 findings from
+    each section, along with details such as the last scan time.
+  </Step>
+</Steps>
 
-1. Click on the "Export External Scans (CSV)" link at the bottom of the dashboard to export a CSV of the external scans findings.
-
-<img alt="Export External Scans (CSV) link at the bottom of the dashboard" src="/images/create-and-export-in-bulk/create-and-export-in-bulk-2.png" />
-
-2. In the next pop up you should be able to select the timeframes of the external scans that you would like to download in the CSV. If no such selection is made, the CSV will contain findings from all the external scans in your account.
-
-<img alt="Timeframe selection dialog for the external scans CSV export" src="/images/create-and-export-in-bulk/create-and-export-in-bulk-3.png" />
-
-3. The downloaded CSV contains the grades for all the sections and top 10 findings from each section (apart from other metadata like last scan time etc).
-
-If you have any other questions, please reach out to support@telivy.com
-
+Questions about bulk scans? Email [support@telivy.com](mailto:support@telivy.com).

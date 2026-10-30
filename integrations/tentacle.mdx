@@ -1,13 +1,14 @@
 ---
-title: "Tentacle"
-description: "Turn Telivy scan findings into a CIS Critical Security Controls compliance assessment, tracked and scored in Tentacle."
+title: "Tentacle CIS Controls Compliance Integration"
+sidebarTitle: "Tentacle"
+description: "Turn Telivy scan findings into a pre-filled CIS Critical Security Controls compliance assessment in Tentacle, scored on the assessment's Compliance tab."
 ---
 
 ## Overview
 
-The Tentacle integration connects a Telivy Risk Assessment to a **CIS Critical Security Controls** compliance assessment. Telivy maps what it already found during a scan onto the CIS safeguards, so a compliance assessment that would normally be filled in by hand starts pre-populated from real endpoint and cloud evidence.
+The Tentacle integration connects a Telivy Risk Assessment to a CIS Critical Security Controls compliance assessment. Telivy maps what its scans found on the client's endpoints and cloud tenants onto the CIS safeguards, so the compliance assessment starts partly filled in instead of blank.
 
-Results flow back into the assessment's **Compliance** tab, where you can review each CIS control, its status, and the overall CIS posture for the client.
+The results appear on the assessment's **Compliance** tab, with the status of each CIS control and the client's overall CIS posture.
 
 <Note>
   The Tentacle integration is delivered through Unity and requires an active Tentacle
@@ -17,9 +18,7 @@ Results flow back into the assessment's **Compliance** tab, where you can review
 
 ## What you get
 
-- A **CIS Critical Security Controls** assessment (153 safeguards) per client.
-- Safeguard answers **pre-populated from Telivy scan findings**, so the assessment reflects what was actually detected on the endpoints and connected cloud tenants.
-- A CIS posture score and a per-control breakdown surfaced in the assessment's **Compliance** tab.
+Each client gets a CIS Critical Security Controls assessment covering all 153 safeguards. Telivy answers the safeguards it has scan evidence for, and the **Compliance** tab shows a CIS posture score with a breakdown per control.
 
 ## Requirements
 
@@ -32,24 +31,23 @@ Results flow back into the assessment's **Compliance** tab, where you can review
 
 ## Setup
 
-Setup moves through a few states in order. Each step unlocks the next.
+Complete these steps in order, because each one depends on the previous one.
 
 <Steps>
   <Step title="Link the client to a Unity customer">
     Open the Risk Assessment and go to its integrations configuration. Link the client to the
-    matching Unity customer (or create one if it does not exist yet).
+    matching Unity customer, or create the customer if it does not exist yet.
   </Step>
   <Step title="Confirm the Tentacle subscription">
     Verify that the linked Unity customer has an active Tentacle subscription. If it does not,
     the assessment shows a prompt to activate one.
   </Step>
   <Step title="Grant access">
-    Grant Tentacle access for the assessment. Once access is in place, the integration is
-    ready.
+    Grant Tentacle access for the assessment.
   </Step>
   <Step title="Populate from scan findings">
-    With the integration ready, Telivy maps the assessment's scan findings onto the CIS
-    safeguards. Review and adjust answers as needed.
+    Telivy maps the assessment's scan findings onto the CIS safeguards. Review the answers and
+    change any that are wrong.
   </Step>
 </Steps>
 
@@ -69,13 +67,13 @@ prompt instead of live CIS data.
   </Accordion>
 
   <Accordion title="Do I have to answer every safeguard manually?">
-    No. Telivy pre-populates answers from the assessment's scan findings wherever it has
-    evidence. You review and complete the rest.
+    No. Telivy fills in answers from the assessment's scan findings wherever it has evidence.
+    You review those and answer the rest.
   </Accordion>
 
   <Accordion title="Why is my Compliance tab showing a setup prompt instead of controls?">
     The tab is available for every Risk Assessment, but live CIS data requires a linked Unity
-    customer with an active Tentacle subscription and access granted. Complete the setup steps
-    above and the controls will appear.
+    customer with an active Tentacle subscription and access granted. Once the four setup
+    steps on this page are done, the controls appear.
   </Accordion>
 </AccordionGroup>
