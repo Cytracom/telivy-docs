@@ -4,9 +4,7 @@ sidebarTitle: "Scanning Schedule"
 description: "How often Telivy scans endpoints, external assets, dark web, Microsoft 365 and Google Workspace, and why findings change between scheduled rescans."
 ---
 
-Telivy does not run one big scan on one timer. It runs four different kinds of checking, and each one has its own rhythm.
-
-That is usually the answer when something looks confusing. A client set to monthly rescans still sees new findings in week two. A device that was clearly rescanned still shows last month's software list. Both make sense once you know which of the four is responsible.
+Telivy checks a client in four different ways, and each runs on its own schedule. That explains most timing questions, such as why a client on monthly rescans gets new findings in week two, or why a device that was rescanned still shows last month's software list.
 
 <CardGroup cols={2}>
   <Card title="On the computers" icon="laptop">
@@ -36,23 +34,17 @@ That is usually the answer when something looks confusing. A client set to month
 
 ## How the automatic schedule works
 
-Everything above runs on Telivy's own servers. There is nothing to install, schedule, or maintain on your side, and nothing that depends on someone being logged in.
+Everything above runs on Telivy's servers. Nothing needs to be set up on your side, and nothing depends on someone being logged in.
 
-The runs are spread out on purpose. A weekly run covers a lot of clients, so Telivy works through them in a queue instead of firing everything off together, and a single run can take hours to reach everyone. That is normal, and a client near the back of the queue is not stuck.
-
-They also recover on their own. If a scan is interrupted, it gets picked up and retried without anyone having to notice.
+A weekly run covers a lot of clients, so Telivy works through them in a queue and a single run can take hours to reach everyone. A client near the back of the queue is not stuck. If a scan is interrupted, Telivy retries it automatically.
 
 ## On the computers: what the agent does
 
-The Telivy Agent runs quietly in the background on every device where it is installed, on both Windows and Mac. It wakes up roughly once an hour.
-
-Waking up hourly is not the same as scanning hourly.
-
-On each hourly wake-up, the agent:
+The Telivy Agent runs in the background on every Windows and Mac device where it is installed. It wakes up roughly once an hour, but it does not scan the device every time. On each wake-up, the agent:
 
 <Steps>
-  <Step title="Says hello">
-    This is what keeps the device's online status and last seen time accurate in the portal.
+  <Step title="Checks in with Telivy">
+    This keeps the device's online status and last seen time accurate in the portal.
   </Step>
   <Step title="Checks whether it should update itself">
     See [Auto Update](/products/risk-assessments/auto-update) for how agent updates are handled.
@@ -60,8 +52,8 @@ On each hourly wake-up, the agent:
   <Step title="Collects any instruction waiting for it">
     A rescan you requested, or one triggered by the client's monitoring schedule, is picked up here. This is why a rescan reaches a switched-on device within about an hour rather than instantly.
   </Step>
-  <Step title="Does any collection that is actually due">
-    Most of the time there is nothing due, and the agent goes back to sleep. The hourly cycle is deliberately light so nobody notices it on their machine.
+  <Step title="Runs any collection that is due">
+    Usually nothing is due and the agent goes back to sleep. The hourly cycle is kept light so it does not slow the machine down.
   </Step>
 </Steps>
 
@@ -81,10 +73,10 @@ On each hourly wake-up, the agent:
 
 "On rescan" means the check runs when the agent is first installed, then again the next time a rescan happens, either because you asked for one or because the client's monitoring schedule came round.
 
-A full endpoint scan is heavy, and a laptop's installed software rarely changes hour to hour. Disk encryption is the exception because it can be switched off in a moment and it matters immediately, particularly for insurance and compliance evidence.
+A full endpoint scan is heavy, and installed software rarely changes from one hour to the next. Disk encryption is checked daily because it can be switched off at any moment, and insurers and auditors ask for it.
 
 <Warning>
-  A device that is switched off, asleep, or away from the network when a rescan is triggered simply collects the instruction the next time it comes online. Nothing is lost. That one device's data just arrives later than the rest.
+  A device that is off, asleep, or away from the network when a rescan is triggered collects the instruction the next time it comes online. Its data arrives later than the rest, but nothing is lost.
 </Warning>
 
 ## From the outside: what Telivy checks without touching a device
@@ -103,10 +95,10 @@ These checks need no agent. They run against the client's domain, any extra doma
 
 All of this runs when an assessment is first created, again every week for any client with Risk Monitoring switched on, and any time a rescan happens.
 
-The weekly outside check does not depend on the cadence you picked. A client set to quarterly still gets their external picture, their breach exposure, and their look-alike domain check refreshed every week.
+The weekly outside check does not depend on the cadence you picked. A client set to quarterly still has its external view, breach exposure, and look-alike domains refreshed every week.
 
 <Note>
-  Breach results are reused for a short period rather than looked up from scratch on every single run. In practice this makes no visible difference, since new breaches surface within the same weekly rhythm.
+  Breach results are cached for a short period instead of being looked up again on every run. New breaches still show up within the weekly cycle.
 </Note>
 
 ## In the cloud: Microsoft 365 and Google Workspace
@@ -115,9 +107,9 @@ If the client has a connected Microsoft 365 or Google Workspace tenant, Telivy r
 
 For Microsoft 365, sign-in and audit activity can also be collected every hour where that capability is enabled for your agency. That is what makes event-based alerts such as repeated failed logins possible.
 
-Telivy also checks every few hours that the connection itself is still healthy. Cloud connections expire or get revoked, usually when someone changes an admin password or adjusts consent. When that happens the assessment flags it so you can reconnect, instead of quietly collecting nothing.
+Every few hours Telivy also tests that the connection still works. Connections expire or get revoked, usually after an admin password or consent change. When that happens, the assessment flags it so you can reconnect.
 
-Daily cloud scanning applies to clients with Risk Monitoring switched on. You can turn it off per client, separately from endpoint scanning, in the **M365 monitoring** and **Workspace monitoring** columns under **Account → Usage**. Keeping daily Microsoft 365 coverage while endpoints rescan monthly is a common setup.
+Daily cloud scanning applies to clients with Risk Monitoring switched on. You can turn it off per client, separately from endpoint scanning, in the **M365 monitoring** and **Workspace monitoring** columns under **Account → Usage**. Many partners keep daily Microsoft 365 coverage while endpoints rescan monthly.
 
 See [Microsoft 365 Security](/products/risk-assessments/microsoft-365-security) and [Google Workspace Security](/products/risk-assessments/google-workspace-security) for what is assessed.
 
@@ -127,13 +119,13 @@ New findings can appear without any device being scanned again.
 
 Telivy keeps a record of what software each machine had at its last scan. Separately, it pulls in new vulnerability information every night, along with which vulnerabilities are being actively exploited in the real world and how likely each one is to be attacked.
 
-Once a week, Telivy re-compares the software it already knows about against that updated information. If a serious vulnerability was published against a version of a browser your client was already running, it appears in that weekly comparison. Nobody had to touch the machine.
+Once a week, Telivy re-compares the software it already knows about against that updated information. If a serious vulnerability is published for a browser version your client already runs, it appears in that weekly comparison without the machine being rescanned.
 
-This also works in the other direction. A finding's severity can rise or fall as the security community learns more about it, which is why a client's numbers can shift slightly between rescans.
+A finding's severity can rise or fall as the security community learns more about it, which is why a client's numbers can shift slightly between rescans.
 
 [Vulnerability Data Sources](/learning-center/vulnerability-data-sources) explains where this information comes from and how Telivy prioritizes it.
 
-## What you actually control
+## What you control
 
 For each client you choose:
 
@@ -142,9 +134,9 @@ For each client you choose:
 
 Everything else runs on the shared schedule described above and is the same for every partner.
 
-## What a scheduled rescan actually covers
+## What a scheduled rescan covers
 
-When a client's cadence comes round, Telivy saves a snapshot of where things stand so you can see what changed, then refreshes everything: the devices, the external picture, and any connected cloud tenant.
+When a client's cadence comes round, Telivy saves a snapshot of where things stand so you can see what changed, then refreshes the devices, the external view, and any connected cloud tenant.
 
 A rescan replaces the current findings rather than sitting alongside them. The history is kept separately, so you can still show a client how their position has moved over time.
 

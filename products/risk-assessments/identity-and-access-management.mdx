@@ -4,7 +4,7 @@ sidebarTitle: Identity and Access Management
 description: 'How Telivy analyzes passwords saved in Chromium browsers to find weak, reused, and breached credentials without storing cleartext passwords off the device.'
 ---
 
-Weak, reused, and leaked passwords are one of the most common ways attackers get in. As part of a Risk Assessment, Telivy checks the passwords saved in users' browsers and shows which ones are weak, which are used in more than one place, and which already appear in breach data.
+Attackers often get in with a password that is weak, reused, or already leaked. As part of a Risk Assessment, Telivy checks the passwords saved in users' browsers and flags each of those cases.
 
 ## How passwords are collected
 
@@ -12,11 +12,13 @@ When you deploy the Telivy agent, it includes a password analysis tool that read
 
 The analysis runs on the device. Cleartext passwords are never sent to or stored on Telivy's servers. Telivy stores a hash of each password, and a hash cannot be turned back into the password.
 
-When the agent runs as an administrator, it schedules password capture for most user profiles on the device. Telivy works out the list of users from the profile folders, Microsoft Entra ID (Azure AD) accounts, and local and domain accounts on the machine. Some users can still be missed. The assets table shows which users each device has scheduled for password analysis.
-
-<img alt="Assets table listing the users scheduled for password analysis on each device" src="/images/identity-and-access-management/identity-and-access-management-1.jpg" />
+When the agent runs as an administrator, it schedules password capture for most user profiles on the device. Telivy works out the list of users from the profile folders, Microsoft Entra ID (Azure AD) accounts, and local and domain accounts on the machine. Some users can still be missed.
 
 ## What the analysis finds
+
+The summary at the top counts the passwords found and how many are weak, breached, or reused.
+
+<img alt="Identity and Access Management summary with total, weak, breached and reused password counts" src="/images/identity-and-access-management/identity-and-access-management-4.png" />
 
 <AccordionGroup>
   <Accordion title="Breached credentials">
@@ -24,7 +26,7 @@ When the agent runs as an administrator, it schedules password capture for most 
 
     In the example below, the first password has appeared in breach data 9.65 million times.
 
-    <img alt="Password analysis table showing breach counts for each saved credential" src="/images/identity-and-access-management/identity-and-access-management-2.jpg" />
+    <img alt="Browser Passwords table with host, browser, URL, masked password, strength and breach count" src="/images/identity-and-access-management/identity-and-access-management-2.jpg" />
   </Accordion>
 
   <Accordion title="Weak passwords">
@@ -42,4 +44,4 @@ When the agent runs as an administrator, it schedules password capture for most 
 
 ## Acting on the results
 
-Start with passwords that have breach hits, then the ones reused across many URLs, then the weak ones. For each, have the user change the password and turn on MFA for the account. A password manager makes unique passwords practical, and the next scan shows whether the old passwords are gone.
+Start with passwords that have breach hits, then the ones reused across many URLs, then the weak ones. For each, have the user change the password and turn on MFA for the account. A password manager makes unique passwords practical. The next scan shows whether the old passwords are gone.

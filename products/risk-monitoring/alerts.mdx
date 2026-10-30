@@ -6,7 +6,7 @@ description: "Set up Telivy alert policies for dark web, typosquatting, vulnerab
 
 ## Overview
 
-Rescans show how a client's posture moved over a period. Alerts tell you about a specific change as soon as Telivy finds it: a new dark web breach, a look-alike domain, a new critical vulnerability on an endpoint, or a Microsoft 365 account without MFA.
+Alerts tell you about a specific change as soon as Telivy finds it, such as a new dark web breach, a look-alike domain, a new critical vulnerability on an endpoint, or a Microsoft 365 account without MFA.
 
 Alert policies decide two things for each category: which of your team members get an email, and whether matching findings open a ticket in your connected PSA. Policies are set once for the whole agency and apply to every assessment.
 
@@ -22,7 +22,7 @@ Open **Alerts** in the Telivy portal to see every alert raised across your clien
 | **Affected** | The device, account, mailbox or domain the alert is about, and the state of the finding behind it: **Open**, **Accepted**, **Resolved**, **Ticketed**, or **No open item**. |
 | **Client** | The assessment the alert was raised on. Click it to open that assessment. |
 
-Click an alert that belongs to a finding and Telivy opens the assessment's **Risk** tab filtered to that finding, so you can accept it, resolve it, or open a PSA ticket from there. Other alerts open their own details page.
+Clicking an alert that belongs to a finding opens the assessment's **Risk** tab filtered to that finding, where you can accept it, resolve it, or open a PSA ticket. Other alerts open their own details page.
 
 Use the filters to show unread alerts, a single category, or a time window such as **In the last 7 days**. **Mark N as read** clears the unread markers, and the chart button shows **Alerts over time**. Each assessment also has its own **Alerts** tab with the same list for that client.
 
@@ -46,9 +46,13 @@ Go to **Alerts → Policies**. The page lists every alert category in one table,
 
 Search by name, or filter by source, by enabled status, or by PSA delivery.
 
+<Frame>
+  <img src="/images/alerts/alerts-1.png" alt="Alerts Policies list with Enable recommended and the bulk actions bar for three selected policies" />
+</Frame>
+
 ### Turn on the recommended set
 
-Click **Enable recommended** to add policies for every recommended category that does not have one yet. The **Apply recommended policies** dialog shows how many categories and users it will add. Existing policies are left untouched, so you can run it again safely after Telivy adds a category.
+Click **Enable recommended** to add policies for every recommended category that does not have one yet. The **Apply recommended policies** dialog shows how many categories and users it will add. Existing policies are not changed, so it is safe to run again after Telivy adds a category.
 
 ### Add or edit a policy
 

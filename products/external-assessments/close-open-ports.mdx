@@ -10,8 +10,8 @@ on a web server. Many are left open by accident, and those are what attackers sc
 ## What ports are
 
 A port is a numbered endpoint on a device, and each one is tied to a service. Port 443
-carries HTTPS web traffic, port 22 carries SSH, and so on. A **Telivy External Assessment**
-or a **Risk Assessment** lists the ports on a company's systems that can be reached from
+carries HTTPS web traffic, port 22 carries SSH, and so on. A Telivy External Assessment
+or Risk Assessment lists the ports on a company's systems that can be reached from
 the internet.
 
 ## Why open ports are a risk
@@ -34,7 +34,7 @@ the internet.
   </Accordion>
 </AccordionGroup>
 
-## High-risk ports: close unless absolutely necessary
+## High-risk ports: close unless needed
 
 <AccordionGroup>
   <Accordion title="RPC Endpoint Mapper / NetBIOS (135)">
@@ -44,9 +44,8 @@ the internet.
   </Accordion>
 
   <Accordion title="Remote Desktop (3389)">
-    Gives remote access to a Windows desktop. If it has to be reachable, it needs strong
-    passwords and careful configuration. A VPN or a dedicated remote access tool in front of
-    it is safer.
+    Gives remote access to a Windows desktop. If it has to be reachable, put a VPN or a
+    dedicated remote access tool in front of it, and require strong passwords.
   </Accordion>
 
   <Accordion title="Database ports (MySQL 3306, PostgreSQL 5432)">

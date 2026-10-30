@@ -14,7 +14,6 @@ Telivy calculates it with a **harmonic penalty model**, a formula that turns the
   This page covers Risk Assessments, which combine agent-based endpoint scanning with Microsoft 365 and Google Workspace data. External Assessments are scored differently.
 </Note>
 
-
 ## What you see in the portal
 
 When you open a Risk Assessment, the main dashboard shows:
@@ -25,20 +24,18 @@ When you open a Risk Assessment, the main dashboard shows:
 - **Top Actions**, the findings that would raise the score most if fixed.
 - **CIS Controls Passing**, a separate percentage explained [below](#cis-controls-passing).
 
-
 ## Risk bands
 
 Each score falls into a risk band. Reports, exports, and score history all use the band:
 
 | Band | Score range | What it means |
 |---|---|---|
-| Low Risk | 90 – 100 | Strong posture, minimal open findings |
-| Medium Risk | 70 – 89 | Moderate posture, some areas need attention |
-| High Risk | 50 – 69 | Significant gaps, prioritized remediation recommended |
-| Critical Risk | 0 – 49 | Serious exposure, immediate action recommended |
+| Low Risk | 90 to 100 | Strong posture, minimal open findings |
+| Medium Risk | 70 to 89 | Moderate posture, some areas need attention |
+| High Risk | 50 to 69 | Significant gaps, prioritized remediation recommended |
+| Critical Risk | 0 to 49 | Serious exposure, immediate action recommended |
 
 With clients, lead with the band. "Your environment is rated Medium Risk" matches what they will see in the report.
-
 
 ## How the score is calculated
 
@@ -46,11 +43,7 @@ With clients, lead with the band. "Your environment is rated Medium Risk" matche
   <Accordion title="In plain terms">
     Every finding has a severity: Critical, High, Medium, or Low. Higher severities subtract more from the score. Telivy adds up the penalty for all open findings and converts the total into a 0 to 100 number.
 
-    The formula works so that:
-    - Critical findings hit the score much harder than low-severity ones
-    - Fixing any finding, even a low-severity one, always improves the score
-    - Larger environments (more devices, users, domains) are evaluated against higher expectations, so a 200-device client with 10 open findings isn't penalized the same as a 10-device client with 10 open findings
-    - Platforms you haven't connected (M365, Google Workspace) are excluded entirely, so you're only scored on what's relevant to your environment
+    Critical findings hit the score much harder than low-severity ones, and fixing any finding, even a low-severity one, always improves it. Larger environments are measured against higher expectations, so a 200-device client with 10 open findings loses fewer points than a 10-device client with the same 10. Platforms you haven't connected, such as Microsoft 365 or Google Workspace, are left out of the score entirely.
   </Accordion>
 
   <Accordion title="Technical detail">
@@ -71,7 +64,7 @@ With clients, lead with the band. "Your environment is rated Medium Risk" matche
     | Low | 0.02 |
 
     **Environment normalization:**
-    Each penalty contribution is normalized against `maxExpected = perEntityCap × entityCount`, where entity count is derived from the number of devices, users, domains, and web-facing hosts. This prevents larger environments from being disproportionately penalized for having more assets.
+    Each penalty contribution is normalized against `maxExpected = perEntityCap × entityCount`, where entity count is derived from the number of devices, users, domains, and web-facing hosts. Larger environments are not penalized just for having more assets.
 
     **Platform filtering:**
     Controls with a `platformRequirement` of `m365` or `gws` are filtered out if the corresponding integration is not connected. Filtered controls do not contribute to the score in either direction.
@@ -83,20 +76,18 @@ With clients, lead with the band. "Your environment is rated Medium Risk" matche
   </Accordion>
 </AccordionGroup>
 
-
 ## CIS Controls Passing
 
 Next to the Risk Score, the dashboard shows a **CIS Controls Passing** percentage. It is a separate metric.
 
 | Metric | What it measures |
 |---|---|
-| Risk Score (0–100) | Severity-weighted penalty across all findings, normalized by environment size |
+| Risk Score (0 to 100) | Severity-weighted penalty across all findings, normalized by environment size |
 | CIS Controls Passing (%) | What proportion of applicable CIS security controls have no open findings |
 
 A client can have a high Risk Score and a low CIS Controls Passing percentage when their open findings are spread across many low-severity controls. A single Critical finding can pull the Risk Score down while most CIS controls stay green.
 
 Use CIS Controls Passing when the conversation is about compliance frameworks, and the Risk Score when it is about business risk.
-
 
 ## Top Actions
 
@@ -109,7 +100,6 @@ The **Top Actions** table ranks findings by how much fixing them would raise the
 
 The first row is always the fix with the largest score gain. In a QBR, it tells the client where to start and how much the score should move.
 
-
 ## Score history
 
 Once an assessment has at least **two completed scans**, score history shows up in two places:
@@ -117,16 +107,13 @@ Once an assessment has at least **two completed scans**, score history shows up 
 - The **sparkline** on the Risk Score card, covering recent scans.
 - **Risk Score Over Time**, a full chart on the **Risk** tab covering every scan.
 
-Both need monitoring turned on for the assessment. Score history is kept per assessment, so you can show a client how their posture has improved since remediation started.
-
+Both need monitoring turned on for the assessment. Score history is kept per assessment, so you can show a client how the score has moved since remediation started.
 
 ## Why the score changes between scans
 
-- **New findings:** a scan can find issues that were not there before, such as a newly published CVE, a configuration change, or a new device.
-- **Fixed findings:** resolving findings lowers the penalty and raises the score.
-- **Environment changes:** adding or removing devices, users, or domains changes the size baseline, which can move the score even when the findings are the same.
-- **Scoring model updates:** Telivy adjusts severity weights and normalization from time to time. These changes are announced in the release notes.
+A scan can find issues that were not there before, such as a newly published CVE, a configuration change, or a new device, and those lower the score. Resolved findings stop counting and raise it.
 
+The score can also move when the findings stay the same. Adding or removing devices, users, or domains changes the size baseline the penalty is measured against. Telivy also adjusts severity weights and normalization from time to time and announces those changes in the release notes.
 
 ## Risk Priority Score
 
@@ -150,7 +137,15 @@ The RPS falls into a priority band:
 
 RPS appears in the **RPS** column on the **Priorities** tab (every CVE and device across all severities, ranked by RPS), on the **Risk** tab, in the vulnerability tables under **Security**, and on the **Endpoints** table under **Inventory**. Where a row groups several findings, such as a device, the column shows the highest RPS in the group.
 
+<Frame>
+  <img src="/images/risk-scoring/risk-scoring-2.png" alt="Risk Priorities list ranking CVEs by Max RPS with KEV, exploit, CVSS and EPSS columns" />
+</Frame>
+
 Hover over a score to see its band and a one-line reason. Select it to open **Why this score**, which breaks the number down by factor: how many points each of Likelihood, Impact, and Exposure contributed, what share of its maximum each factor reached, and which factor contributed the most.
+
+<Frame>
+  <img src="/images/risk-scoring/risk-scoring-1.png" alt="Why this score breakdown showing likelihood, impact and exposure points for a 94 Risk Priority Score" />
+</Frame>
 
 ### Adjusting the RPS weights
 
@@ -164,7 +159,7 @@ The RPS is a weighted sum: `RPS = weight × Likelihood + weight × Impact + weig
   </Accordion>
 
   <Accordion title="My score dropped but I didn't change anything. Why?">
-    Usually one of three things: a new scan found something that was not visible before, such as a newly published CVE in software that was already installed; new devices or users were discovered, which changes the size baseline; or the scoring model was updated, which the release notes mention.
+    The most common cause is a newly published CVE in software that was already installed. New devices or users also change the size baseline, and scoring model updates can shift the number. Model updates are listed in the release notes.
   </Accordion>
 
   <Accordion title="Does accepting or resolving a finding affect the score?">

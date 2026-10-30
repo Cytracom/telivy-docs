@@ -15,16 +15,17 @@ Security section of both External Scans and Risk Assessments.
 ## Finding the results
 
 <Steps>
-  <Step title="Open the external scan results">
-    <img alt="External Scan section of the Telivy portal" src="/images/unsecured-emails/unsecured-emails-1.jpg" />
-  </Step>
   <Step title="Open Network Security">
-    In a Risk Assessment, the finding is in the same Network Security section.
-    <img alt="Network Security section of a Telivy risk assessment" src="/images/unsecured-emails/unsecured-emails-2.jpg" />
+    Open the assessment's **Security** tab and go to **Network Security**. It works the same way on External Scans and Risk Assessments.
+    <img alt="External Vulnerabilities and Open Ports and Network Vulnerabilities cards on the Security tab" src="/images/unsecured-emails/unsecured-emails-2.jpg" />
+  </Step>
+  <Step title="Find the finding">
+    **Email without SSL/TLS Found** is listed in the **Open Ports and Network Vulnerabilities** card, under its severity.
+    <img alt="Open Ports and Network Vulnerabilities card with Email without SSL/TLS Found under High severity" src="/images/unsecured-emails/unsecured-emails-1.jpg" />
   </Step>
   <Step title="Review the ports">
-    Click the finding to see the list of ports that accept unencrypted mail traffic.
-    <img alt="List of ports found sending email without SSL/TLS" src="/images/unsecured-emails/unsecured-emails-3.jpg" />
+    Click the finding to see the recommendation and the domains and ports that accept unencrypted mail traffic.
+    <img alt="Email without SSL/TLS Found detail with recommendation and the list of affected domains and ports" src="/images/unsecured-emails/unsecured-emails-3.jpg" />
   </Step>
 </Steps>
 

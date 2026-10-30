@@ -4,20 +4,27 @@ sidebarTitle: "HaloPSA"
 description: "Connect HaloPSA to Telivy with an API application so security findings open Halo tickets, and closed tickets resolve the finding in Telivy."
 ---
 
-The HaloPSA integration opens a Halo ticket for each security finding Telivy raises for a client, keeps the ticket title current while the finding is open, and keeps the finding and the ticket in step when either side is resolved. Your technicians work the finding from the Halo service desk they already use.
+The HaloPSA integration opens a Halo ticket for each security finding Telivy raises for a mapped client, so technicians can work it from the Halo service desk. When a technician closes the ticket, Telivy marks the finding as resolved. When you resolve or accept a finding in Telivy, Telivy can move its ticket to a status you choose.
 
-**Who should set this up:** an MSP administrator with access to **Configuration** in HaloPSA and to **Account → Integrations** in Telivy.
+Setting it up needs someone with access to **Configuration** in HaloPSA and to **Account → Integrations** in Telivy.
 
 ## How the integration works
 
 Telivy talks to the HaloPSA REST API with an API application you create in your Halo instance. The application signs in with a client ID and secret (the OAuth 2.0 client credentials flow), so no Halo user password is shared with Telivy. Telivy stores the secret encrypted and never shows it again after you save it.
 
-Once connected, the integration does four things:
+### Tickets
 
-1. **Opens a ticket per finding.** When a scan raises a finding in a category you chose to sync, Telivy creates a Halo ticket against the Halo client you mapped to that company. The ticket title starts with `[Telivy]` and the severity, and the ticket body explains the finding, the risk, the recommended fix and the Telivy references, with a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab. The Halo priority follows the finding severity: Critical findings get priority 1, High get 2, Medium get 3, Low and Info get 4.
-2. **Updates the same ticket on rescans.** If the finding is still present on the next scan, Telivy updates the title of the existing ticket instead of opening a second one.
-3. **Reads resolutions back from Halo.** Every hour Telivy checks the tickets it opened. A ticket that Halo shows as closed (Halo records a close date when a ticket reaches a closing status such as **Closed**) marks the finding as **Resolved in PSA** in Telivy, with the ticket number and status in the reason. If the issue is still there, the next scan raises the finding again. You can also run this check on demand with **Check HaloPSA for updates** on the assessment's PSA card.
-4. **Closes tickets from Telivy decisions.** When you resolve or accept a finding in Telivy, Telivy moves its Halo ticket to the status you choose in the ticket settings.
+Once HaloPSA is connected and a company is mapped, each finding in a category you chose to sync opens one ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a Halo ticket against the Halo client you mapped to that company. The ticket title starts with `[Telivy]` and the severity, and the ticket body explains the finding, the risk, the recommended fix and the Telivy references, with a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab. The Halo priority follows the finding severity: Critical findings get priority 1, High get 2, Medium get 3, Low and Info get 4.
+
+If the finding is still present on the next scan, Telivy updates the title of the existing ticket instead of opening a second one.
+
+### Resolutions read back from Halo
+
+Every hour Telivy checks the tickets it opened. A ticket that Halo shows as closed (Halo records a close date when a ticket reaches a closing status such as **Closed**) marks the finding as **Resolved in PSA** in Telivy, with the ticket number and status in the reason. If the issue is still there, the next scan raises the finding again. You can also run this check on demand with **Check HaloPSA for updates** on the assessment's PSA card.
+
+### Decisions made in Telivy
+
+When you resolve or accept a finding in Telivy, Telivy moves its Halo ticket to the status you choose in the ticket settings.
 
 <Frame>
   <img src="/images/halopsa/halopsa-9.png" alt="A HaloPSA ticket created by Telivy, showing the severity in the title and the finding details, risk and recommendation in the body" />
@@ -38,6 +45,10 @@ The application signs in as the Halo agent you pick, so tickets are created unde
 ### One PSA at a time
 
 An agency connects one PSA. While ConnectWise or Autotask is enabled, the HaloPSA switch is disabled and Telivy shows **Disable ConnectWise to connect HaloPSA** (or Autotask). Disabling a PSA keeps its credentials and company mappings, so you can switch back later. When you switch, your sync settings under **Alerts → Policies** carry over to the newly connected PSA. Company mappings do not carry over, because each PSA has its own company records, so map your companies again after switching.
+
+<Frame>
+  <img src="/images/halopsa/halopsa-10.png" alt="PSA Integrations card with HaloPSA connected and the Close tickets when a finding is accepted or resolved switch" />
+</Frame>
 
 ## Prerequisites
 
@@ -65,7 +76,7 @@ An agency connects one PSA. While ConnectWise or Autotask is enabled, the HaloPS
     </Frame>
   </Step>
   <Step title="Copy the client ID and secret, and pick the agent">
-    Halo generates a **Client ID** and a **Client Secret**. Copy both now: Halo shows the secret only once, and generating a new one stops the old one from working.
+    Halo generates a **Client ID** and a **Client Secret**. Copy both now. Halo shows the secret only once, and generating a new one stops the old one from working.
 
     Set **Login Type** to **Agent** and **Agent to log in as** to the agent Telivy should act as.
 
@@ -113,6 +124,7 @@ An agency connects one PSA. While ConnectWise or Autotask is enabled, the HaloPS
 
     - **Ticket Type**: the type Telivy opens tickets as, for example **Incident**. Leave it blank to use Halo's default.
     - **New Ticket Status**: the status a new ticket starts in. Leave it blank to use Halo's default.
+
     Under **Finding decisions**:
 
     - **Resolved Status**: the status Telivy sets when you resolve a finding in Telivy. Choose **Closed** so Halo records the ticket as closed. Leave it blank if Telivy should not change ticket status.
@@ -134,7 +146,7 @@ Under **Account → Integrations → Ticket settings**, the **Close tickets when
 
 ## Step 4: Map each company to a Halo client
 
-Telivy needs to know which Halo client a company's tickets belong to. Map each company once. A Halo client can belong to one Telivy company at a time: mapping a client that is already mapped moves it to the new company, and the previous company shows **Not mapped** again.
+Telivy needs to know which Halo client a company's tickets belong to. Map each company once. A Halo client can belong to one Telivy company at a time. Mapping a client that is already mapped moves it to the new company, and the previous company shows **Not mapped** again.
 
 <Steps>
   <Step title="Open the mapping dialog">
@@ -154,10 +166,11 @@ Telivy needs to know which Halo client a company's tickets belong to. Map each c
 
 ## Work with tickets from Telivy
 
-- **PSA column.** Finding tables on the **Risk** tab show a **PSA** column. Each dot shows whether the finding is synced, synced but not yet resolved or accepted in Telivy, failed, or not synced. Click a dot to open the existing ticket, or to create one for a finding that has none.
-- **Sync in bulk.** Select findings and click **Sync to PSA** to open tickets for all of them at once. **Find unsynced in HaloPSA** lists the assessment's findings that should have a ticket but do not, and queues them.
-- **Check for closed tickets now.** The PSA card on the assessment's **Configuration** tab has **Check HaloPSA for updates**, which runs the hourly read-back straight away for that assessment.
-- **Unmap a company.** **Unmap** on the PSA card stops new tickets for that company. Tickets already in Halo are left alone, and findings that were synced before do not sync again if you map the company somewhere else.
+Finding tables on the **Risk** tab have a **PSA** column. Each dot shows whether the finding is synced, synced but not yet resolved or accepted in Telivy, failed, or not synced. Click a dot to open the existing ticket, or to create one for a finding that has none.
+
+To open tickets for many findings at once, select them and click **Sync to PSA**. **Find unsynced in HaloPSA** lists the assessment's findings that should have a ticket but do not, and queues them.
+
+The PSA card on the assessment's **Configuration** tab has **Check HaloPSA for updates**, which runs the hourly read-back straight away for that assessment. The same card has **Unmap**, which stops new tickets for that company. Tickets already in Halo stay as they are, and findings that were synced before do not sync again if you map the company somewhere else.
 
 Deleting a company in Telivy releases its Halo mapping, so the Halo client can be mapped to another company.
 
@@ -172,7 +185,7 @@ Deleting a company in Telivy releases its Halo mapping, so the Halo client can b
 
 <AccordionGroup>
   <Accordion title="Test Connection fails">
-    Check that the HaloPSA URL is the address you sign in with and starts with `https://`, that the client ID and secret were copied without extra spaces, and that the application is **Active** in Halo. If someone clicked **Generate** in Halo after you copied the secret, the old secret no longer works: copy the new one and reconnect.
+    Check that the HaloPSA URL is the address you sign in with and starts with `https://`, that the client ID and secret were copied without extra spaces, and that the application is **Active** in Halo. If someone clicked **Generate** in Halo after you copied the secret, the old secret no longer works. Copy the new one and reconnect.
   </Accordion>
   <Accordion title="Telivy says the API application is missing a permission">
     Open the application in **Configuration → Integrations → Halo API → View Applications** and make sure **read:tickets**, **edit:tickets** and **read:customers** are ticked on the **Permissions** tab.

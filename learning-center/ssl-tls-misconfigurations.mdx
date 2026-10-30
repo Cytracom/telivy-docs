@@ -4,14 +4,13 @@ sidebarTitle: SSL/TLS Misconfigurations
 description: 'Common SSL/TLS misconfigurations Telivy finds on client websites, such as expired certificates, missing HTTPS or HSTS, and weak CSP, with severity and fixes.'
 ---
 
-SSL/TLS is the encryption that protects traffic between a browser and a website. A misconfiguration is any mistake in how it is set up: an expired or untrusted certificate, a site that still answers over plain HTTP, or missing security headers that tell browsers how to protect the connection. Each one weakens the protection SSL/TLS is supposed to give.
+SSL/TLS is the encryption that protects traffic between a browser and a website. A misconfiguration is a mistake in how it is set up, such as an expired or untrusted certificate, a site that still answers over plain HTTP, or missing security headers that tell browsers how to protect the connection.
 
 ## Why it matters
 
-- **Interception.** Without properly configured SSL/TLS, anyone on the network path, for example on public Wi-Fi, can read logins, session tokens, and form data.
-- **Tampering.** If HTTPS is not enforced, or HSTS is missing, an attacker can downgrade a connection and change the page before it reaches the browser: injecting scripts, swapping payment details, or redirecting to a fake site.
-- **Compliance.** GDPR, HIPAA, and PCI DSS all expect sensitive data to be encrypted in transit. A misconfigured customer-facing site can put a client out of compliance.
-- **Trust.** Browser certificate warnings drive visitors away and make the site look compromised even when it is not.
+Without working SSL/TLS, anyone on the network path, for example on public Wi-Fi, can read logins, session tokens, and form data. If HTTPS is not enforced or HSTS is missing, an attacker can downgrade the connection and change the page before it reaches the browser, for example to inject a script or swap payment details.
+
+GDPR, HIPAA, and PCI DSS all expect sensitive data to be encrypted in transit, so a misconfigured customer-facing site can put a client out of compliance. Certificate warnings in the browser also drive visitors away and make the site look compromised even when it is not.
 
 Email encryption is checked separately: Telivy's mail authentication checks look for mail servers that do not support STARTTLS.
 
@@ -28,7 +27,7 @@ Email encryption is checked separately: Telivy's mail authentication checks look
 - **Expired or expiring certificate.** The certificate has expired or expires within 30 days.
 - **Self-signed certificate.** Browsers show security warnings for self-signed certificates on public sites.
 - **Weak signing algorithm.** The certificate is signed with a hash weaker than SHA-256, which makes forgery easier.
-- **Missing Content Security Policy (CSP).** Without a CSP header, the site lacks a key defense against cross-site scripting and data injection.
+- **Missing Content Security Policy (CSP).** Without a CSP header, the browser has no list of allowed script sources, which makes cross-site scripting and data injection easier.
 - **Missing or misconfigured HSTS.** A missing, short-lived, or wrongly scoped Strict-Transport-Security header leaves the site open to protocol downgrade and cookie hijacking.
 
 ### Low
@@ -38,7 +37,7 @@ Email encryption is checked separately: Telivy's mail authentication checks look
 
 ## How attackers exploit it
 
-Attackers use these gaps for man-in-the-middle attacks, downgrade attacks that force a weaker protocol, session hijacking with stolen cookies, content injection, and phishing sites that copy a real one. The results are data breaches, fraud, regulatory penalties, and lost customer trust.
+Attackers use these gaps for man-in-the-middle attacks, downgrade attacks that force a weaker protocol, session hijacking with stolen cookies, content injection, and phishing sites that copy a real one.
 
 ## Remediation
 

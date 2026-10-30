@@ -4,7 +4,7 @@ sidebarTitle: "Claude Desktop"
 description: "Connect Claude Desktop to the Telivy MCP server through the mcp-remote bridge so Claude can read your Telivy assessments, findings and scans."
 ---
 
-This page shows how to connect the Claude desktop app to the Telivy MCP server. Custom connectors that you add by URL in Claude sign in with OAuth, which the Telivy MCP server does not support at the moment. Instead, Claude Desktop starts a small local program, [`mcp-remote`](https://github.com/geelen/mcp-remote), which runs on your computer, adds the `x-api-key` header, and forwards Claude's requests to `https://api-v1.telivy.com/mcp`.
+The Claude desktop app reaches the Telivy MCP server through a local bridge. Custom connectors that you add by URL in Claude sign in with OAuth, which the Telivy MCP server does not support at the moment. Instead, Claude Desktop starts a small local program, [`mcp-remote`](https://github.com/geelen/mcp-remote), which runs on your computer, adds the `x-api-key` header, and forwards Claude's requests to `https://api-v1.telivy.com/mcp`.
 
 ## Prerequisites
 

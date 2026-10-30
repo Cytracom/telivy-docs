@@ -14,12 +14,7 @@ Typosquatting, also called URL hijacking or domain squatting, is registering a d
 
 The attacker registers several close variants of the target's domain. Some point the domain at a copy of the real login page. Others use it to send email that appears to come from the company or one of its suppliers, which is a common start to invoice fraud and business email compromise.
 
-The main risks are:
-
-- **Phishing.** A fake login page on a lookalike domain collects passwords and payment details.
-- **Business email compromise.** Email from `acme-corp.com` instead of `acmecorp.com` is easy to miss, especially on a phone.
-- **Malware.** The domain hosts downloads or links that install malware.
-- **Brand damage.** Customers who are defrauded through a lookalike domain often blame the real company.
+A fake login page on a lookalike domain collects passwords and payment details. Email from `acme-corp.com` instead of `acmecorp.com` is easy to miss, especially on a phone. The domain can also host malware downloads, and customers defrauded through a lookalike often blame the real company.
 
 ## How Telivy helps
 
@@ -27,8 +22,8 @@ Telivy checks for registered domains that look like the client's domains and rep
 
 ## What to do about it
 
-- **Monitor.** Keep watching for new lookalike registrations so you hear about them before they are used.
-- **Register the obvious variants.** Buying the most likely misspellings and other top-level domains of the client's domain takes them off the market.
-- **Report and take down.** Report malicious lookalikes to the registrar or hosting provider. Trademark owners can also use legal routes, such as a UDRP complaint, to take over the domain.
-- **Protect email.** SPF, DKIM, and DMARC on the real domain do not stop a lookalike domain, but they make it harder to spoof the real one. Mail filtering that flags lookalike sender domains helps with the rest.
-- **Train users.** Show staff what lookalike domains look like and ask them to report anything suspicious. Bookmarks for frequently used sites reduce typing mistakes.
+- Keep monitoring, so you hear about new lookalike registrations before they are used.
+- Register the most likely misspellings and other top-level domains of the client's domain to take them off the market.
+- Report malicious lookalikes to the registrar or hosting provider. Trademark owners can also file a UDRP complaint to take over the domain.
+- Set up SPF, DKIM, and DMARC on the real domain. They do not stop a lookalike domain, but they make the real one harder to spoof. Mail filtering that flags lookalike sender domains covers some of the rest.
+- Show staff what lookalike domains look like and ask them to report anything suspicious. Bookmarks for frequently used sites cut down on typing mistakes.

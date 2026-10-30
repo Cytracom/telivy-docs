@@ -4,6 +4,8 @@ sidebarTitle: "Auto Update (Beta)"
 description: "Keep the Telivy agent on Windows and macOS up to date automatically, with account, assessment, and per-device settings and Stable or Beta release channels."
 ---
 
+With auto-update on, the Telivy agent upgrades itself when a new version is released, so you do not have to redeploy it across every client.
+
 ## How auto-update works
 
 On each hourly check-in, before starting the scanner, the agent checks the update manifest. If an update is available, the system:
@@ -16,7 +18,6 @@ On each hourly check-in, before starting the scanner, the agent checks the updat
 
 If the update fails, the agent sends the error and its log to Telivy and tries again, up to **3 times** in total. After that it stops trying and keeps running its current version.
 
-
 ## Configuring auto-update
 
 You can set auto-update at three levels. A more specific setting overrides a broader one:
@@ -27,8 +28,7 @@ You can set auto-update at three levels. A more specific setting overrides a bro
 | Assessment | #2 | Overrides account settings for all machines in the assessment |
 | Machine | #1 (highest) | Overrides both account and assessment settings for a specific machine |
 
-Telivy uses the most specific setting it finds. If auto-update is on for an assessment, every machine in it updates unless a machine has its own setting. This lets you turn updates on for everyone, try beta versions on a few machines first, or hold back machines that need to stay stable.
-
+Telivy uses the most specific setting it finds. If auto-update is on for an assessment, every machine in it updates unless the machine has its own setting.
 
 ### Account level
 
@@ -37,7 +37,6 @@ Go to **Account > Assessment Defaults** (`https://portal.telivy.com/agent/accoun
 ![Agent Updates card on the Assessment Defaults page with the auto-update switch and release channel](/images/account-settings-agent-updates.png)
 
 Turn on the switch and choose a **Release Channel**. Use **Stable** at the account level.
-
 
 ### Assessment level
 
@@ -55,11 +54,7 @@ Select **Update Settings** to open the assessment's update settings and override
 
 When an assessment is created with ThreatLocker as its antivirus, Telivy turns auto-update off for it, because ThreatLocker blocks MSI-based updates. You can turn it back on here.
 
-Options:
-
-- **Auto-Update**: Check "Override account setting" to set a different auto-update toggle for this assessment. The dialog shows the current inherited status (e.g., "Currently **enabled** (inherited from account)").
-- **Release Channel**: Check "Override global default setting" to select a different channel for this assessment.
-
+Tick **Override account setting** to turn auto-update on or off for this assessment. The dialog shows what it inherits, for example "Currently **enabled** (inherited from account)". Tick **Override global default setting** to pick a different release channel.
 
 ### Machine level
 
@@ -71,41 +66,44 @@ Select **Update Settings** to override the account and assessment settings for t
 
 ![Machine update settings dialog showing inherited auto-update status and release channel](/images/machine-update-settings.png)
 
-Options:
-
-- **Auto-Update**: Check "Override account setting" to enable or disable auto-update for this specific machine. The dialog shows the current inherited status (e.g., "Currently **enabled** (inherited from account)").
-- **Release Channel**: Check "Override assessment setting" to assign a different channel to this machine. The dialog shows the inherited channel (e.g., "Currently using **Beta** channel (inherited from assessment)").
-
+Tick **Override account setting** to turn auto-update on or off for this machine, or **Override assessment setting** to give it a different release channel. The dialog shows the inherited values, for example "Currently using **Beta** channel (inherited from assessment)".
 
 ## Release channels
 
 | Channel | Purpose |
 | --- | --- |
-| Stable | Production-ready releases, recommended for most deployments |
+| Stable | Production releases. Use this for client environments. |
 | Beta | Pre-release versions for early testing |
-
-Use **Stable** for client environments.
-
 
 ## Examples
 
-**Example 1, Enable auto-update for all clients:** Set Auto-Update to Enabled at the Account level with the Stable channel. All assessments and machines inherit this setting automatically.
-
-**Example 2, Test beta on one assessment:** Keep the Account level on Stable. Override the Release Channel to Beta on a single assessment. All machines in that assessment receive beta updates while everything else stays on Stable.
-
-**Example 3, Test beta on specific machines only:** Keep the Account level on Stable. Override individual machines to the Beta channel via the Machine Level settings. Only those specific machines receive beta updates.
-
-**Example 4, Opt a machine out of auto-update:** Enable auto-update at the Account or Assessment level. Override a specific machine's Auto-Update setting to Disabled. That machine will not auto-update while all others continue as configured.
-
+| Goal | Setup |
+| --- | --- |
+| Auto-update every client | Turn on auto-update at the account level with the Stable channel. Every assessment and machine inherits it. |
+| Try Beta on one assessment | Keep the account on Stable and override the release channel to Beta on that assessment. Only its machines get beta updates. |
+| Try Beta on a few machines | Keep the account on Stable and override the release channel to Beta on those machines. |
+| Keep one machine off auto-update | Leave auto-update on at the account or assessment level and override that machine's auto-update to off. |
 
 ## FAQ
 
-**Q: What happens if an update fails?** The agent sends the error log to Telivy and retries up to 3 times. If every attempt fails, it keeps running its current version.
+<AccordionGroup>
+  <Accordion title="What happens if an update fails?">
+    The agent sends the error log to Telivy and retries, up to 3 attempts in total. If every attempt fails, it keeps running its current version.
+  </Accordion>
 
-**Q: Do I need to uninstall the old agent before updating?** No. Auto-update upgrades the agent in place.
+  <Accordion title="Do I need to uninstall the old agent before updating?">
+    No. Auto-update upgrades the agent in place.
+  </Accordion>
 
-**Q: What is the minimum agent version that supports auto-update?** Windows: **30.3.6.1** | macOS: **3.3.0**. Agents running older versions must be redeployed manually with a current installer.
+  <Accordion title="Which agent versions support auto-update?">
+    Windows **30.3.6.1** and macOS **3.3.0** or later. Older agents have to be redeployed with a current installer.
+  </Accordion>
 
-**Q: How often does the agent check for updates?** Every hour, on the same check-in where it sends its heartbeat and picks up any pending instruction. See [Scanning Schedule](/products/risk-monitoring/scanning-schedule) for what else happens on that cycle.
+  <Accordion title="How often does the agent check for updates?">
+    Every hour, on the same check-in where it sends its heartbeat and picks up pending instructions. [Scanning Schedule](/products/risk-monitoring/scanning-schedule) lists what else runs on that cycle.
+  </Accordion>
 
-**Q: Can I mix Stable and Beta?** Yes. Keep the account on Stable and set Beta on one assessment or on individual machines.
+  <Accordion title="Can I mix Stable and Beta?">
+    Yes. Keep the account on Stable and set Beta on one assessment or on individual machines.
+  </Accordion>
+</AccordionGroup>

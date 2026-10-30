@@ -22,13 +22,10 @@ issuing one.
   </Tab>
 </Tabs>
 
-Think of a letter sent in a locked box (encryption) with a verified seal on the address
-label (authentication). A certificate does both jobs for web traffic.
-
 ## What Telivy checks
 
 Telivy checks the certificates on the company's domains and subdomains and raises a
-finding for each of these problems.
+finding for each problem below.
 
 <AccordionGroup>
   <Accordion title="Expired certificates and certificates about to expire">
@@ -41,7 +38,7 @@ finding for each of these problems.
 
   <Accordion title="Self-signed certificates">
     A self-signed certificate wasn't issued by a trusted CA, so browsers don't trust it and
-    show a security warning. That costs visitors and trust.
+    show visitors a security warning.
 
     Telivy flags self-signed certificates as a Medium severity finding.
   </Accordion>

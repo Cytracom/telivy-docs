@@ -12,9 +12,9 @@ During its scan, the agent asks the operating system for each volume's encryptio
 
 ## Why it matters
 
-- **Breach notification.** HIPAA, state breach notification laws, and most cyber insurers treat data on an unencrypted device as exposed once the device leaves the owner's hands. With encryption, it is a lost laptop. Without it, it is a notification event with legal costs.
-- **Cyber insurance.** Many insurers ask for confirmation that endpoints are encrypted. Telivy's daily check gives you evidence rather than an assumption.
-- **Easy fix.** BitLocker and FileVault are built in, free, and invisible to the user once on. Most findings come from devices where encryption was never turned on, was suspended for an update and never resumed, or only covers the system drive and not the data drive.
+HIPAA, state breach notification laws, and most cyber insurers treat data on an unencrypted device as exposed once the device leaves the owner's hands. With encryption, a stolen laptop is lost hardware. Without it, it is a notification event with legal costs. Many insurers also ask for confirmation that endpoints are encrypted, and Telivy's daily check gives you evidence for that answer.
+
+The fix is usually cheap. BitLocker and FileVault are built in, free, and invisible to the user once on. Most findings come from devices where encryption was never turned on, was suspended for an update and never resumed, or covers the system drive but not the data drive.
 
 ## How detection works
 
@@ -111,7 +111,7 @@ The next agent scan closes the finding once the volume is protected.
 
 <AccordionGroup>
   <Accordion title="BitLocker is enabled. Why is the disk still flagged?">
-    Enabled is not the same as protecting. The most common cause is BitLocker suspended after a firmware or feature update. Run `manage-bde -status`. If it says `Protection Status: Protection Off`, the volume is not protected even though encryption is set up.
+    BitLocker can be set up while protection is off. The most common cause is BitLocker suspended after a firmware or feature update. Run `manage-bde -status`. If it says `Protection Status: Protection Off`, the volume is not protected even though encryption is set up.
   </Accordion>
 
   <Accordion title="Is there one finding per device?">

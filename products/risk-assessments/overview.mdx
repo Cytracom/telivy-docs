@@ -6,16 +6,15 @@ description: 'What a Telivy Risk Assessment covers: internal network scans, PII 
 
 A Risk Assessment measures a client's security from the inside as well as the outside. It includes everything in an [External Assessment](/products/external-assessments/overview) and adds data from the Telivy agent on the client's devices and from their cloud accounts.
 
-It covers:
+A Risk Assessment scans the external attack surface and the client's internal devices for vulnerabilities, and gives each vulnerability a [Risk Priority Score](/scoring/risk-scoring#risk-priority-score) so you know what to fix first. On top of that, it collects:
 
-- **Network scanning:** the external attack surface plus internal devices, checked for vulnerabilities. Each vulnerability gets a [Risk Priority Score](/scoring/risk-scoring#risk-priority-score) so you know what to fix first.
-- **Application scanning:** the applications installed on each device, listed under **Inventory > Installed Apps**.
-- **Web activity:** the websites people visit from company devices, which ones are AI tools, and which ones need review. See [Web activity and AI use](#web-activity-and-ai-use) below.
-- **[Data Security](/products/risk-assessments/data-security):** PII stored on devices, such as SSNs, card numbers, and health IDs, with a dollar value for the exposure.
-- **[Identity and Access Management](/products/risk-assessments/identity-and-access-management):** passwords saved in browsers, checked for breaches, weakness, and reuse.
-- **Dark Web:** leaked credentials and personal details tied to the client's domains, including usernames, passwords, IP addresses, emails, physical addresses, and phone numbers.
-- **Cloud security:** [Microsoft 365](/products/risk-assessments/microsoft-365-security) and [Google Workspace](/products/risk-assessments/google-workspace-security) accounts, MFA, sign-ins, Secure Score gaps, and tenant policies.
-- **[Compliance](/products/risk-assessments/compliance):** findings mapped to the CIS Critical Security Controls.
+- The applications installed on each device, listed under **Inventory > Installed Apps**.
+- The websites people visit from company devices, including AI tools and sites that need review. See [Web activity and AI use](#web-activity-and-ai-use) below.
+- PII stored on devices, such as SSNs, card numbers, and health IDs, with a dollar value for the exposure. See [Data Security](/products/risk-assessments/data-security).
+- Passwords saved in browsers, checked for breaches, weakness, and reuse. See [Identity and Access Management](/products/risk-assessments/identity-and-access-management).
+- Leaked credentials and personal details tied to the client's domains on the dark web, such as usernames, passwords, IP addresses, emails, physical addresses, and phone numbers.
+- Accounts, MFA, sign-ins, Secure Score gaps, and tenant policies from [Microsoft 365](/products/risk-assessments/microsoft-365-security) and [Google Workspace](/products/risk-assessments/google-workspace-security).
+- A mapping of findings to the CIS Critical Security Controls on the [Compliance](/products/risk-assessments/compliance) tab.
 
 ## Web activity and AI use
 
@@ -26,7 +25,11 @@ The agent records which websites are visited from each device. Find them on the 
 
 The **AI** column reads **Yes** when Telivy has classified the site as a generative AI tool, **No** when it has classified it and it is not one, and **Unknown** when the site has not been classified yet. Treat **Unknown** as unreviewed, not as safe.
 
-Two different things raise a site's **Risk** rating: it can carry company or personal data off the network, or it should not be used on a work machine at all. An AI assistant and a gambling site can both be High for completely different reasons, so expand the row to see which applies.
+<Frame>
+  <img src="/images/risk-assessments-overview/risk-assessments-overview-1.png" alt="Web Activity Websites view filtered to AI, showing the AI type, category and risk for each website" />
+</Frame>
+
+Two different things raise a site's **Risk** rating: it can carry company or personal data off the network, or it should not be used on a work machine at all. An AI assistant and a gambling site can both be High for different reasons, so expand the row to see which applies.
 
 Use the **Needs review** filters to narrow the list:
 

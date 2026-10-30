@@ -4,7 +4,7 @@ sidebarTitle: "Data Security"
 description: "How Telivy finds PII such as SSNs, card numbers and health IDs on client endpoints, what it stores, how dollar risk is set, and how to mask PII for HIPAA."
 ---
 
-Data Security is the part of a Risk Assessment that looks for personally identifiable information (PII) stored on a client's devices and puts a dollar figure on it. This page covers what the scan looks for, what Telivy stores, how to read the results, and how to configure masking for clients with HIPAA or other privacy requirements.
+Data Security is the part of a Risk Assessment that looks for personally identifiable information (PII) stored on a client's devices and puts a dollar figure on it. If a client has HIPAA or other privacy requirements, read the section on masking before you scan.
 
 ## How PII detection works
 
@@ -13,9 +13,7 @@ During each scan the Telivy agent reads files on the endpoint and looks for cont
 ## Requirements
 
 - A **Risk Assessment**. External Assessments do not scan for PII.
-- The Telivy agent on the devices you want scanned. You can also scan without installing the agent, with one limit:
-  - **Agent (recommended):** the scan runs with system privileges and can read every file on the device.
-  - **Agentless:** the scan runs as the signed-in user, so it only sees files that user can open.
+- The Telivy agent on the devices you want scanned. The agent scans with system privileges and can read every file on the device. You can also scan without installing the agent, but then the scan runs as the signed-in user and only sees files that user can open.
 
 ## PII types by country
 
@@ -59,9 +57,9 @@ Passwords are handled differently. The password analysis never sends cleartext p
 
 ## Mask PII Data
 
-The **Mask PII Data (may be required under HIPAA)** setting removes matched values from the **Data Found** view, from CSV exports, and from anywhere else a raw match would appear. Match counts, file paths, devices, and dollar risk are still shown, so the finding stays actionable.
+The **Mask PII Data (may be required under HIPAA)** setting removes matched values from the **Data Found** view, from CSV exports, and from anywhere else a raw match would appear. Match counts, file paths, devices, and dollar risk are still shown, so you can still act on the finding.
 
-Turn it on for clients that handle protected health information, for clients whose vendor risk program does not allow a third party to store production PII, or across your whole client base if you want one consistent policy.
+Turn it on for clients that handle protected health information or whose vendor risk program does not allow a third party to store production PII. Some agencies turn it on for every client so there is one policy to explain.
 
 ### Where to set it
 
@@ -86,9 +84,9 @@ Change the costs when a client is in a regulated industry with known per-record 
 
 ## Using the results with a client
 
-Start by filtering the data risk table by device. A few machines usually hold most of the exposure: file servers, finance and HR laptops, and old devices full of years of exports. Sort by risk rather than match count, because one large export can inflate the count while being a single file. Check those devices against [disk encryption](/learning-center/disk-encryption-detection) findings too, since an unencrypted laptop holding regulated PII is the most urgent fix.
+Start by filtering the data risk table by device. A few machines usually hold most of the exposure: file servers, finance and HR laptops, and old devices full of years of exports. Sort by risk rather than match count, because a single large export can have thousands of matches. Check those devices against [disk encryption](/learning-center/disk-encryption-detection) findings too. An unencrypted laptop holding regulated PII is the most urgent fix.
 
-The usual remediation steps are to delete or archive stale exports, move active datasets into managed cloud storage with access controls, encrypt any device that holds regulated PII with BitLocker or FileVault, and tighten file server permissions so teams only see their own data. When a file is deleted or moved, the next scan drops it from the results.
+Typical fixes: delete or archive stale exports, move active datasets into managed cloud storage with access controls, encrypt devices that hold regulated PII with BitLocker or FileVault, and tighten file server permissions so teams only see their own data. When a file is deleted or moved, the next scan drops it from the results.
 
 ## FAQ
 
