@@ -1,31 +1,61 @@
 ---
-title: "Companies"
-description: "Manage your book of client companies from one place, separate from individual assessments."
+title: "Manage Client Companies"
+sidebarTitle: "Companies"
+description: "Manage your client companies in Telivy: filter and search the list, edit details, map each company to your PSA, and delete companies safely."
 ---
 
-## Overview
+## What the Companies page is for
 
-The **Companies** area is where you manage the organizations you work with, separate from the individual assessments run against them. One company can have multiple assessments over time; Companies is the single list that keeps them organized.
+**Companies** lists the organizations you work with, separately from the assessments run
+against them. One company can have several assessments over time, and this page is the
+single list that ties them together.
 
 ## The companies list
 
-Each row represents a client company and shows:
+Each row is one client company. The columns are:
 
-- **Status** of the company
-- **Company name** and domain
-- **Industry** and **Category**
-- **Anti-Virus** in use
-- Number of **assessments**
-- **Created** date
+| Column | What it shows |
+| --- | --- |
+| Status | Where the company stands with you, from early prospect to client |
+| Company Name | The company and its domain |
+| Industry | The industry recorded for the company |
+| Category | Your own grouping for the company |
+| Anti Virus | The antivirus product in use |
+| PSA | Which PSA company it is mapped to, or **Not mapped**. Only shown when a PSA integration is enabled |
+| Assessments | How many assessments belong to the company |
+| Created | When the company was added |
 
-Use the filter bar at the top to narrow the list down (for example, by status or category).
+Use **Search by company** to find a company by name, and the filter buttons to narrow the
+list by **Status**, **Category**, or **Creation Date**.
+
+<Frame>
+  <img src="/images/companies/companies-1.png" alt="Companies list with the PSA column showing mapped HaloPSA companies" />
+</Frame>
 
 ## Managing a company
 
-From a company's row action menu you can:
+Open the menu at the end of a row to:
 
-- **Edit company** details inline (industry, category, and other attributes).
-- **View assessments** for that company.
-- **Delete** the company when it is no longer needed.
+- **Edit** the company details, such as industry, category, and antivirus.
+- **View Assessments** to jump to that company's assessments.
+- **Map to PSA** (or **Change PSA mapping** if it is already mapped) to link the company to
+  a company in ConnectWise, Autotask, or HaloPSA, so tickets for its findings land in the
+  right place.
+- **Delete** the company.
 
-Keeping company details accurate (industry, category, anti-virus) improves reporting and makes it easier to group and filter your client base as it grows.
+Filling in the category for every company is what makes the **Category** filter useful once
+the list gets long.
+
+## Deleting a company
+
+Deleting a company also deletes every assessment that belongs to it, and it cannot be
+undone. The confirmation dialog shows how many assessments will go with it.
+
+Because of the amount of data involved, Telivy schedules the deletion and processes it in
+the background. Until it finishes, the row shows **Company scheduled for deletion** and the
+**Delete** action is disabled.
+
+<Warning>
+  If you only want to stop working on a client, archive their assessments instead. Archived
+  assessments keep their history and can be unarchived later.
+</Warning>

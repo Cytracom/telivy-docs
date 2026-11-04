@@ -1,29 +1,34 @@
 ---
-title: Track Submissions with UTM Source
-description: 'Understand where leads are coming from'
+title: "Track Lead Magnet Submissions with UTM Source"
+sidebarTitle: "Track Submissions with UTM Source"
+description: "Tag Telivy Lead Magnet links and custom forms with a UTM source to see which website, email or social campaign each prospect submission came from."
 ---
 
-Once the lead magnet is set up in multiple marketing campaigns (e.g. email, website, Facebook, etc.), you need to track where submissions come from. This allows you to understand campaign performance and how they can be refined. The steps to track submissions will differ based on the configuration method: easy-go link or custom form.
+When the Lead Magnet runs in several places, such as your website, an email campaign and a social ad, a UTM source tells you which one each submission came from. How you add it depends on how the Lead Magnet is set up.
 
-## Track with the Easy-Go link
+## With the Easy-Go link
 
-Append ```utmSource``` to your link's query params. Ex. if the campaign's name is 'facebook-campaign-2', append it to the link like this: 
-
-```https://portal.telivy.com/start/{unique-account-id}?utmSource='facebook-campaign-2'```
-
-## Track with custom form
-
-Append ```utmSource``` to the form data. Ex. if the campaign's name is 'facebook-campaign-2', insert this code to the custom form:
+Add `utmSource` as a query parameter. For a campaign called `facebook-campaign-2`:
 
 ```
-...
-formData.append("agentId", {AGENT_ID});
+https://portal.telivy.com/start/{your-agent-id}?utmSource=facebook-campaign-2
+```
+
+Submissions made through a link without `utmSource` are recorded with the source `Unknown`.
+
+## With a custom form
+
+Add `utmSource` to the form data before sending it:
+
+```javascript
+formData.append("agentId", "your-agent-id");
 formData.append("utmSource", "facebook-campaign-2");
-...
 ```
 
-## View on Dashboard
+See [Configure with Custom Form](/products/lead-magnet/configure-with-custom-form) for the full form example.
 
-Upon submission, the UTM Source Column will display the source value you configured above.
+## See the source on your dashboard
+
+Each submission shows the value you set in the **UTM Source** column.
 
 <img alt="Dashboard table with the UTM Source column populated for a submission" src="/images/track-submissions-with-utm-source.png" />

@@ -1,83 +1,46 @@
 ---
-title: Dark Web Scans
-description: Find sensitive assets that are compromised
+title: Dark Web Scans and Leaked Credentials
+sidebarTitle: Dark Web Scans
+description: 'What a dark web scan finds, why leaked credentials matter to a small business, how breach age affects severity, and how to remediate exposed accounts.'
 ---
 
-The term "dark web breaches" typically refers to incidents where sensitive or confidential information from the dark web is exposed or stolen by cybercriminals. The dark web is a part of the internet that is not indexed by traditional search engines and is often associated with illegal activities and underground marketplaces. Breaches on the dark web can involve a wide range of data, including personal information, financial data, login credentials, and more.
+The dark web is the part of the internet that search engines do not index. Much of it hosts marketplaces and forums where data stolen in breaches is sold or shared: email addresses, passwords, phone numbers, home addresses, and financial details. A dark web scan checks those sources for data tied to a client's domains and people.
 
-Some common examples of dark web breaches include:
-1. Sale of Stolen Data
-2. Data Leaks
-3. Forum and Marketplace Takedown
-4. Hacks and Data Breaches
+## What Telivy finds
 
-## Risks
+Every Telivy assessment includes a dark web scan of the client's domains. Results appear under **Dark Web** on the assessment's **Security** tab, in the **Dark Web Data** table, and the **Dark Web Presence** card on the **Overview** summarizes them. A leaked record can include usernames, passwords, IP addresses, email addresses, physical addresses, and phone numbers.
 
-Running a dark web scan can offer several benefits for individuals and businesses:
-1. **Identifying Compromised Credentials:** A dark web scan can help identify whether any usernames, passwords, or other credentials associated with your organization have been compromised in data breaches. This early detection can allow you to take immediate action to secure accounts and prevent unauthorized access.
-2. **Preventing Data Breaches:** By identifying compromised credentials or sensitive information on the dark web, organizations can take proactive measures to strengthen their cybersecurity defenses and prevent potential data breaches. This may involve implementing stronger authentication methods, enforcing password policies, or enhancing security awareness training.
-3. **Protecting Reputation:** Data breaches can have serious consequences for an organization's reputation and credibility. By regularly scanning the dark web for compromised data, organizations can show customers and stakeholders that their information is being protected.
-4. **Compliance Requirements:** Many industries and regulatory frameworks require organizations to implement measures to protect sensitive data and prevent unauthorized access. Running a dark web scan can help organizations meet compliance requirements by identifying potential security vulnerabilities and taking appropriate actions to mitigate risks.
-5. **Enhancing Cybersecurity Awareness:** Regular dark web scans can help raise awareness among employees and stakeholders about the importance of cybersecurity and the potential risks of data breaches. This can lead to increased vigilance, improved security practices, and a stronger cybersecurity culture within the organization.
+On a Risk Assessment, Telivy also checks the passwords saved in employees' browsers against breach data and lists matches under **Browser Credentials on Dark Web**. See [Identity and Access Management](/products/risk-assessments/identity-and-access-management).
 
-Running a dark web scan helps organizations identify and mitigate cybersecurity risks, protect sensitive data, and maintain trust with customers and stakeholders. It is one part of a broader cybersecurity strategy for reducing the risk of data breaches.
+To hide leaked passwords in results and exports, turn on **Mask Dark Web Passwords** in the assessment's PII settings. See [Data Security](/products/risk-assessments/data-security#mask-pii-data).
 
-## Determining Severity
+## Why it matters
 
-The severity of a data leakage incident can vary significantly depending on several factors. When assessing the severity of a data leakage incident, organizations typically consider the following key aspects:
-- Type of Data
-- Volume of Data
-- Accessibility of Data
-- Impact on Individuals or Organizations
-- Regulatory and Legal Implications
-- Duration of Exposure
-- Mitigation Measures in Place
-- Public Exposure
-- Response Time
-- Notification and Communication
+Stolen credentials are the cheapest way into a company. Attackers try leaked email and password pairs against Microsoft 365, VPNs, and other logins, and they work whenever someone reused a password or never changed it. A leaked email address with a name and phone number is also enough to build a convincing phishing message.
 
-## How Can It Be Exploited
+A dark web scan tells you which accounts are already exposed, so you can reset them before someone uses them. For a prospect, it turns a general warning into a list of their own exposed accounts.
 
-Data breaches can occur through various methods and vulnerabilities, and they often result from security weaknesses or lapses in an organization's systems, processes, or human factors. Here are some common ways in which data breaches can happen:
-- Phishing Attacks
-- Malware and Viruses
-- Weak or Stolen Credentials
-- Unpatched Software
-- Insider Threats
-- Lost or Stolen Devices
-- Third-Party Vendors
-- Physical Security Breaches
-- File Sharing and Cloud Services
-- Web App Vulnerabilities
-- Lack of Encryption
+## How severity is judged
 
-## Security Impact
+Some leaks are more urgent than others. Four things decide how serious a finding is:
 
-Data leakage on the dark web can have significant security impacts on individuals and organizations. Here are some of the key security implications of data leakage on the dark web:
-1. Identity Theft
-2. Financial Loss
-3. Fraudulent Activities
-4. Phishing Attacks
-5. Reputation Damage
-6. Ransomware Attacks
-7. Targeted Attacks
-8. Increased Risk of Future Attacks
-9. Legal and Regulatory Consequences
+- **What leaked.** A password, especially in clear text, is worse than an email address alone.
+- **How recent it is.** Telivy grades a client lower when leaks are recent. Findings from the last two years count most, and leaks older than five years count least. See [Telivy Grading Criteria](/scoring/telivycriteria).
+- **Whose account it is.** An administrator or finance account matters more than a former intern's.
+- **Whether the password is still in use.** A leaked password that matches one still saved in a browser is an active risk.
 
-## Remediation Action Plan
+## How leaked data gets used
 
-Safeguarding your data from leakage on the dark web involves taking proactive measures to enhance your overall cybersecurity posture. Here are some steps you can take to reduce the risk of your data ending up on the dark web:
-1. Use Strong Passwords
-2. Multi-Factor Authentication
-3. Employee Training
-4. Data Encryption
-5. Security Audits and Penetration Testing
-6. Dark Web Monitoring
-7. Incident Response Plan
-8. Access Control
-9. Data Backups
-10. Monitoring and Alerts
+Leaked credentials lead to account takeover through credential stuffing, where attackers try the same password on many services. Leaked personal details feed targeted phishing and business email compromise, and both can end in fraud, ransomware, or more data theft. A company that appears in one breach is also more likely to be targeted again.
 
-Remember that no system can be completely impervious to cyber threats, but taking a proactive and layered approach to cybersecurity can significantly reduce the risk of data leakage on the dark web. It's essential to continually assess and improve your security measures to adapt to evolving threats.
+## Remediation
 
-**Note**: It's important to note that accessing and engaging with the dark web can be illegal and dangerous, as many activities conducted there are illicit. Individuals and organizations are strongly discouraged from attempting to access or participate in dark web activities.
+1. Reset the password for every account with a leaked password, and anywhere else the same password was used.
+2. Turn on MFA for those accounts, starting with administrators and anyone who handles money.
+3. Check sign-in logs for the affected accounts for unusual locations or failed attempts. For Microsoft 365 clients, the [Microsoft 365 Security](/products/risk-assessments/microsoft-365-security) view shows these.
+4. Tell the affected users, and use the finding in security awareness training so people recognize the phishing that usually follows a leak.
+5. Keep scanning. New breaches surface all the time, and [Risk Monitoring](/products/risk-monitoring/overview) alerts you when new leaks appear.
+
+<Note>
+  Do not try to access dark web marketplaces yourself to check a client's data. Much of what happens there is illegal, and visiting carries real legal and security risk. Telivy collects the data for you.
+</Note>

@@ -1,103 +1,76 @@
 ---
-title: "Microsoft 365 and Google Workspace"
-description: "Common questions and answers"
+title: "Microsoft 365 and Google Workspace FAQ"
+sidebarTitle: "Microsoft 365 and Google Workspace"
+description: "Answers on Microsoft 365 and Google Workspace in Telivy: licensing and admin rights, missing data, disconnections, Google authorization errors, guest billing."
 ---
 
 <AccordionGroup>
-  <Accordion title="What Is The Minimum User Rights And Licensing Needed To Complete The Microsoft 365 Portion Of The Assessment?">
-    To get login and security data from M365, an Azure AD P1 Business license and Global admin is required. This license allows us to retrieve and monitor login statistics like location and MFA status from Microsoft. This license comes with audit logging which enables us to monitor M365 security.
+  <Accordion title="What admin rights and licenses does the Microsoft 365 connection need?">
+    A Global Administrator has to approve the connection. For sign-in data, such as login locations, sign-in status, and success and failure counts, the tenant also needs a Microsoft Entra ID P1 license, which includes the audit logs Telivy reads. Without P1, Telivy still shows accounts, MFA status, and Secure Score.
 
-    You can check out the plans, costs and features here: https://www.microsoft.com/en-us/security/business/microsoft-entra-pricing.
+    Microsoft lists the plans and prices on its [Entra pricing page](https://www.microsoft.com/en-us/security/business/microsoft-entra-pricing).
   </Accordion>
-  <Accordion title="Why Does My M365 Security Not Show Up Even After Connecting My Microsoft Account?">
-    Sometimes M365 data fetching takes 15 minutes to a few hours based on the number of users and the event history you have.
 
-    If this issue persists even after an hour, try reconnecting M365 from the Setup \> Connect Cloud \> Connect Microsoft 365 Section.
+  <Accordion title="I connected Microsoft 365 but no data shows up. What should I do?">
+    The first sync can take from 15 minutes to a few hours, depending on the number of users and how much history the tenant has.
 
-    To trigger a re-fetch of the data, go to Setup \> Connect Cloud and click on the "Reconnect Microsoft 365 account" button. You will be notified via email when Microsoft 365 insights are ready.
+    If there is still nothing after an hour, go to **Setup > Connect Cloud**, open the actions menu on the **Microsoft 365** card, and select **Refetch now**. If the card says the connection needs attention, select **Reconnect Microsoft 365** and approve again. You get an email when the Microsoft 365 data is ready.
   </Accordion>
-  <Accordion title="Why Did My Microsoft 365 Connection Disconnect?">
-    Telivy checks every few hours that each Microsoft 365 connection still works. When Microsoft refuses to renew Telivy's access for a client, the assessment is marked as needing a reconnect and you get an email that says why. Most of these causes come from changes made inside the client's own Microsoft tenant, so reconnecting only helps once that change is undone or accounted for.
+
+  <Accordion title="Why are some product icons grey on the Microsoft 365 card?">
+    Each icon (Microsoft Entra ID, Exchange, SharePoint, OneDrive, and Policy management) stands for a set of permissions. A grey icon means the tenant has not granted that permission yet. Select it to open Microsoft's consent screen. See [Microsoft 365 Security](/products/risk-assessments/microsoft-365-security#what-the-connection-can-do).
+  </Accordion>
+
+  <Accordion title="Why did my Microsoft 365 connection disconnect?">
+    Telivy checks every few hours that each Microsoft 365 connection still works. When Microsoft refuses to renew Telivy's access, the assessment is marked as needing a reconnect and you get an email saying why. Most causes are changes inside the client's own tenant, so reconnecting only works once that change is undone or accounted for.
 
     The reasons you may see:
 
-    - **Access was revoked.** Someone changed or reset the password of the admin account that connected Telivy, or removed the permissions it granted. Reconnect from Setup \> Connect Cloud \> Connect Microsoft 365.
+    - **Access was revoked.** Someone changed or reset the password of the admin account that connected Telivy, or removed the permissions it granted. Reconnect from **Setup > Connect Cloud**.
     - **The connection was inactive for too long.** The tenant's sign-in policy ended the session. Reconnect.
     - **The connecting admin account was removed or its credential expired.** Reconnect with an admin account that is still active in the tenant.
-    - **The Telivy app was disabled or removed in the tenant.** An administrator turned off or deleted the Telivy enterprise application. To turn it back on, open the Microsoft Entra admin center, go to Enterprise applications \> Telivy \> Properties, set "Enabled for users to sign in?" to Yes, and then reconnect. If the app was deleted, reconnecting adds it again.
-    - **The tenant no longer exists.** Microsoft reports the tenant as not found, which happens when the tenant was deleted or has no active subscription left. Nothing can be renewed for that tenant. If the client moved to a new Microsoft 365 tenant, reconnect with an admin account from the new tenant. If the client no longer uses Microsoft 365, you can leave the connection as it is.
+    - **The Telivy app was disabled or removed in the tenant.** An administrator turned off or deleted the Telivy enterprise application. To turn it back on, open the Microsoft Entra admin center, go to **Enterprise applications > Telivy > Properties**, set "Enabled for users to sign in?" to **Yes**, and reconnect. If the app was deleted, reconnecting adds it again.
+    - **The tenant no longer exists.** Microsoft reports the tenant as not found, which happens when it was deleted or has no active subscription left. If the client moved to a new tenant, reconnect with an admin account from the new one. If the client no longer uses Microsoft 365, leave the connection as it is.
 
-    Until the connection is restored, the client's Microsoft 365 findings stay as they were at the last successful check and are not updated.
+    Until the connection is restored, the client's Microsoft 365 findings stay as they were at the last successful check.
   </Accordion>
-  <Accordion title="Why Do I Keep Receiving An Authorization Error When Attempting To Connect My Google Workspace?">
-    There are two possible options:
 
-    a) API Access is Restricted. To fix this and Enable API Access:
-
-    1. Log in to the Google Workspace Admin Console.
-    2. Go to Security \> API Controls \> Manage Google Services
-    3. Find Google Workspace Admin and select Change Access
-    4. Select Unrestricted: Any user-approved app can access a service to enable API Access
-
-    b) One of the systems is disabled. To fix this and enable systems:
-
-    1. Log in to the Google Workspace Admin Console.
-    2. Go to Security \> API Permissions.
-    3. Enable any disabled systems
-
-    For further questions, please see: https://support.google.com/a/thread/168978251?hl=en\\&msgid=169210944
+  <Accordion title="Why does a disabled account show N/A for MFA?">
+    Nobody can sign in to a disabled account, so Telivy does not judge its MFA. Disabled accounts show **N/A** in **MFA Status** and are not counted in **Accounts without MFA**.
   </Accordion>
-  <Accordion title="Why Do I Keep Receiving An Error Message Saying 'Admin_Policy_Enforced'?">
-    There are two possible options:
 
-    a) API Access is Restricted. To fix this and Enable API Access:
-
-    1. Log in to the Google Workspace Admin Console.
-    2. Go to Security \> API Controls \> Manage Google Services
-    3. Find Google Workspace Admin and select Change Access
-    4. Select Unrestricted: Any user-approved app can access a service to enable API Access
-
-    b) One of the systems is disabled. To fix this and enable systems:
-
-    1. Log in to the Google Workspace Admin Console.
-    2. Go to Security \> API Permissions.
-    3. Enable any disabled systems
-
-    For further questions, please see: https://support.google.com/a/thread/168978251?hl=en\\&msgid=169210944
+  <Accordion title="Where did the Improvement Recommendations table go?">
+    Telivy now turns every Secure Score control the tenant still needs to act on into a Cloud finding with a severity, a score impact, and remediation steps. They appear under **Risk Insights** on the **Cloud** tab and on the assessment's **Risk** tab. See [Secure Score controls as findings](/products/risk-assessments/microsoft-365-security#secure-score-controls-as-findings).
   </Accordion>
-  <Accordion title="How does MS Dynamically Calculate the M365 Score?">
-    The total points achieved in Microsoft 365 Security Score (M365 Secure Score) differs based on the client because Microsoft dynamically calculates the score based on the security controls applicable to each organization's unique environment. The key factors include:
 
-    1. **Licensing & Available Features**
-       - M365 Plan Differences: Security score recommendations depend on the Microsoft 365 licensing level. Clients with E3 or E5 licenses have access to more advanced security controls (like Microsoft Defender for Endpoint, Conditional Access, DLP, and Threat Protection) than those with Business Standard or Basic plans.
-       - Feature Availability: If a client doesn't have access to certain security features, those features won't contribute to their total possible score.
-    2. **Security Controls in Use** 
-       - Baseline Security Posture: Organizations that have already implemented security best practices start with a higher score compared to those that have little to no security configurations in place.
-       - Enabled vs. Applicable Controls: The M365 Secure Score suggests security improvements only for features that the client is actively using. If a client doesn't use Exchange Online, SharePoint, or Microsoft Defender, they won't see related controls factored into their score.
-    3. **Organizational Size & Configuration Complexity**
-       - Number of Users & Devices: The larger an organization, the more users, endpoints, and policies impact the Secure Score. A small business with 10 users might have a lower total score ceiling than an enterprise with 1,000 users.
-       - Configurations & Custom Policies: Organizations that use custom security configurations (rather than Microsoft's recommended defaults) might not receive full points, even if they have strong security controls in place.
-    4. **Third-Party Security Tools Impact**
-       - External Security Solutions: If a company relies on third-party security solutions (e.g., CrowdStrike for endpoint protection, Okta for identity management), Microsoft Secure Score may not recognize these controls, leading to lower scores despite having strong security.
-       - Microsoft-Native vs. External Solutions: Organizations that implement Microsoft-native security features (like Defender for Identity or Microsoft Sentinel) tend to score higher than those using external tools.
-    5. **Policy & User Adoption Over Time**
-       - Score Changes Based on User Behavior: If users disable MFA, weaken password policies, or remove security settings, the score drops.
-       - Security Fatigue & Non-Compliance: If employees consistently bypass security features (e.g., opting out of MFA, ignoring phishing alerts), the organization's Secure Score won't improve significantly even if policies exist.
+  <Accordion title="Why is my client's Secure Score, or its maximum, so different from another client's?">
+    Microsoft calculates the score from the controls that apply to each tenant, so licensing, the services in use, third-party security tools, tenant size, and user behavior all change it. [Understanding Microsoft Secure Score](/scoring/m365) explains each factor.
   </Accordion>
-  <Accordion title="Why Does the Maximum Possible Score Differ?">
-    1. **Licensing & Feature Availability**
-       - Higher-tier licenses (E5, E3) have access to more security controls, increasing the total possible score.
-       - Lower-tier licenses (Business Standard, Business Premium, Basic) have fewer available security features, leading to a lower max score.
-    2. **Security Services in Use**
-       - If an organization uses SharePoint, OneDrive, Exchange, and Teams, they will have more security controls to implement, increasing their total possible points.
-       - If another organization only uses Exchange Online and Microsoft Defender, their total possible score is lower since fewer controls apply.
-    3. **Microsoft-Native vs. Third-Party Security Tools**
-       - Organizations using Microsoft-native security tools (e.g., Defender for Endpoint, Defender for Identity) will have more scoring opportunities.
-       - Organizations using third-party solutions (e.g., CrowdStrike for endpoint protection, Okta for IAM) won't receive points for security controls they are enforcing outside of Microsoft's ecosystem.
-    4. **Organizational Complexity & Number of Users**
-       - Larger organizations with more users, devices, and workloads will generally have more security recommendations, leading to a higher possible Secure Score ceiling.
-       - A small company with a simple IT setup will have fewer security controls to configure, lowering their total possible points.
 
-    ![Microsoft 365 secure score breakdown](/images/microsoft-365-secure-score.png)
+  <Accordion title="Are Microsoft 365 guest accounts billed?">
+    No. External B2B guest accounts, the ones with `#EXT#` in their user name, are never counted as billable users. **Account > Usage** shows them in their own **M365 guests** column so you can see why the billed user count is lower than the tenant's total.
+  </Accordion>
+
+  <Accordion title="Why do I get an authorization or Admin_Policy_Enforced error when connecting Google Workspace?">
+    Google Workspace is blocking the access Telivy asks for. There are two common causes.
+
+    **API access is restricted.** To allow it:
+
+    1. Sign in to the Google Admin console.
+    2. Go to **Security > API Controls > Manage Google Services**.
+    3. Find **Google Workspace Admin** and select **Change Access**.
+    4. Select **Unrestricted: Any user-approved app can access a service**.
+
+    **A service is disabled.** To turn it on:
+
+    1. Sign in to the Google Admin console.
+    2. Go to **Security > API Permissions**.
+    3. Enable any disabled services.
+
+    Google's [community thread on this error](https://support.google.com/a/thread/168978251?hl=en&msgid=169210944) has more detail.
+  </Accordion>
+
+  <Accordion title="How do I find Google Workspace users without MFA?">
+    On the **Cloud** tab, open **Google Workspace** and select **Show No MFA** on the **Accounts Status** table. It lists only the accounts where MFA is **Not Enforced**. See [Google Workspace Security](/products/risk-assessments/google-workspace-security).
   </Accordion>
 </AccordionGroup>

@@ -1,46 +1,49 @@
 ---
-title: Add Domains and IPs
-description: 'Scan additional domains, subdomains, and IP addresses in an assessment'
+title: Add Domains, Subdomains, and IPs to a Scan
+sidebarTitle: Add Domains and IPs
+description: 'Add extra domains, subdomains, and static IP addresses to a Telivy assessment so the external scan covers the whole public attack surface.'
 ---
 
-An assessment starts with the single domain you entered when you created it. Most
-companies have more exposure than that: a marketing site on another domain, a VPN
-endpoint, a mail gateway, a block of static IPs. Add them as targets and they are scanned
-alongside the original domain.
+An assessment starts with the one domain you entered when you created it. Most companies
+are exposed in more places than that: a marketing site on another domain, a VPN endpoint, a
+mail gateway, a block of static IPs. Add them as targets and they get scanned alongside the
+original domain.
 
 ## Add a target
 
 <Steps>
-  <Step title="Open the assessment's Targets view">
-    In the assessment, go to **Targets**. The table lists every target with its type,
-    scanning status, when it was last scanned, and how many findings it has.
+  <Step title="Open the domains list">
+    In an External Scan, go to **Setup > Manage Domains**. In a Risk Assessment, use
+    **Inventory > Manage Domains and IP Addresses**. The table lists every target with its
+    type, scanning status, when it was last scanned, and how many findings it has.
   </Step>
   <Step title="Click Add Target">
     Choose the target type: **IP Address**, **Domain**, or **Subdomain**.
   </Step>
   <Step title="Enter the values">
-    Type it into **Value**, or paste several separated by commas. Telivy checks the format
-    first, so a malformed address or domain gets rejected rather than saved.
+    Type the value, or paste several separated by commas. Telivy checks the format first and
+    rejects a malformed address or domain instead of saving it.
   </Step>
-  <Step title="Click Add Target to save">
-    The new targets appear in the table and get picked up by the next scan.
+  <Step title="Save">
+    Click **Add Target**. The new targets appear in the table and are picked up by the next
+    scan.
   </Step>
 </Steps>
 
 <Note>
-  Re-adding a target that's already there changes nothing. The portal says it's already
-  added, and no duplicate appears.
+  Adding a target that is already there changes nothing. The portal says it's already added
+  and no duplicate appears.
 </Note>
 
-If **Add Target** is unavailable, the account needs upgrading for extra targets. Email
-[accounts@telivy.com](mailto:accounts@telivy.com).
+If **Add Target** isn't available, your account needs an upgrade to scan extra targets.
+Email [accounts@telivy.com](mailto:accounts@telivy.com).
 
 ## What to add
 
 - Every domain the company owns, including ones that only redirect
-- Subdomains that resolve to something reachable: `vpn.`, `mail.`, `remote.`, `portal.`
-- Static IP addresses for on-premise firewalls, VPN concentrators, and mail servers
+- Subdomains that resolve to something reachable, such as `vpn.`, `mail.`, `remote.`, or `portal.`
+- Static IP addresses for on-premises firewalls, VPN concentrators, and mail servers
 
-Each target is scanned for the same things as the primary domain, so open ports and
-certificate problems on a forgotten subdomain show up in
+Each target gets the same checks as the primary domain, so open ports and certificate
+problems on a forgotten subdomain show up in
 [the same findings](/products/external-assessments/overview).

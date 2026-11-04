@@ -1,17 +1,18 @@
 ---
-title: "Telivy Grading Criteria"
-description: "Understanding Your Internal Security Scan Report"
+title: "Telivy Security Report Grading Criteria (A to F)"
+sidebarTitle: "Telivy Grading Criteria"
+description: "How Telivy assigns A to F letter grades to network, data, dark web, and password security sections of the Security Report, with weights and thresholds."
 ---
 
-This article explains the letter grades (A to F) Telivy assigns to each section of the Security Report and external scan, and how those grades are derived from the underlying findings.
+Each section of the Security Report and the external scan gets a letter grade from A to F. This page lists the thresholds and weights behind those grades.
 
 <AccordionGroup>
-  <Accordion title="Final Score">
-    Each security section is divided into 1 or more subsections. Each subsection has a grade and a weight for the final section grade. The final grade will then be determined as follows:
+  <Accordion title="How the final grade is calculated">
+    Each security section has one or more subsections. Every subsection has its own grade and a weight, and the section's final score is their weighted average:
 
     `Final Score = Sum(Section Weight X Section Score)/Sum(Section Weight)`
 
-    Section score is on a scale from 1 to 4 with 1 being most secure and 4 being least secure. Once the final score is determined, the conversion to a grade score is calculated as follows:
+    Subsection scores run from 1 (most secure) to 4 (least secure). The final score converts to a letter grade like this:
 
     | Final Score Range | Grade |
     | ----------------- | ----- |
@@ -20,21 +21,16 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
     | 2 - 3             | C     |
     | 1 - 2             | B     |
 
-    Network security consists of the following subsections:
+    Network security has these subsections:
 
     1. Internal Vulnerabilities
-
     2. External Vulnerabilities
-
     3. Open Ports
-
     4. Certificate Security
-
     5. HTTPS security
   </Accordion>
 
   <Accordion title="Internal Vulnerability">
-    Internal Vulnerability grades will be determined as follows:
 
     | Criteria                                              | Grade |
     | ----------------------------------------------------- | ----- |
@@ -42,7 +38,6 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
   </Accordion>
 
   <Accordion title="External Vulnerability">
-    External Vulnerability grades will be determined as follows:
 
     | Criteria                     | Grade |
     | ---------------------------- | ----- |
@@ -53,7 +48,6 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
   </Accordion>
 
   <Accordion title="Open Ports">
-    Open Ports grades will be determined as follows:
 
     | Criteria                       | Grade |
     | ------------------------------ | ----- |
@@ -64,7 +58,6 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
   </Accordion>
 
   <Accordion title="Certificates">
-    Certificate grades will be determined as follows:
 
     | Criteria                                 | Grade |
     | ---------------------------------------- | ----- |
@@ -75,7 +68,6 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
   </Accordion>
 
   <Accordion title="HTTPS findings">
-    HTTPS grades will be determined as follows:
 
     | Criteria          | Grade |
     | ----------------- | ----- |
@@ -83,16 +75,17 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
     | HTTPS enabled     | 1     |
   </Accordion>
 
-  <Accordion title="Weights for Network Security">
-    Internal Vulnerabilities: 10
-    External Vulnerabilities: 8
-    Port Scans: 6
-    Certificate: 4
-    HTTPS: 8
+  <Accordion title="Network security weights">
+    | Subsection | Weight |
+    | --- | --- |
+    | Internal Vulnerabilities | 10 |
+    | External Vulnerabilities | 8 |
+    | Port Scans | 6 |
+    | Certificate | 4 |
+    | HTTPS | 8 |
   </Accordion>
 
   <Accordion title="Data Security">
-    Data Security grades will be determined as follows:
 
     | Criteria                                                                  | Grade |
     | ------------------------------------------------------------------------- | ----- |
@@ -103,7 +96,6 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
   </Accordion>
 
   <Accordion title="Dark Web Security">
-    Dark Web grades will be determined as follows:
 
     | Criteria                                                            | Grade |
     | ------------------------------------------------------------------- | ----- |
@@ -114,13 +106,12 @@ This article explains the letter grades (A to F) Telivy assigns to each section 
   </Accordion>
 
   <Accordion title="Password Security">
-    Password security grades will be determined as follows:
 
     | Criteria                                            | Grade |
     | --------------------------------------------------- | ----- |
     | High number of weak and compromised passwords found | D     |
     | Weak and compromised passwords found                | C     |
     | Few weak or compromised passwords found             | B     |
-    | No Weak or Compromised passwords were found         | A     |
+    | No weak or compromised passwords found              | A     |
   </Accordion>
 </AccordionGroup>

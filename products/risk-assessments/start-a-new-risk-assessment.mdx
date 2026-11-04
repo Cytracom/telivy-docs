@@ -1,65 +1,70 @@
 ---
 title: Start a New Risk Assessment
-description: 'Create a risk assessment and choose the options that shape the scan'
+description: 'Create a Telivy Risk Assessment for a client or prospect: pick the assessment type, enter company details, schedule recurring scans, and set PII masking.'
 ---
 
-A Risk Assessment does everything an External Assessment does, then goes inside: internal
-vulnerability analysis, sensitive data, browser credentials, and ongoing monitoring. Setup
-takes a few minutes. The scan usually runs about 24 hours once agents are out.
+A Risk Assessment covers everything in an External Assessment and adds what only an agent inside the network can see: internal vulnerabilities, sensitive data on devices, saved browser credentials, and cloud accounts. Setup takes under an hour, and the scan usually finishes about 24 hours after the agents are deployed.
+
+## Choose the assessment type
+
+Select **Create Assessment** in the top right of the portal. The picker shows a card for each assessment type with its setup time, typical scan duration, and what it includes:
+
+- **External Assessment**: dark web monitoring, an external network vulnerability scan, DNS evaluation, and a website vulnerability check. No agent needed.
+- **Risk Assessment**: a full External Assessment plus internal vulnerability analysis, sensitive data identification, and browser credential analysis, as a one-time snapshot. **See demo** opens a sample assessment with example data.
+- **Monitored Risk Assessment**: a full Risk Assessment with continuous monitoring, risk-change alerts, recurring scans, and remediation workflows. This card only appears for users who can manage Unity subscriptions.
+
+The line above each card's **Select** button says whether you can use it:
+
+| Label | Meaning |
+| --- | --- |
+| Included in your plan | Select the card and continue. |
+| Requires Assess | Your agency needs the Assess subscription. Unity admins see **Unlock with Assess**; other users are asked to contact their agency admin. |
+| Not included in your plan | Your plan does not include this type. Contact support to upgrade. |
+| Available through Unity | Foundations partners add this in Unity with **Manage in Unity**. |
+| Billed per client, plan chosen next | Monitoring is bought per client. You pick the plan after choosing the client. |
+| Included with Foundations coverage | Monitoring is part of your Foundations tier. |
+
+## Create the assessment
 
 <Steps>
-  <Step title="Open the assessment picker">
-    Click **Create Assessment** in the top right corner of the portal, then choose
-    **Risk Assessment**. Each card lists its setup time, typical scan duration, and what
-    the scan includes.
+  <Step title="Pick the account and user (multi-account admins only)">
+    If you manage more than one account, Telivy first asks which account and user to create the assessment under.
   </Step>
   <Step title="Enter the company details">
-    **Company Name** and **Domain** are required. No domain of their own? Tick **Skip domain
-    for external scan** and Telivy records `nodomain.local`, which runs the assessment
-    without the external portion.
+    **Company Name** and **Domain** are required. If the company has no domain, tick **Skip domain for external scan**. Telivy records `nodomain.local` and runs the assessment without the external scan.
 
-    You also set **Country**, **Company Status** (prospect or client), and the **Anti Virus**
-    they run, which is what tailors the agent guidance to their environment.
+    Then set **Industries**, **Country**, **Company Status** (**Prospect** or **Client**), and the **Anti Virus** the company runs. The installation instructions change to match the antivirus you pick. If you pick ThreatLocker, Telivy notes that ThreatLocker blocks MSI-based auto-updates and turns off auto-update for the assessment. You can turn it back on later in the assessment settings.
   </Step>
   <Step title="Schedule recurring scans (clients only)">
-    When **Company Status** is set to client, a **Recurring Scans** section appears.
-    Tick **Schedule Recurring Scans** and pick a **Scan Frequency** to keep the assessment
-    refreshed automatically. See [Risk Monitoring](/products/risk-monitoring/overview) for
-    what changes once monitoring is on.
+    When **Company Status** is **Client**, a **Recurring Scans** section appears. Tick the box and choose a **Scan Frequency** to rescan automatically. [Risk Monitoring](/products/risk-monitoring/overview) explains what changes once monitoring is on.
   </Step>
   <Step title="Decide how PII is handled">
-    Under **Configure Compliance**, **Mask PII data** stores only masked evidence of the
-    sensitive data Telivy finds. Partners working with HIPAA-regulated clients usually
-    want this on. See [Data Security](/products/risk-assessments/data-security) for what
-    the platform stores either way.
+    Under **Configure Compliance**, **Mask PII data** keeps only masked evidence of the sensitive data Telivy finds. Turn it on for clients regulated under HIPAA. The box starts ticked if your agency's default PII settings mask PII, and new assessments also take the agency's default country, currency, and cost per match. [Data Security](/products/risk-assessments/data-security) explains what is stored with and without masking.
   </Step>
-  <Step title="Create and configure">
-    Click **Create** to land on the assessment's configuration page, where you deploy the
-    agent and connect Microsoft 365 or Google Workspace.
+  <Step title="Create and set up">
+    Select **Create**. You land on the assessment's **Setup** tab, where you deploy the agent and connect Microsoft 365 or Google Workspace.
   </Step>
 </Steps>
 
 <Warning>
-  Whitelist the Telivy agent in the client's AV or EDR before deploying it, or scans will
-  be blocked or quarantined. See
-  [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr).
+  Allow the Telivy agent in the client's antivirus or EDR before deploying it, or the scan may be blocked or quarantined. See [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr).
 </Warning>
 
 ## Next steps
 
 <CardGroup cols={2}>
   <Card
-    title="Install the Telivy Agent"
+    title="Install the Telivy agent"
     icon="download"
     href="/products/risk-assessments/install-telivy-agent-windows"
   >
     Deploy to Windows endpoints and start collecting data
   </Card>
   <Card
-    title="What gets scanned, and when"
+    title="Scanning schedule"
     icon="clock"
     href="/products/risk-monitoring/scanning-schedule"
   >
-    The cadence behind each check in the assessment
+    How often each check in the assessment runs
   </Card>
 </CardGroup>

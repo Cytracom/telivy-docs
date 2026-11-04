@@ -1,50 +1,51 @@
 ---
-title: "Uninstall Telivy Agent (Windows)"
-description: 'How to Uninstall Telivy on Windows'
+title: "Uninstall the Telivy Agent on Windows"
+sidebarTitle: "Uninstall Telivy Agent (Windows)"
+description: "Remove the Telivy agent from Windows devices in the portal or with an RMM command, choose standard uninstall or full wipe, and fix Uninstall Scheduled."
 ---
 
-## Uninstallation
+Uninstalling removes the Telivy agent from the device. The data from its latest scan stays in the portal, so it remains part of the assessment and of any report you generate.
 
-### How to uninstall Telivy on your Windows Asset
+## Uninstall from the portal
 
-Uninstallation removes the Telivy scanner on the device but the *data gathered during the latest scan still remains on the portal* and is part of the Risk Assessment dashboard and any report generated.
+In the assessment's device list, select **Uninstall** on a single device, or **Uninstall All** to remove the agent from every device in the assessment.
 
-You can uninstall directly from the dashboard using the **Uninstall** button for *each asset* or you can *uninstall all the devices* at once by clicking on the **Uninstall All** button.
+Devices scanned with the agentless scanner have nothing installed and show an **Agentless Scan** badge. They have nothing to uninstall. If no device in the assessment runs the agent, **Uninstall All** is disabled.
 
-### What happens when you click Uninstall
+### Uninstall is scheduled, not instant
 
-Uninstalling is scheduled, not instant. Clicking **Uninstall** flags the device, and the agent acts on that flag the next time it runs. The device doesn't have to be online when you click.
-
-Until the flag is picked up, the device sits at **Uninstall Scheduled**. That status is the notification: the instruction is set, the device hasn't acted on it yet. A machine that's reachable usually clears it within an hour, since that's roughly how often the agent runs.
+Selecting **Uninstall** flags the device, and the agent acts on the flag the next time it checks in. The device does not need to be online when you select it. Until then, the device shows **Uninstall Scheduled**. A device that is online usually picks it up within an hour, because the agent checks in about once an hour.
 
 <Warning>
-Stuck at **Uninstall Scheduled** for hours, or a whole day? The flag isn't reaching the machine. Either the Telivy Agent Service isn't running or the device can't connect to Telivy. Uninstall those manually with the commands below.
+  If a device stays at **Uninstall Scheduled** for hours or a whole day, the flag is not reaching it. Either the Telivy Agent service is not running or the device cannot reach Telivy. Uninstall it manually with one of the commands below.
 </Warning>
 
-### Uninstalling a device manually
+## Uninstall manually
 
-Run the uninstall command on the machine itself, at the terminal or pushed through your RMM. Do this for anything that never picks up its scheduled uninstall, or when you'd rather not wait for it. There are two options, and they treat the data already collected from that device very differently, so pick deliberately.
+Run an uninstall command on the device itself, in a terminal or through your RMM. Use this for devices that never pick up the scheduled uninstall, or when you do not want to wait. The two options handle the data already on the device differently.
 
-#### Option 1: Standard Uninstall (Recommended)
+### Option 1: Standard Uninstall (recommended)
 
-Best for routine removal. This preserves the device's local PII database, so if Telivy is reinstalled later the next scan is faster. Usable since agent version 30.0.0.0.
+Use this for routine removal. It keeps the device's local PII database, so if Telivy is reinstalled later, the next scan is faster. It works on agent version 30.0.0.0 and later.
 
-Run the following command as Administrator:
+Run as Administrator:
 
 ```powershell
 & "C:\Program Files (x86)\Telivy\Telivy Agent\Telivy.Scanner.Windows.exe" --IsUninstallMode=true
 ```
 
-#### Option 2: Full Wipe
+### Option 2: Full Wipe
 
-Use this for complete data removal, or to uninstall legacy agent versions (below 20.0.0.0).
+Use this to remove all Telivy data from the device, or to uninstall agents older than 20.0.0.0.
 
 <Warning>
-This action is destructive. It removes all Telivy history **and the PII database** from the local machine. Only use Full Wipe if you want to get rid of Telivy entirely or you're fixing a corrupted installation. If you might reinstall later and want to keep the existing PII data, use Standard Uninstall instead.
+  Full Wipe removes all Telivy history **and the PII database** from the device. Use it only to remove Telivy completely or to fix a corrupted installation. If you might reinstall and want to keep the existing PII data, use Standard Uninstall.
 </Warning>
 
-Run the following in PowerShell as Administrator, replacing `<DEEPSCAN_ID>` with the assessment's Deep Scan ID (found on the assessment's configuration page):
+Run in PowerShell as Administrator, replacing `<DEEPSCAN_ID>` with the assessment's Deep Scan ID from its **Setup** tab:
 
 ```powershell
 Invoke-Command -ScriptBlock ([scriptblock]::Create([System.Text.Encoding]::UTF8.GetString((New-Object Net.WebClient).DownloadData('https://install.telivy.com/uninstall-all.ps1')))) -ArgumentList @('<DEEPSCAN_ID>', '')
 ```
+
+The **Setup > Deploy Agents** instructions include both commands with **Copy Standard Command** and **Copy Full Wipe Command** buttons.

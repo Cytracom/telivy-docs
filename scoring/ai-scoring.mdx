@@ -1,29 +1,27 @@
 ---
-title: "Understanding AI Scoring"
-description: "A guide to how Telivy grades AI usage"
+title: "How the AI Exposure Score Is Calculated"
+sidebarTitle: "Understanding AI Scoring"
+description: "How Telivy's AI Exposure Score measures generative AI tool use across a client's devices, what drives it up, and what the Low to Critical risk levels mean."
 ---
 
-<AccordionGroup>
-  <Accordion title="How is the AI Exposure Score Calculated?">
-    The score is based on two factors detected across the assessed environment:
+The **AI Exposure Score** shows how much a client's staff use generative AI tools from company devices. Prompts can carry customer records, contracts, or source code off the network, so wide AI use is a data risk even when each tool is legitimate. The score is on the **AI Exposure Score** card on the assessment's **Overview** tab, and **View all websites** opens the full list on the **Web Activity** tab. See [Web activity and AI use](/products/risk-assessments/overview#web-activity-and-ai-use) for how sites are classified as AI tools.
 
-    - Tool Usage Volume: how many distinct AI applications are in use. Detecting any AI tool
-      starts the count, and more than two, then more than five, each raise the exposure.
-    - Adoption Rate: the share of users using AI tools. Adoption above 5%, 25%, and 50% of
-      users each raise the exposure.
+## How the score is calculated
 
-    Tool Usage Volume carries the heavier weight of the two. The combined result is
-    normalized to a 0-100 scale, where a higher score means greater AI exposure.
-  </Accordion>
+The score uses two measurements from the assessed devices:
 
-  <Accordion title="How to Interpret the Score">
-    Once calculated, the AI Exposure Score is normalized (0-100 scale) and classified into four risk levels:
+- **Tool usage volume:** how many different AI tools are in use. Any AI tool at all starts the count, and more than two, then more than five, each raise the exposure further.
+- **Adoption rate:** the share of users who use AI tools. Adoption above 5%, 25%, and 50% of users each raise the exposure.
 
-    | Score Range | Risk Level | Meaning |
-    | --- | --- | --- |
-    | **0-20** | **Low (Green)** | Minimal AI risk exposure. |
-    | **21-50** | **Moderate (Yellow)** | Some AI risk, but manageable with improvements. |
-    | **51-80** | **High (Orange)** | Significant AI exposure, potential security risks. |
-    | **81-100** | **Critical (Red)** | Major AI security gaps, immediate action required. |
-  </Accordion>
-</AccordionGroup>
+Tool usage volume carries more weight than adoption rate. The result is scaled to 0 to 100, and a higher score means more AI exposure.
+
+## Reading the score
+
+| Score | Risk level | Meaning |
+| --- | --- | --- |
+| 0 to 20 | Low (green) | Little AI exposure. |
+| 21 to 50 | Moderate (yellow) | Some AI use that a policy or approved tool list can manage. |
+| 51 to 80 | High (orange) | Widespread AI use that could expose company data. |
+| 81 to 100 | Critical (red) | Heavy, unmanaged AI use that needs attention now. |
+
+A high score is a reason to talk to the client about which AI tools are approved and what data may go into them. It does not mean a tool is malicious.

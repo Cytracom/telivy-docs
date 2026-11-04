@@ -1,16 +1,41 @@
 ---
-title: Reports
-description: 'Generate client-ready reports from an assessment, or upload your own documents'
+title: Generate Client Security Assessment Reports
+sidebarTitle: Reports
+description: 'Generate PDF, CSV, and XLSX security reports from a Telivy assessment, see what the Complete Report contains, and pick the right report for each client.'
 ---
 
-Every assessment has a **Reports** tab. It's where a finished scan becomes something you
-can hand to a client, and where you park any other document that belongs with the
-assessment.
+Every assessment has a **Reports** tab. You generate client-facing reports there, and it
+keeps the earlier versions of each one.
 
 ## Generating a report
 
-Pick a report type in **Reports** and generate it. What's on offer depends on the
-assessment type, since most reports need data an External Scan never collects.
+<Steps>
+  <Step title="Open the report picker">
+    In the assessment, open **Reports** and click **Generate New Report**.
+  </Step>
+  <Step title="Choose a report type">
+    Pick the report from the list. You can type to search it.
+  </Step>
+  <Step title="Add contact details (Complete Report only)">
+    For the **Complete Report (PDF)**, expand **Add Contact Info (Optional)** and enter the
+    name, email, and phone number the client should contact about the report.
+  </Step>
+  <Step title="Generate">
+    Click **Generate Report**. The new version appears at the top of the reports table.
+    <Frame>
+      <img src="/images/reports/reports-1.png" alt="Generate New Report panel with document type, optional contact info and Generate Report button" />
+    </Frame>
+  </Step>
+</Steps>
+
+To refresh every report at once, use **Generate All Reports** in the same picker. It takes a
+snapshot of what the Security tab currently shows, rebuilds each report, and packages them
+into a ZIP file. Telivy emails you when the reports are ready.
+
+## Which reports are available
+
+The list depends on the assessment type, because most reports need data that an External
+Scan never collects.
 
 ### From an External Scan
 
@@ -21,11 +46,12 @@ assessment type, since most reports need data an External Scan never collects.
 
 ### From a Risk Assessment
 
-Everything above, plus the reports built on agent and cloud data:
+All of the External Scan reports, plus the ones built on agent and cloud data:
 
 | Report | Format |
 | --- | --- |
 | Complete Report | PDF |
+| Legacy Complete Report | PDF |
 | Executive Summary | PDF |
 | Vulnerabilities Report | CSV |
 | Internal Vulnerabilities Executive Report | PDF |
@@ -46,28 +72,59 @@ Everything above, plus the reports built on agent and cloud data:
 
 <Note>
   **Executive Summary (PDF)** only appears once the assessment has an AI-generated executive
-  summary. If it's missing from the list, that summary hasn't been produced yet.
+  summary. If it isn't in the list, the summary hasn't been produced yet.
 </Note>
 
-The **Complete Report (PDF)** asks for contact details first, so the finished report carries
-the right name and contact for whoever receives it.
+## What the Complete Report contains
 
-## Uploading your own documents
+The Complete Report is the full cyber security risk assessment (CSRA) for a client. Its
+table of contents is built from the data available, so a section with nothing to say is
+left out. In order, it can contain:
 
-The same tab takes uploads. That's where a signed questionnaire, a client's own policy
-document, or a screenshot goes, so it lives with the assessment instead of in someone's
-drive. Images for the security report have to be JPEG or PNG.
+1. CSRA Methodology
+2. Executive Summary, when the assessment has an AI summary
+3. Progress Since Last Assessment, when there is an earlier assessment to compare with
+4. Overview
+5. Data Breach Cost Breakdown, when a breach cost estimate is available
+6. One section per CIS control category, with the controls in it
+7. Detailed Recommendations
+8. Top Remediation Actions
+9. Top Critical Assets & Why
+10. Strategic & Operational Priorities
+11. Addendums
+
+**Progress Since Last Assessment** shows whether the client's posture is **Improving**,
+**Stable**, or **Declining**, a short narrative, how many findings were resolved and how
+many are new since the previous assessment, and a list of specific changes labelled
+**Resolved**, **New**, **Risk Reduction**, or **Compliance**. The trend and counts come from
+the finding history itself, and any AI-written statement that contradicts those counts is
+left out.
+
+## What the Executive Summary contains
+
+The **Executive Summary (PDF)** is the short version for people who won't read the full
+report. It covers issue severity, the score with a summary, CIS compliance, key findings,
+suggested actions, strategic and operational priorities, and next steps. Pages without data
+are skipped.
+
+## Report versions
+
+The reports table has one row per report type, with **Last Generated At** and the number of
+**Versions**. Click a row, or **Expand All**, to see every version with its file name and
+generation time. **Download Latest Version** in the row's **Actions** menu downloads the
+newest copy.
 
 ## Which report to send
 
-For a prospect who hasn't bought anything yet, the External Scan Executive Report does the
-job: short, findings-led, no agent required. Once they're a client and the first full scan
-lands, send the Complete Report, and pair it with the Executive Summary for anyone who
-won't read 40 pages.
+For a prospect who hasn't bought anything yet, send the External Scan Executive Report. It
+is short and needs no agent. Once they're a client and the first full scan is done, send the
+Complete Report, and add the Executive Summary for readers who won't get through the full
+report.
 
-Monitoring reviews want the Progress Report instead, because it's built to show movement
-since the last scan rather than restate the whole posture. And when the conversation moves
-to their IT team, send the CSV exports. Those belong in a spreadsheet, not a slide deck.
+For monitoring reviews, send the Progress Report, which shows what changed since the last
+scan instead of restating the whole posture. The Complete Report also carries a progress
+section once there is an earlier assessment. When you're talking to the client's IT team,
+send the CSV exports, which are meant for a spreadsheet.
 
 <CardGroup cols={2}>
   <Card
@@ -75,7 +132,7 @@ to their IT team, send the CSV exports. Those belong in a spreadsheet, not a sli
     icon="gauge-high"
     href="/scoring/risk-scoring"
   >
-    What the score in the report actually measures
+    What the score in the report measures
   </Card>
   <Card
     title="Report grading criteria"

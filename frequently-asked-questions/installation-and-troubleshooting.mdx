@@ -1,58 +1,62 @@
 ---
-title: "Installation and Troubleshooting"
-description: "Common questions and answers"
+title: "Telivy Agent Installation and Troubleshooting FAQ"
+sidebarTitle: "Installation and Troubleshooting"
+description: "Answers on installing the Telivy agent: where to start, which devices to cover, checking a device reported in, slow scans, and removing Nodeware or Actifile."
 ---
 
 <AccordionGroup>
-  <Accordion title="How Do I Start The Installation Process For A Risk Assessment?">
-    Please refer to [this](https://docs.google.com/document/d/1udauxMxkkn6lN3fTyg-eZ24DCKj2gc9PAqqZtOx4taI/edit?tab=t.0#heading=h.cqf0wabvjxiy) article for more details on the installation process.
+  <Accordion title="How do I start installing the agent for a Risk Assessment?">
+    Create the assessment, then open **Setup > Deploy Agents** for the install command and downloads. [Start a new Risk Assessment](/products/risk-assessments/start-a-new-risk-assessment) covers creating it, and [Install the Telivy agent on Windows](/products/risk-assessments/install-telivy-agent-windows) covers deployment by RMM, by installer, or without an agent.
   </Accordion>
 
-  <Accordion title="What Software(s) Do You Install For The Risk Assessment?">
-    The list of software installed is detailed in [this](https://docs.google.com/document/d/1udauxMxkkn6lN3fTyg-eZ24DCKj2gc9PAqqZtOx4taI/edit?tab=t.0#heading=h.mtnu2ko2007j) section.
+  <Accordion title="What software does Telivy install?">
+    A Windows service, the Telivy Agent, plus the scanner, launcher, and updater executables in `C:\Program Files (x86)\Telivy\Telivy Agent`. [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr#what-each-executable-does) lists each file and what it does. Agentless scans install nothing.
   </Accordion>
 
-  <Accordion title="On What Devices Should I Install Telivy?">
-    The Telivy agent can be installed on supported servers, laptops, and desktops. For optimal coverage, we recommend installing it on as close to 100% of your client devices as possible. However, if this is not feasible, we recommend installing it on a diverse set of devices. For example, you could install it on one device from each department, such as HR, accounting, and sales. This will help you to capture trends across your organization.
+  <Accordion title="Which devices should I install Telivy on?">
+    Supported servers, laptops, and desktops. For the best coverage, install it on as close to every device as you can. If that is not possible, pick a mix, for example one device from each department such as HR, accounting, and sales, so the results reflect the whole organization.
   </Accordion>
 
-  <Accordion title="How Do I Verify That Telivy Has Successfully Run On A Device?">
-    When you run Telivy on a device, it should show up on the Assets page with details on the installation.
+  <Accordion title="How do I check that Telivy ran on a device?">
+    The device appears in the assessment's device list, under **Setup > Deploy Agents > Deployment Status** and on **Inventory > Endpoints**, with its installation details.
 
-    If you do not see the device on the Assets page it could mean two things:
+    If it does not appear, usually either:
 
-    1. There is an antivirus, firewall or similar software that is blocking the execution.
+    1. An antivirus, EDR, firewall, or similar tool blocked it. See [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr).
+    2. The device was added to a different assessment. Uninstall it from that one and install it again with the right assessment's command.
 
-    2. The devices are added to the wrong Risk Assessment. You should be able to uninstall from the wrong risk assessment and add it back to the correct one.
-
-    If you want to verify installation without accessing the assets page, you can check for whether "Telivy" shows up in the list of installed software in Control Panel.
+    On the device itself, you can check that "Telivy" is listed under installed programs in Control Panel.
   </Accordion>
 
-  <Accordion title="Why Is My Asset Scan/Rescan Taking A Long Time?">
-    A scan or a rescan can complete only when the system is up for a sufficient amount of time - typically 2 hours continuously. If the rescan is still in progress after the device has been online for a long time, please reach out to support@telivy.com and we can take a look at the reason for the delay.
+  <Accordion title="A device shows Agentless Scan. Why?">
+    The device was scanned by the agentless scanner instead of having the agent installed. This often happens when an EDR such as ThreatLocker blocks the agent installer, because the scanner still finishes. Allow Telivy in the EDR and run the **Agent Installer** on the device. See [Devices scanned without the agent](/products/risk-assessments/install-telivy-agent-windows#devices-scanned-without-the-agent).
   </Accordion>
 
-  <Accordion title="With Telivy's Latest Agent Incorporating Everything In-House, How Do I Uninstall Older, Third-Party Installations?">
-    Please see the most common uninstallations below:
+  <Accordion title="Why is a scan or rescan taking so long?">
+    A scan can only finish while the device stays on long enough, usually about two hours without interruption. If a scan is still running after the device has been online for a long time, email support@telivy.com and we will look into it.
+  </Accordion>
 
-    **1. Nodeware**
+  <Accordion title="How do I remove older third-party agents such as Nodeware, Augmentt, or Actifile?">
+    Telivy's current agent does everything in-house. To remove the older agents, run the matching command in PowerShell as Administrator.
+
+    **Nodeware**
 
     ```powershell
     Invoke-Command -ScriptBlock ([scriptblock]::Create([System.Text.Encoding]::UTF8.GetString((New-Object Net.WebClient).DownloadData('https://install.telivy.com/uninstall-nodeware.ps1'))))
     ```
 
-    **2. Augmentt**
+    **Augmentt**
 
     ```powershell
     Invoke-Command -ScriptBlock ([scriptblock]::Create([System.Text.Encoding]::UTF8.GetString((New-Object Net.WebClient).DownloadData('https://install.telivy.com/uninstall-augmentt.ps1'))))
     ```
 
-    **3. Actifile**
+    **Actifile**
 
     ```powershell
     Invoke-Command -ScriptBlock ([scriptblock]::Create([System.Text.Encoding]::UTF8.GetString((New-Object Net.WebClient).DownloadData('https://install.telivy.com/uninstall-actifile.ps1')))) -ArgumentList @('ACTIFILE_UNINSTALL_KEY')
     ```
 
-    To get the Actifile uninstall key for any past assessment, please reach out to support@telivy.com with the assessment names.
+    For the Actifile uninstall key of a past assessment, email support@telivy.com with the assessment names.
   </Accordion>
 </AccordionGroup>

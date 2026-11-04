@@ -1,64 +1,47 @@
 ---
-title: "Telivy Webhook"
-description: "This guide will help you integrate with Telivy's webhook system to receive real-time updates when certain events occur in your agency's account"
+title: "Telivy Webhooks"
+sidebarTitle: "Webhooks"
+description: "Receive Telivy assessment status changes and security alerts as signed HTTP POST requests, with HMAC signature checks, custom headers and payload encryption."
 ---
 
-### **Table of Contents**
-
-1. Introduction
-2. Webhook Events
-3. Setting Up Webhooks
-4. Processing Webhooks
-5. Authentication
-6. Custom Authentication Headers
-7. Payload Encryption
-8. Handling Webhook Data
-9. Troubleshooting
+Telivy webhooks send an HTTP POST request to your endpoint when an assessment changes status or an alert is raised, so your own systems can react without polling the API. This page covers setup, signature verification, custom authentication headers, payload encryption and troubleshooting.
 
 <AccordionGroup>
   <Accordion title="Introduction">
-    Webhooks provide a way for your systems to receive real-time notifications when specific events occur in Telivy. When an event happens, we'll send an HTTP POST request to the URL you specified when setting up the webhook.
+    When one of the events below happens, Telivy sends an HTTP POST request to the URL you gave when setting up the webhook.
   </Accordion>
-  <Accordion title="Webhook Events">
-    Currently, Telivy supports the following webhook events:
+  <Accordion title="Webhook events">
+    Telivy sends two events:
 
-    - ASSESSMENT_STATUS_CHANGED: Triggered when an assessment's status changes
-    - ALERT_RAISED: Triggered when an alert is raised for your agency
+    - `ASSESSMENT_STATUS_CHANGED`, when an assessment's status changes
+    - `ALERT_RAISED`, when an alert is raised for your agency
   </Accordion>
-  <Accordion title="Setting Up Webhooks">
-    Webhooks are set up through your Telivy dashboard. For each webhook, you'll need to specify:
+  <Accordion title="Setting up webhooks">
+    Set up webhooks in the Telivy portal under **Account → Webhooks**. For each webhook you set the destination URL, the events to subscribe to, whether the payload is encrypted, and any extra HTTP headers Telivy should send.
 
-    1. A destination URL that will receive the webhook requests
-    2. The events you want to subscribe to
-    3. Whether you want the payload to be encrypted
-    4. Any additional HTTP headers you want us to include in the request
-
-    When you create a webhook subscription, we'll generate a secret key that you'll use to verify the authenticity of webhook requests and decrypt encrypted payloads.
+    When you create the subscription, Telivy generates a secret key. You use it to verify that requests come from Telivy and to decrypt encrypted payloads.
   </Accordion>
-  <Accordion title="Processing Webhooks">
-    ### **Best Practices**
+  <Accordion title="Processing webhooks">
+    ### Recommended handling
 
-    When processing webhooks, we recommend the following approach:
+    1. Receive the request.
+    2. Verify the signature to confirm the request came from Telivy.
+    3. Return a 2xx response straight away, preferably `200 OK`.
+    4. Process the data asynchronously after responding.
 
-    1. **Receive the webhook data**
-    2. **Verify the signature** to ensure the request is from Telivy
-    3. **Return a 2xx response** immediately (preferably a 200 OK)
-    4. **Process the webhook data asynchronously** after returning the response
+    Webhook requests time out after 10 seconds, so responding first and processing later avoids timeouts and unnecessary retries.
 
-    This approach ensures that your webhook endpoint responds quickly, which prevents timeouts and unnecessary retries. Our webhook requests will time out after 10 seconds.
+    ### HTTP response codes
 
-    ### **HTTP Response Codes**
-
-    - **2xx**: Success - We'll consider the webhook delivered
-    - **Other status codes**: Failure - We will retry sending the webhook: the first attempt immediately, the second after a delay
+    Any 2xx response counts as delivered. Any other status code counts as a failure, and Telivy retries: once immediately, then once more after a delay.
   </Accordion>
   <Accordion title="Authentication">
-    Every webhook request includes a signature in the `X-Telivy-Signature` header. You should verify this signature to ensure the request is legitimate and comes from Telivy.
-    The signature is an HMAC-SHA256 hash of the entire request body, using your webhook secret as the key.
+    Every webhook request carries a signature in the `X-Telivy-Signature` header. Verify it to confirm the request came from Telivy.
+    The signature is an HMAC-SHA256 hash of the entire request body, with your webhook secret as the key.
 
-    ### Verifying the Signature
+    ### Verifying the signature
 
-    Here are examples of how to verify the signature in various programming languages:
+    The examples below verify the signature in five languages.
 
     ### JavaScript/Node.js
 
@@ -274,20 +257,16 @@ description: "This guide will help you integrate with Telivy's webhook system to
     ?>
     ```
   </Accordion>
-  <Accordion title="Custom Authentication Headers">
-    In addition to verifying that webhooks are coming from Telivy using the signature, you may need to secure your webhook endpoint from unauthorized access. Telivy allows you to specify custom headers that will be included in webhook requests, which you can use for authentication in your system.
+  <Accordion title="Custom authentication headers">
+    If your endpoint requires its own authentication, add custom headers to the webhook subscription. Telivy sends them on every request, alongside the signature. Common choices are:
 
-    **Setting Up Custom Authentication Headers**
-    When creating or updating a webhook subscription in your Telivy dashboard, you can specify custom HTTP headers to be included in all webhook requests to your endpoint. Common authentication headers include:
+    - `Authorization` for bearer tokens or Basic Auth
+    - `X-API-Key` for an API key
+    - `X-Client-ID` and `X-Client-Secret` for client credentials
 
-    - `Authorization`: For JWT bearer tokens, OAuth tokens, or Basic Auth
-    - `X-API-Key`: For API key authentication
-    - `X-Client-ID` and `X-Client-Secret`: For client credential authentication
+    ### API key
 
-    **_Examples of Custom Header Authentication_**
-
-    **API Key Authentication**
-    Example custom headers configuration in Telivy:
+    Custom headers configured in Telivy:
 
     ```json
     {
@@ -316,8 +295,9 @@ description: "This guide will help you integrate with Telivy's webhook system to
     });
     ```
 
-    **Bearer Token Authentication**
-    Example custom headers configuration in Telivy:
+    ### Bearer token
+
+    Custom headers configured in Telivy:
 
     ```json
     {
@@ -347,8 +327,9 @@ description: "This guide will help you integrate with Telivy's webhook system to
       return jsonify({'status': 'Webhook received'}), 200
     ```
 
-    **Basic Auth**
-    Example custom headers configuration in Telivy:
+    ### Basic Auth
+
+    Custom headers configured in Telivy:
 
     ```json
     {
@@ -356,7 +337,7 @@ description: "This guide will help you integrate with Telivy's webhook system to
     }
     ```
 
-    Your webhook handler would then decode and verify:
+    Your webhook handler can then decode and verify the credentials:
 
     ```csharp
     // C# example
@@ -387,25 +368,16 @@ description: "This guide will help you integrate with Telivy's webhook system to
     }
     ```
 
-    **Security Considerations**
-    When using custom authentication headers:
+    ### Security notes
 
-    - **Use HTTPS:** Always ensure your webhook endpoint uses HTTPS to prevent header interception.
-    - **Multiple Layers:** Consider implementing both custom header authentication and Telivy signature verification for enhanced security.
-    - **Rotation:** Periodically rotate API keys, tokens, or passwords used in custom headers.
-    - **Minimal Privileges:** The authentication credentials used in webhook headers should have the minimal privileges needed.
+    Serve the endpoint over HTTPS so the headers cannot be read in transit. Check both the custom header and the Telivy signature. Rotate the keys, tokens or passwords you put in custom headers from time to time, and give those credentials only the access the webhook endpoint needs.
   </Accordion>
-  <Accordion title="Payload Encryption">
-    For added security, you can choose to encrypt the payload data when setting up your webhook. When encryption is enabled:
+  <Accordion title="Payload encryption">
+    You can turn on payload encryption when setting up a webhook. With encryption on, only the `data` field is encrypted, using AES-256-CBC. The `metadata` field stays readable, `metadata.encrypted` is `true`, and the initialization vector is sent in the `iv` field.
 
-    1. Only the data field of the payload is encrypted (the metadata field remains unencrypted)
-    2. The encryption uses AES-256-CBC
-    3. The initialization vector (IV) is included in the payload in the iv field
-    4. The metadata.encrypted flag is set to true
+    ### Decrypting the payload
 
-    ### **Decrypting the Payload**
-
-    When you receive an encrypted webhook, you'll need to decrypt the data before processing it. Here are examples of how to decrypt the payload in various programming languages:
+    Decrypt `data` before processing it. The examples below show how in four languages.
 
     ### C#
 
@@ -616,7 +588,7 @@ description: "This guide will help you integrate with Telivy's webhook system to
     }
     ```
   </Accordion>
-  <Accordion title="Handling Webhook Data">
+  <Accordion title="Handling webhook data">
     Each webhook payload follows this structure:
 
     ```json
@@ -671,51 +643,41 @@ description: "This guide will help you integrate with Telivy's webhook system to
     }
     ```
 
-    ### **Using Metadata**
+    ### Metadata fields
 
-    The metadata field contains important information about the webhook:
+    | Field | Meaning |
+    | --- | --- |
+    | `eventType` | The event that triggered the webhook, such as `ASSESSMENT_STATUS_CHANGED` |
+    | `timestamp` | When the event occurred, in ISO 8601 format |
+    | `webhookId` | Your webhook subscription ID |
+    | `attemptNumber` | Which delivery attempt this is |
+    | `encrypted` | Whether `data` is encrypted |
 
-    - eventType: Identifies what triggered the webhook (e.g., ASSESSMENT_STATUS_CHANGED)
-    - timestamp: When the event occurred (ISO 8601 format)
-    - webhookId: Your webhook subscription ID
-    - attemptNumber: Number of attempts made to deliver this webhook
-    - encrypted: Whether the payload data is encrypted
+    Use `eventType` to route requests to the right handler, `attemptNumber` to spot retries, and `encrypted` to decide whether to decrypt.
 
-    You can use this metadata to:
+    ### HTTP headers
 
-    1. **Route the webhook** to different handlers based on the event type
-    2. **Track delivery attempts** for monitoring and debugging
-    3. **Detect encryption** to know whether decryption is needed
-    4. **Correlate events** using the timestamp for reporting
+    | Header | Value |
+    | --- | --- |
+    | `Content-Type` | Always `application/json` |
+    | `User-Agent` | `Telivy-Webhook-Sender/1.0` |
+    | `X-Telivy-Signature` | HMAC-SHA256 signature of the body |
+    | `X-Telivy-Event` | The event type |
+    | `X-Webhook-ID` | Your webhook subscription ID |
 
-    ### **HTTP Headers**
-
-    Each webhook request includes these headers:
-
-    - Content-Type: Always application/json
-    - User-Agent: Telivy-Webhook-Sender/1.0
-    - X-Telivy-Signature: HMAC-SHA256 signature for verification
-    - X-Telivy-Event: The event type that triggered the webhook
-    - X-Webhook-ID: Your webhook subscription ID
-    - Any custom headers you specified when creating the webhook
+    Any custom headers you set on the webhook are sent as well.
   </Accordion>
   <Accordion title="Troubleshooting">
-    ### **Common Issues**
+    ### Common problems
 
-    1. **Invalid Signature**: Ensure you're using the correct webhook secret. The entire request body must be used when verifying the signature.
-    2. **Decryption Failures**: Make sure you're using the correct algorithm (AES-256-CBC) and properly decoding the base64-encoded data and IV.
-    3. **Timeout Errors**: If your endpoint doesn't respond within 10 seconds, we may retry the webhook. Process data asynchronously after returning a response.
-    4. **Missing Events**: Verify that your webhook subscription is active and subscribed to the events you're expecting.
-    5. **Authentication Issues**: Double-check that any custom authentication headers are correctly configured in your webhook subscription and properly validated by your endpoint.
+    | Problem | What to check |
+    | --- | --- |
+    | Signature does not match | You are using this webhook's secret, and you hash the raw request body exactly as received |
+    | Decryption fails | You use AES-256-CBC and base64-decode both `data` and `iv` before decrypting |
+    | Requests time out | Your endpoint responds within 10 seconds. Return the response first and process afterwards, or Telivy retries |
+    | Events are missing | The subscription is active and subscribed to the event you expect |
+    | Your endpoint rejects the request | The custom headers on the subscription match what your endpoint checks |
 
-    ### **Debugging Tips**
-
-    1. Log the raw webhook payload for investigation
-    2. Check signature verification logic using the examples provided
-    3. Verify that your endpoint is accessible from external sources
-    4. Set up monitoring to track webhook receipts and processing success rates
-    5. When testing, temporarily log all headers received to ensure custom authentication headers are being properly sent
-
-    For additional help, please contact Telivy support ([support@telivy.com](mailto:support@telivy.com)).
+    While debugging, log the raw body and all headers your endpoint receives, and confirm the endpoint is reachable from the internet. If you are still stuck, contact [support@telivy.com](mailto:support@telivy.com).
   </Accordion>
 </AccordionGroup>

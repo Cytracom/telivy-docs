@@ -1,73 +1,46 @@
 ---
-title: Open Ports
-description: 'A Guide to Identifying and Securing Open Ports'
+title: Open Ports and How to Secure Them
+sidebarTitle: Open Ports
+description: 'What an open port is, why exposed ports such as RDP 3389 and databases are risky, how Telivy rates open ports by severity, and how to close or restrict them.'
 ---
 
-A port is a virtual or physical entry or exit point on a computer that allows communication or peripheral devices to connect. Ports are managed by a computer's operating system and are software based. Each port is associated with a specific process or service. To separate different kinds of traffic, computers use ports. The problem arises when ports are left exposed due to improper configuration or lack of protection.
+A port is a numbered endpoint that a service on a computer listens on, so traffic for that service reaches the right program. A web server listens on 443, Remote Desktop on 3389, and so on. Opening a port is normal. The problem is a port that is reachable from the internet when it does not need to be, or one whose service is unpatched or badly configured.
 
-## Threats
+## How open ports get exploited
 
-High severity open ports represent a significant cyber risk for several reasons:
-1. **Vulnerability Exploitation**: Open ports that are associated with high severity vulnerabilities provide potential entry points for attackers to exploit. Cybercriminals can target these ports to gain unauthorized access to systems, networks, or applications, leading to data breaches, system compromise, or disruption of services.
-2. **Malware Infection**: Attackers often scan for open ports associated with known vulnerabilities and exploit them to deliver malware payloads. Malware can be deployed to compromise systems, steal sensitive information, or perform malicious activities such as launching distributed denial-of-service (DDoS) attacks or crypto jacking.
-3. **Unauthorized Access**: Open ports can serve as gateways for unauthorized access to critical systems or sensitive data. Attackers may exploit high severity vulnerabilities to bypass authentication mechanisms, gain privileged access, or escalate privileges, allowing them to take control of systems and perform malicious actions.
-4. **Data Breaches**: High severity open ports can facilitate data breaches by providing attackers with access to sensitive information stored on compromised systems or networks. This can result in the theft of confidential data, financial losses, regulatory fines, and damage to reputation and trust.
-5. **Service Disruption**: Attackers may exploit high severity vulnerabilities in open ports to launch denial-of-service attacks or other disruptive activities. By exploiting weaknesses in network protocols or software applications, attackers can disrupt services, degrade system performance, or cause system outages, leading to financial losses and operational downtime.
-6. **Propagation of Threats**: Once attackers gain access to systems through high severity open ports, they can use compromised systems as launch pads to propagate threats within the network or to other external targets. This can result in the spread of malware, ransomware, or other malicious activities, amplifying the impact of the initial breach.
-7. **Compliance Violations**: Failure to address high severity open ports and vulnerabilities may lead to non-compliance with industry regulations, data protection laws, or cybersecurity standards. Organizations that fail to secure their systems and networks adequately may face regulatory fines, legal liabilities, and reputational damage.
+Attackers scan the internet all the time with tools like Nmap to find open ports and identify the service behind each one. When they find a service with a known vulnerability or weak authentication, such as Remote Desktop with a guessable password or a database open to anyone, they use it to get in. From there they can steal data, install ransomware, or move to other machines on the network.
 
-To mitigate the cyber risks associated with high severity open ports, organizations should implement robust cybersecurity measures, including regular vulnerability assessments, patch management, network segmentation, access controls, intrusion detection systems, and security monitoring. By identifying and addressing vulnerabilities promptly, organizations can reduce their attack surface and enhance their overall cybersecurity posture.
-
-## How can it be exploited?
-
-- Finding Weaknesses: Open ports are like unlocked doors in your network. Hackers use port scanning tools (like Nmap) to identify open ports and the services running on them.
-- Exploiting Vulnerabilities: Once they discover an open port with a known vulnerability (unpatched software or misconfiguration), they can use that vulnerability to gain unauthorized access to your network.
-
-<Frame caption="Example of Port Scanning">
+<Frame caption="Example output from a port scan">
 <img alt="Port scan output listing open ports and the services behind them" src="/images/open-ports.jpg" />
 </Frame>
 
-## Security Impact
-Having misconfigured open ports can have several security impacts, varying in severity. Here are some implications:
-- Unauthorized Access
-- Increased Attack Surface
-- Malware Delivery
-- Denial-of-Service (DoS) Attacks
-- Man-in-the-Middle Attacks
-- Lateral Movement and Persistence
+An unnecessary open port can lead to unauthorized access, malware delivery, denial-of-service attacks, interception of traffic, and a foothold for moving laterally through the network. Exposed ports can also put a client out of line with frameworks such as PCI DSS that expect access to be restricted.
 
-## Remediation Action Plan
-To mitigate the risk of having open ports, network and system administrators often employ the following strategies:
-- **Discover Open Ports**: Access the list of open ports that are visible to the outside world by running a Telivy External Assessment or a Risk Assessment.
-- **Prioritize and Analyze Open Ports**: Review the list of open ports and identify the services associated with them. Prioritize the ports based on their criticality. Ports associated with essential services should be addressed first.
-- **Mitigate Risks**: Close unnecessary ports, update software, and restrict access
-- **Verification and Documentation**: After implementing mitigation strategies, re-scan your system or network to verify that unnecessary ports are closed and security measures are functioning properly. Document the process, including the identified open ports, actions taken, and the rationale behind them. This documentation will be helpful for future reference and security audits.
-- **Continuous Monitoring and Improvement**: Regularly review open ports and update your mitigation strategies as needed. Stay informed about new vulnerabilities and emerging threats related to open ports.
+## How Telivy rates open ports
 
-**Note: Telivy groups the open ports it finds into three risk tiers**
+Every External Assessment and Risk Assessment scans the client's internet-facing addresses for open ports. Telivy puts the ports it finds into three risk tiers.
 
-High-risk (close unless absolutely necessary):
+**High risk.** Close these unless they are absolutely necessary:
 
-```
-RPC Endpoint Mapper / NetBIOS (135)
+- RPC Endpoint Mapper / NetBIOS (135)
+- Remote Desktop (3389)
+- Databases (MySQL 3306, PostgreSQL 5432)
 
-Remote Desktop (3389)
+**Medium risk.** Restrict access and use with caution:
 
-Database ports (MySQL - 3306, PostgreSQL - 5432)
-```
+- NetBIOS / SMB (137, 139)
 
-Medium-risk (restrict access, use with caution):
+**Low risk.** Lower priority, but still worth reviewing:
 
-```
-NetBIOS / SMB (137, 139)
-```
+- FTP (21)
+- Telnet (23)
 
-Low-risk (lower priority, but still worth reviewing):
+Common service ports such as SSH (22), DNS (53), HTTP (80), and HTTPS (443) are not flagged as open-port findings on their own, because most servers are expected to have them open. SMTP (25) is checked separately: Telivy looks at whether the mail service uses SSL/TLS encryption and reports missing encryption as its own finding.
 
-```
-FTP (21)
+## Remediation
 
-Telnet (23)
-```
-
-Common service ports like SSH (22), DNS (53), HTTP (80), and HTTPS (443) aren't flagged as open-port findings on their own. They're expected to be open on most servers. SMTP (25) is evaluated separately: Telivy checks whether your mail service uses SSL/TLS encryption and reports missing encryption as its own finding, rather than as an open-port severity issue.
+1. **Find the open ports.** Run an External Assessment or Risk Assessment to list the ports visible from the internet.
+2. **Work out what each one is for.** Identify the service behind every port and whether anyone still needs it. Start with high-risk ports.
+3. **Close, restrict, or patch.** Close ports nobody needs. For the ones that must stay open, limit access to known IP addresses or put them behind a VPN, and keep the service patched. [Close open ports](/products/external-assessments/close-open-ports) has step-by-step instructions.
+4. **Rescan and record.** Rescan to confirm the ports are closed, and note what you changed and why for future audits.
+5. **Keep watching.** New services get exposed by accident. [Risk Monitoring](/products/risk-monitoring/overview) rescans on a schedule and can alert you on new exposures through the **Network / External Surface** alert category.
