@@ -1,0 +1,87 @@
+---
+title: "Grouped PSA tickets"
+description: "Choose whether each finding category opens one ticket per finding or one ticket per scan in Autotask, ConnectWise or HaloPSA"
+---
+
+By default, Telivy opens one PSA ticket for every finding. A first scan of a large customer can therefore open hundreds of tickets at once. Grouping lets you choose, for each finding category, to receive one ticket per scan that lists everything new in that category.
+
+This works the same way in Autotask, ConnectWise and HaloPSA.
+
+## Choose how each category is ticketed
+
+1. Go to **Alerts → Policies**.
+2. Click the ticketing button at the top of the page. It carries your PSA's name, for example **HaloPSA ticketing**, and shows how many categories are grouped.
+3. Pick **One per finding** or **One per scan** to apply it to every category, or choose under **Or choose by category**.
+4. Click **Save**.
+
+You can also make the same choice for one category while editing an alert policy, in the **Delivery** step.
+
+The choice applies to every customer in your account, and only to new tickets. Existing tickets stay as they are.
+
+<Note>
+Categories marked **No PSA policy on** can be set in advance. Telivy sends nothing for them until you turn on a PSA policy for that category, and your choice is kept if you later turn the policy off and on again.
+</Note>
+
+Grouping covers categories built from scan findings: Dark Web Breach, Device Posture, Email / DNS Authentication, External Patching Cadence, Google Workspace Posture, Internal Vulnerabilities, IP Reputation, Microsoft 365 Posture, Network / External Surface, TypoSquatting Domains and Web Application Security. Event-based alerts already open one ticket per alert.
+
+## What a grouped ticket contains
+
+Each assessment gets one ticket per category per scan. A company with both an external and a risk assessment receives a ticket for each.
+
+- **Title:** the severity, category, number of new findings and the time the ticket was raised, for example `[Telivy][HIGH] Dark Web Breach: 12 new findings (2026-11-05 14:32:00 UTC)`.
+- **Priority:** taken from the most severe finding on the ticket.
+- **Findings:** listed by finding type, most severe first.
+- **Recommendations:** the fix for each finding type, as far as space allows.
+- **Links:** a link to a Telivy page listing every finding on the ticket, and a link for each finding type.
+
+## Large tickets
+
+A grouped ticket can carry up to 5,000 findings, and two limits apply:
+
+- **What the ticket text lists.** Descriptions stay under 7,500 characters so that they fit every supported PSA, which is roughly 50 findings. The ticket states how many it lists. Every finding on the ticket is still tracked, and all of them appear on the linked Telivy page, where you can search them and export a CSV.
+- **What one ticket covers.** When a category has more than 5,000 new findings, the ticket takes the 5,000 most severe, and its title says so, for example `5000 of 59565 new findings`. Closing it resolves those 5,000. The others stay in Telivy and go on a new ticket at the next scan, or when you use **Find unsynced**. Telivy opens one ticket per category each time, so a large backlog cannot flood your PSA.
+
+If a category regularly exceeds 5,000 findings, add a condition to its policy, such as CVSS 8.0 and above, so that the tickets hold what your team will act on.
+
+## What happens after a ticket is opened
+
+- **New findings:** a later scan that finds something new opens a new ticket holding only what is new. A scan with nothing new opens nothing, so tickets follow your scan schedule.
+- **Closing the ticket:** when the ticket is closed in your PSA, every finding on it is marked **Resolved in PSA** in Telivy. Telivy checks tickets every hour, or you can refresh from the assessment.
+- **Findings detected again:** if a later scan still detects a finding after its ticket closed, the finding goes on a new ticket.
+- **Findings still open:** you can have Telivy add a reminder to tickets with open findings. See [Grouped ticket options](#grouped-ticket-options).
+- **Decisions in Telivy:** findings you have accepted or resolved in Telivy are left off new tickets. If Telivy closes tickets from your decisions, a grouped ticket closes only when every finding on it that is still detected has a decision.
+
+<Note>
+Telivy waits five minutes after the last finding of a scan before opening the ticket, so a scan that uploads results in stages produces one ticket. Using **Find unsynced** opens tickets within about 30 seconds.
+</Note>
+
+## Changing a category later
+
+- **Moving to one per scan:** open individual tickets stay open and their findings stay on them. An individual ticket that was closed but whose finding is still detected comes back on a grouped ticket at the next scan, so the first grouped ticket after a change can be large.
+- **Moving to one per finding:** open grouped tickets stay as they are. New findings open individual tickets.
+
+## Grouped ticket options
+
+These settings are at the bottom of the ticketing dialog and apply to every grouped ticket.
+
+- **Set the customer primary contact on the ticket.** Telivy sets the primary contact from your PSA on the ticket: the primary contact in Autotask, the company default contact in ConnectWise, and the main contact of the main site in HaloPSA. If a company has none, the ticket opens without one.
+- **Remind on tickets with open findings.** Weekly, monthly or quarterly, Telivy adds a note to each open grouped ticket saying how many of its findings are still open, with a link to them. It skips tickets where nothing is open.
+
+## If a ticket is deleted in your PSA
+
+Telivy checks its tickets every hour. When one no longer exists, Telivy confirms that with your PSA and then marks its findings **Ticket deleted**. This applies to individual and grouped tickets.
+
+Telivy does not recreate the ticket on its own, so deleting tickets you did not want will not bring them back at the next scan. To open a new ticket:
+
+- Click the orange marker on the finding, or
+- Use **Find unsynced** on the assessment. It tells you how many findings had a deleted ticket before you confirm.
+
+A finding marked this way stays marked until you recreate its ticket. Decisions you make on it in Telivy are still saved, and nothing is sent to your PSA.
+
+## See grouped tickets in Telivy
+
+- **More** on an assessment opens a list of every ticket Telivy opened for it, named after your PSA, for example **HaloPSA tickets**. Grouped tickets open a page showing what to do and each finding's status.
+- **Alerts → Policies** shows your PSA's name with `Grouped` on grouped policies, for example `HaloPSA · Grouped`.
+- Finding rows show a stacked icon beside the sync status, and the tooltip gives the ticket number and how many findings it covers.
+- The finding drawer shows how many findings share the ticket, with a link to all of them.
+- **Find unsynced** tells you how many tickets a sync will open before you confirm it.
