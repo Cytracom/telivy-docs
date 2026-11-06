@@ -142,6 +142,7 @@
               "integrations/connectwise",
               "integrations/autotask",
               "integrations/halopsa",
+              "integrations/psa-grouped-tickets",
               "integrations/webhooks",
               {
                 "group": "MCP Server",

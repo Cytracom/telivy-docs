@@ -59,7 +59,7 @@ Click **Enable recommended** to add policies for every recommended category that
 1. Click **Add Policy**, or **Edit** on an existing row.
 2. In **Configure Alert Policy**, choose the **Alert Category** and the **Trigger Condition**. Some categories take an **Alert Metric** and a **Value**, for example a CVSS or EPSS threshold for Internal Vulnerabilities.
 3. Click **Next: Select Users**.
-4. In **Configure Alert Delivery**, select the users to email. If a PSA is connected, the **Open a PSA ticket** switch also sends this category's findings to it.
+4. In **Configure Alert Delivery**, choose the people to email. If a PSA is connected, its switch also opens tickets for this category's findings. If not, this step offers to connect one.
 5. Click **Save**.
 
 A policy needs at least one recipient or PSA delivery. Saving with neither removes the policy.
@@ -75,9 +75,11 @@ Tick rows to select them, then use the bar above the table:
 
 ## Send findings to your PSA
 
-With [ConnectWise](/integrations/connectwise), [Autotask](/integrations/autotask) or [HaloPSA](/integrations/halopsa) connected, alert policies also decide which findings open PSA tickets. Turn on PSA sync for a category from **Edit** (the **Open a PSA ticket** switch) or with **Enable PSA sync** in bulk. The **Delivery** column then shows **PSA** with the severity floor, such as **High and above**.
+With [ConnectWise](/integrations/connectwise), [Autotask](/integrations/autotask) or [HaloPSA](/integrations/halopsa) connected, alert policies also decide which findings open PSA tickets. Turn on PSA sync for a category from **Edit** (the switch named after your PSA in the **Delivery** step) or with **Enable PSA sync** in bulk. The **Delivery** column then shows **PSA** with the severity floor, such as **High and above**.
 
 PSA sync covers every finding category in the list, including external-surface ones such as Email / DNS Authentication or Web Application Security that do not send alert emails yet. A ticket is only opened when the client's company is mapped to the PSA and **Sync findings to PSA** is on for its assessment.
+
+By default each finding opens its own ticket. To receive one ticket per scan for a category instead, use the ticketing button at the top of the page, which carries your PSA's name. See [Grouped PSA tickets](/integrations/psa-grouped-tickets).
 
 ## Alert categories
 

@@ -14,7 +14,7 @@ Telivy talks to the HaloPSA REST API with an API application you create in your 
 
 ### Tickets
 
-Once HaloPSA is connected and a company is mapped, each finding in a category you chose to sync opens one ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a Halo ticket against the Halo client you mapped to that company. The ticket title starts with `[Telivy]` and the severity, and the ticket body explains the finding, the risk, the recommended fix and the Telivy references, with a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab. The Halo priority follows the finding severity: Critical findings get priority 1, High get 2, Medium get 3, Low and Info get 4.
+Once HaloPSA is connected and a company is mapped, each finding in a category you chose to sync opens one ticket. You can [group a category into one ticket per scan](/integrations/psa-grouped-tickets) instead. When a scan raises a finding in a category you chose to sync, Telivy creates a Halo ticket against the Halo client you mapped to that company. The ticket title starts with `[Telivy]` and the severity, and the ticket body explains the finding, the risk, the recommended fix and the Telivy references, with a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab. The Halo priority follows the finding severity: Critical findings get priority 1, High get 2, Medium get 3, Low and Info get 4.
 
 If the finding is still present on the next scan, Telivy updates the title of the existing ticket instead of opening a second one.
 
@@ -140,7 +140,7 @@ An agency connects one PSA. While ConnectWise or Autotask is enabled, the HaloPS
 
 ## Step 3: Choose which findings open tickets
 
-Go to **Alerts → Policies** and turn on **PSA sync** for the finding categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls.
+Go to **Alerts → Policies** and turn on **PSA sync** for the finding categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
 
 Under **Account → Integrations → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether resolving or accepting a finding in Telivy updates its ticket.
 
