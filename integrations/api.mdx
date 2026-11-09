@@ -1,0 +1,120 @@
+---
+title: "Telivy Security API"
+sidebarTitle: "Security API"
+description: "Read and manage Telivy external scans, risk assessments, findings and reports from your own tools with the Telivy Security API and an agency API key."
+---
+
+The Telivy Security API lets your own tools work with the same data you see in the Telivy portal. You can list external scans and risk assessments, read findings and risk scores, download reports, create assessments and start rescans. Integrations such as Rewst and the [Telivy MCP server](/integrations/mcp/overview) use this API with the same API key.
+
+## Base URL and reference
+
+| | |
+|---|---|
+| Base URL | `https://api-v1.telivy.com` |
+| Interactive reference (Swagger) | [https://api-v1.telivy.com/api-docs/security](https://api-v1.telivy.com/api-docs/security) |
+| OpenAPI 3.0 specification (JSON) | [https://api-v1.telivy.com/api-docs/security-json](https://api-v1.telivy.com/api-docs/security-json) |
+
+All endpoints sit under `/api/v1/security/`. The interactive reference documents every operation, its parameters and its response fields, and you can try requests from it with your key. The OpenAPI file can be loaded into Postman or a client code generator.
+
+## Authentication
+
+Send your agency's API key in the `x-api-key` header with every request:
+
+```bash
+curl https://api-v1.telivy.com/api/v1/security/risk-assessments \
+  -H "x-api-key: $TELIVY_API_KEY"
+```
+
+### Get your API key
+
+1. Sign in to the Telivy portal and open [Account → Integrations](https://portal.telivy.com/agent/account/integrations).
+2. Generate the API key, or copy it if you already have one, and store it in a secret store such as a password manager or Azure Key Vault.
+
+Each agency has one API key, and every integration your agency uses shares it. The key does not expire. It stays valid until someone in your agency regenerates it.
+
+<Warning>
+  Regenerating the API key immediately invalidates the old key. Every integration that uses the old key, including Rewst workflows and MCP clients, stops working until you update it with the new key.
+</Warning>
+
+### What the key can do
+
+The API key acts as your agency's built-in **API User**, which has agency administrator permissions. It can read data and also create, change, rescan and uninstall. Telivy does not offer read-only API keys at the moment, so a read-only integration has to limit itself to `GET` requests. Changes made with the key appear in Telivy as performed by **API User**.
+
+## What you can read
+
+| Data | Endpoint |
+|---|---|
+| Risk assessments, with organization name, primary domain, status, and `companyId` | `GET /api/v1/security/risk-assessments` and `GET /api/v1/security/risk-assessments/{id}` |
+| External scans, with security score and per-category grades | `GET /api/v1/security/external-scans` and `GET /api/v1/security/external-scans/{id}` |
+| Open findings on each device of a risk assessment, with severity | `GET /api/v1/security/risk-assessments/{id}/findings` |
+| Devices of a risk assessment, and the scan status of each | `GET /api/v1/security/risk-assessments/{id}/devices` and `GET /api/v1/security/risk-assessments/{id}/scan-status` |
+| External scan findings, with severity and remediation | `GET /api/v1/security/external-scans/{id}/findings` |
+| Dark web breach data | `GET /api/v1/security/external-scans/{id}/breach-data` |
+| Risk score and its change between two scans | `GET /api/v1/security/{id}/risk` |
+| Microsoft 365 and Google Workspace users, and the PII summary | `GET /api/v1/security/risk-assessments/{id}/m365-users`, `/gws-users` and `/pii-summary` |
+
+Assessment status is `not_started`, `in_progress`, `report_completed` (`completed` for external scans) or `archived`. Every record carries `createdAt` and `updatedAt`, and external scans also carry `lastScannedAt`.
+
+## Download reports
+
+Reports can be downloaded through the API in the same formats the portal offers. The response is the file itself, with its file name in the `Content-Disposition` header.
+
+**Risk assessments:** `GET /api/v1/security/risk-assessments/{id}/report?reportType=<type>`. `reportType` defaults to `telivy_complete_report_pdf`. Structured formats include:
+
+| `reportType` | Contents |
+|---|---|
+| `internal_vulnerabilities_detailed_csv` | Every vulnerability found on every device |
+| `applications_security_overview_csv` and `applications_security_detailed_csv` | Installed applications and their security status |
+| `telivy_network_inventory_report_csv` | Devices found on the network |
+| `telivy_dark_web_report_csv` | Dark web breach records |
+| `telivy_passwords_report_csv` and `telivy_passwords_reuse_report_csv` | Password findings and password reuse |
+| `data_security_sensitive_documents_csv` and `data_security_detailed_risk_xlsx` | Sensitive documents and data security risk |
+| `m365_security_data_report_xlsx` and `gws_security_data_report_xlsx` | Microsoft 365 and Google Workspace data |
+
+The full list, including the PDF and Word reports, is the `ReportType` schema in the [API reference](https://api-v1.telivy.com/api-docs/security).
+
+**External scans:** `GET /api/v1/security/external-scans/{id}/report`, with `format` set to `pdf` (default) or `docx`, and `detailed=true` for the detailed version.
+
+Telivy generates the report when you request it, so the response can take a while for a large assessment. Telivy does not send reports on a schedule. To fetch a fresh report after each scan, subscribe to the `SCAN_COMPLETED` [webhook](/integrations/webhooks) and download the report when it arrives.
+
+## Match assessments to your clients
+
+Each risk assessment returns `companyId`, the Telivy company it belongs to, and `assessmentDetails.domain_prim`, the client's primary domain. External scans return the same `assessmentDetails`. Use the domain or the `companyId` to match Telivy records to clients in your PSA or other systems. Assessments do not carry your PSA's company ID at the moment.
+
+If you have a master agency, `GET /api/v1/security/agencies` lists your agency and each of its sub-agencies, with their name, domain and `externalId`. Pass an agency's `id` as `agencyId` on the list and create endpoints to work with that agency's assessments. An `agencyId` outside your agency tree is rejected with `403`.
+
+## Pagination
+
+The list endpoints take `offset` and `limit` and return `total`, the number of matching records across all pages. `limit` defaults to 100. Keep requesting pages, increasing `offset` by `limit`, until `offset` reaches `total`. The lists also accept `search` and `assessmentSortBy` with `sortOrder`, and the risk assessment list accepts `scanStatus`.
+
+## Rate limits
+
+Requests made with an API key are limited to **60 requests per 60 seconds per key**, counted across all endpoints and all IP addresses that use the key. The limit is shared with every integration and MCP client that uses the same key. Every response carries these headers:
+
+| Header | Meaning |
+|---|---|
+| `X-RateLimit-Limit` | Requests allowed in each window |
+| `X-RateLimit-Remaining` | Requests left in the current window |
+| `X-RateLimit-Reset` | Seconds until the window resets |
+
+Over the limit, the API answers `429 Too Many Requests`. Wait for the window to reset before sending more requests. To stay under the limit, read the list endpoints with a large `limit` instead of fetching each assessment one at a time.
+
+## Errors
+
+| Status | Meaning |
+|---|---|
+| `400` | A parameter or body field failed validation. The message names the field. |
+| `401` | The API key is missing, wrong, or was regenerated. |
+| `403` | The key is not allowed to act on that record or agency. |
+| `429` | The rate limit was reached. |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Webhooks" icon="webhook" href="/integrations/webhooks">
+    Get notified when a scan completes or an assessment changes status.
+  </Card>
+  <Card title="MCP server" icon="robot" href="/integrations/mcp/overview">
+    Use the Security API from AI assistants such as Claude and Cursor.
+  </Card>
+</CardGroup>
