@@ -143,6 +143,7 @@
               "integrations/autotask",
               "integrations/halopsa",
               "integrations/psa-grouped-tickets",
+              "integrations/api",
               "integrations/webhooks",
               {
                 "group": "MCP Server",
