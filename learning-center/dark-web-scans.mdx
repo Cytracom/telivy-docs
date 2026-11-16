@@ -1,18 +1,36 @@
 ---
 title: Dark Web Scans and Leaked Credentials
 sidebarTitle: Dark Web Scans
-description: 'What a dark web scan finds, why leaked credentials matter to a small business, how breach age affects severity, and how to remediate exposed accounts.'
+description: 'What a dark web scan finds, how to read breach details and What we checked, how breach age affects severity, and how to remediate exposed accounts.'
 ---
 
 The dark web is the part of the internet that search engines do not index. Much of it hosts marketplaces and forums where data stolen in breaches is sold or shared: email addresses, passwords, phone numbers, home addresses, and financial details. A dark web scan checks those sources for data tied to a client's domains and people.
 
 ## What Telivy finds
 
-Every Telivy assessment includes a dark web scan of the client's domains. Results appear under **Dark Web** on the assessment's **Security** tab, in the **Dark Web Data** table, and the **Dark Web Presence** card on the **Overview** summarizes them. A leaked record can include usernames, passwords, IP addresses, email addresses, physical addresses, and phone numbers.
+Every Telivy assessment includes a dark web scan of the client's domains. Results appear under **Dark Web** on the assessment's **Security** tab, and the **Dark Web Presence** card on the **Overview** summarizes them. A leaked record can include email addresses, passwords, usernames, names, phone numbers, physical addresses, IP addresses, and more sensitive data such as dates of birth or government IDs.
 
-On a Risk Assessment, Telivy also checks the passwords saved in employees' browsers against breach data and lists matches under **Browser Credentials on Dark Web**. See [Identity and Access Management](/products/risk-assessments/identity-and-access-management).
+### Summary and What we checked
 
-To hide leaked passwords in results and exports, turn on **Mask Dark Web Passwords** in the assessment's PII settings. See [Data Security](/products/risk-assessments/data-security#mask-pii-data).
+At the top of the **Dark Web** view, a summary shows how many breaches were found, how many of the checked email addresses were exposed, and how many of those had a leaked password. It also shows when the search last ran. Bars below the summary count breaches by year, and clicking a year filters the table to that year.
+
+**What we checked** opens a list of every email address Telivy searched for, grouped by domain, with the number of breach sources searched and how many breaches each address appeared in. If some searches did not finish, the summary is marked **Partly complete** and the dialog says that a few results may be missing until the next scan.
+
+### Breaches table
+
+The **Breaches** table has one row per breach, with the people affected and a **Risk** rating. You can search it by breach name or email address. Passwords are partly hidden unless you turn on **Show full passwords**, which applies to that client only. The same setting appears as **Mask Dark Web Passwords** in the assessment's PII settings. See [Data Security](/products/risk-assessments/data-security#mask-pii-data).
+
+Select a breach to open its details:
+
+| Section | What it shows |
+| --- | --- |
+| Header | The breach name, its date, how many accounts it affected, and its **Risk** rating. Labels such as **Not confirmed**, **Spam list**, **Built from older breaches**, or **Stolen by malware** describe the source when they apply. |
+| What happened | A short description of the breach. |
+| What leaked | The types of data exposed. Passwords, Social Security numbers, dates of birth, and government IDs are called out with what an attacker can do with them. |
+| Who's affected | The client's email addresses that appear in the breach. |
+| What to do | Numbered steps to remediate. |
+
+On a Risk Assessment, Telivy also checks the passwords saved in employees' browsers against breach data and lists matches under **Browser Credentials on Dark Web** on the **Identity and Access Management** view. See [Identity and Access Management](/products/risk-assessments/identity-and-access-management).
 
 ## Why it matters
 
@@ -22,12 +40,21 @@ A dark web scan tells you which accounts are already exposed, so you can reset t
 
 ## How severity is judged
 
-Some leaks are more urgent than others. Four things decide how serious a finding is:
+Telivy gives each breach a **Risk** rating of High, Medium, or Low from what leaked and when the breach happened:
 
-- **What leaked.** A password, especially in clear text, is worse than an email address alone.
-- **How recent it is.** Telivy grades a client lower when leaks are recent. Findings from the last two years count most, and leaks older than five years count least. See [Telivy Grading Criteria](/scoring/grading-criteria).
-- **Whose account it is.** An administrator or finance account matters more than a former intern's.
-- **Whether the password is still in use.** A leaked password that matches one still saved in a browser is an active risk.
+| Rating | When it applies |
+| --- | --- |
+| High | A cleartext password leaked, or the breach happened in the last 24 months. |
+| Medium | A hashed password leaked, or the breach happened between 24 and 48 months ago. |
+| Low | None of the above applies, for example a breach older than 48 months, or one with no known date, that exposed no password. |
+
+A breach that Telivy's sources mark as a spam list or as fabricated is rated Low unless a cleartext password leaked, whatever its date.
+
+A breach row takes the highest rating among the records in it.
+
+The breach dates also affect the client's grade. Telivy grades a client lower when leaks are recent. Findings from the last two years count most, and leaks older than five years count least. See [Telivy Grading Criteria](/scoring/grading-criteria).
+
+When you decide which accounts to fix first, also look at whose account it is and whether the password is still in use. An administrator or finance account matters more than a former intern's, and a leaked password that matches one still saved in a browser is an active risk.
 
 ## How leaked data gets used
 

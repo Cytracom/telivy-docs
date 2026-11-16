@@ -1,14 +1,16 @@
 ---
 title: Password Analysis for Weak, Reused and Breached Passwords
 sidebarTitle: Identity and Access Management
-description: 'How Telivy analyzes passwords saved in Chromium browsers to find weak, reused, and breached credentials without storing cleartext passwords off the device.'
+description: 'How Telivy analyzes passwords saved in Chromium browsers and Firefox to find weak, reused, and breached credentials without storing cleartext passwords.'
 ---
 
 Attackers often get in with a password that is weak, reused, or already leaked. As part of a Risk Assessment, Telivy checks the passwords saved in users' browsers and flags each of those cases.
 
 ## How passwords are collected
 
-When you deploy the Telivy agent, it includes a password analysis tool that reads the passwords saved in Chromium-based browsers such as Chrome and Edge. Chromium encrypts saved passwords per user, so the tool can only read them while that user is signed in. If a user is not signed in during the scan, the capture runs the next time they sign in.
+When you deploy the Telivy agent, it includes a password analysis tool that reads the passwords saved in Chromium-based browsers such as Chrome and Edge, and in Firefox, on both Windows and macOS. The tool reads each user's browser profiles from inside that user's session, so it can only capture a user's passwords while that user is signed in. If a user is not signed in during the scan, the capture runs the next time they sign in.
+
+Firefox passwords protected by a Firefox primary password cannot be read, so they do not appear in the results.
 
 The analysis runs on the device. Cleartext passwords are never sent to or stored on Telivy's servers. Telivy stores a hash of each password, and a hash cannot be turned back into the password.
 

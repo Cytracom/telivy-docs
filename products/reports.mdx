@@ -1,7 +1,7 @@
 ---
 title: Generate Client Security Assessment Reports
 sidebarTitle: Reports
-description: 'Generate PDF, CSV, and XLSX security reports from a Telivy assessment, see what the Complete Report contains, and pick the right report for each client.'
+description: 'Generate PDF, CSV, and XLSX reports from a Telivy assessment, build a custom report, see what the Complete Report contains, and pick a report per client.'
 ---
 
 Every assessment has a **Reports** tab. You generate client-facing reports there, and it
@@ -31,6 +31,31 @@ keeps the earlier versions of each one.
 To refresh every report at once, use **Generate All Reports** in the same picker. It takes a
 snapshot of what the Security tab currently shows, rebuilds each report, and packages them
 into a ZIP file. Telivy emails you when the reports are ready.
+
+## Building a custom report
+
+<Note>
+  Custom reports are in Beta, and the button and builder carry a **Beta** badge.
+</Note>
+
+A custom report is a PDF whose sections, order, and look you choose yourself. You build it from a template, and you can reuse that template for other assessments.
+
+<Steps>
+  <Step title="Open the builder">
+    In the assessment, open **Reports** and click **Create Custom Report**.
+  </Step>
+  <Step title="Pick a starting point">
+    Choose **Blank report** to pick every section yourself, or start from a template. Templates are grouped as **Telivy templates**, **Your templates**, and **Shared by your parent agency**. Telivy templates and templates shared by a parent agency are read only, so select **Duplicate to edit** to make your own copy.
+  </Step>
+  <Step title="Edit the template">
+    The builder shows a live preview next to three tabs. On **Sections**, add sections from the section library with **Add section**, drag them into order, and open a section to change its settings. The **Table rows in this report** meter shows how many table rows the report uses against its limit. On **Theme**, set the primary and accent colours, font, cover layout, logo and cover image URLs, footer text, and a confidentiality label. If you leave the logo URL empty, the report uses your agency logo. On **Details**, set the template name, which is printed as the report title on the cover, and a description, which is not printed.
+  </Step>
+  <Step title="Save and generate">
+    Click **Save**, or **Save as new** to keep the original template unchanged. **Generate PDF** is only available once the template is saved with no unsaved changes. In the dialog, choose the template and optionally add who the report is **Prepared for** and a contact name, email, and phone number. The PDF is built in the background, and you can close the dialog while it runs. When it finishes, the report is listed under **Reports**.
+  </Step>
+</Steps>
+
+The template menu next to **Generate PDF** lets you duplicate or delete a template.
 
 ## Which reports are available
 
@@ -70,6 +95,8 @@ All of the External Scan reports, plus the ones built on agent and cloud data:
 | Google Workspace Security Report | PDF |
 | Google Workspace Security Data Report | XLSX |
 
+The **Vulnerabilities Report** is a single CSV file. For a spreadsheet split by view, open the **Threats & Vulns** view under the assessment's **Security** tab and click **Export All (XLSX)**. That file has one sheet each for **By CVE**, **By Device**, **By User**, and **By Patch**.
+
 <Note>
   **Executive Summary (PDF)** only appears once the assessment has an AI-generated executive
   summary. If it isn't in the list, the summary hasn't been produced yet.
@@ -106,6 +133,12 @@ The **Executive Summary (PDF)** is the short version for people who won't read t
 report. It covers issue severity, the score with a summary, CIS compliance, key findings,
 suggested actions, strategic and operational priorities, and next steps. Pages without data
 are skipped.
+
+## Peer benchmarks on the Overview
+
+The **Executive Summary** card on a Risk Assessment's Overview, and the **External Surface Exposure** card on an External Scan, compare the client with other companies Telivy has assessed. Each category on the Executive Summary card shows the client's score, the typical score, and whether the client is **Above**, **Below**, or **In line** with it, for example "You 72% · Typical 65% · Above". The typical score is the median across the peer group.
+
+By default the peer group is all assessments. To compare with similar companies, choose a sector from the dropdown under the card. The comparison only switches to a sector once that sector has at least 20 assessed companies. Until then, the card says there are not enough companies in that sector yet and keeps comparing with all assessments.
 
 ## Report versions
 

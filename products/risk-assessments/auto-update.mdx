@@ -69,6 +69,21 @@ Select **Update Settings** to override the account and assessment settings for t
 
 Tick **Override account setting** to turn auto-update on or off for this machine, or **Override assessment setting** to give it a different release channel. The dialog shows the inherited values, for example "Currently using **Beta** channel (inherited from assessment)".
 
+## Checking which devices are up to date
+
+The **Deployment Status** table under **Setup > Deploy Agent** shows an agent status badge on each device. Hover over the badge to see the installed version, the version it should be on, and the reason for its state.
+
+| Status | What it means |
+| --- | --- |
+| Agent Installed | The agent is on the current version. |
+| Updating to *version* | The agent is behind and will update itself, usually within an hour of being online. |
+| Update Failing | The last automatic update failed and the agent keeps retrying, or an update started more than a day ago and has not finished. |
+| Auto-update Off | The agent is behind and automatic updates are turned off in **Update Settings**. Turn them on or redeploy the agent. |
+| Reinstall Required | The agent cannot update itself and has to be redeployed by hand. This happens when the installed version predates automatic updates, when it cannot update directly to the current release, or when automatic updates failed three times and stopped. |
+| Not Connected | The agent has not checked in for more than 3 days. The tooltip also shows its update state if it is behind. |
+
+When some devices run an older agent than the current release, a banner above the table says how many there are, how many will update automatically, and how many need your attention. **Show these devices** filters the table to those devices. You can apply the same filters from **Device Status**: **Update Required** lists every device that is behind, and **Needs Attention** lists devices that are **Update Failing**, **Auto-update Off**, or **Reinstall Required**.
+
 ## Release channels
 
 | Channel | Purpose |

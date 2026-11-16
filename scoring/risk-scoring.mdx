@@ -147,6 +147,21 @@ Hover over a score to see its band and a one-line reason. Select it to open **Wh
   <img src="/images/risk-scoring/risk-scoring-1.png" alt="Why this score breakdown showing likelihood, impact and exposure points for a 94 Risk Priority Score" />
 </Frame>
 
+### Setting asset criticality
+
+The Impact factor depends partly on how critical the affected device is. Telivy estimates this automatically, mainly from the amount and sensitivity of personal data (PII) it finds on the device. When you know the device matters more or less than that, set its criticality yourself, and your setting takes precedence over the estimate.
+
+To set it, open the assessment and go to **Setup > Deploy Agent > Deployment Status**. In the **Criticality** column, choose one of these for the device:
+
+| Criticality | Criticality score |
+| --- | --- |
+| Critical Asset | 1.0 |
+| High Value | 0.8 |
+| Standard | 0.5 |
+| Low Value | 0.3 |
+
+To go back to the automatic estimate, choose **Clear override**. The setting is stored for the device across the company, so it applies to that device in every assessment of the same company. Telivy recalculates the company's RPS after each change. Hover over the information icon next to **Asset Criticality** or **Criticality** to see a short explanation of the signal.
+
 ### Adjusting the RPS weights
 
 The RPS is a weighted sum: `RPS = weight × Likelihood + weight × Impact + weight × Exposure`. To change how much each factor counts for a client, open the assessment, select **More**, and choose **Risk Scoring Weights**. Each weight must stay within its allowed range, and the three must add up to 1.00. **Save** stores them as an override for that company. The dialog shows where the current weights come from (**Company override**, **Agency default**, or **System default**), and **Reset to defaults** removes a company override.
