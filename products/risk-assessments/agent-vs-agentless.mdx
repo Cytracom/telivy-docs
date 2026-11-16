@@ -1,0 +1,49 @@
+---
+title: "Agent vs Agentless Scans"
+sidebarTitle: "Agent vs Agentless"
+description: "Choose between the installed Telivy agent and the one-time agentless scanner on Windows and macOS: access, rescans, monitoring, reliability, and data collected."
+---
+
+Telivy collects data from Windows and macOS devices in one of two ways. The **agent** installs
+on the device, stays there, and keeps scanning on a schedule. The **agentless scanner** runs
+once, leaves nothing installed, and gives you a one-time snapshot.
+
+Pick the mode on the assessment's **Setup** tab under **Deploy Agent > Instructions**, with the
+**Agent** and **Agentless** switch. **Compare Agent vs. Agentless** next to the switch opens the
+same comparison as the table below.
+
+| | Agentless | Agent |
+| --- | --- | --- |
+| Best for | Prospecting and baseline scans | Onboarding, scheduled rescans, alerts, and QBRs |
+| Access | Nothing to install. Runs with the current user's permissions | Needs admin access to install |
+| Rescans | The user has to run the scanner again | One-click rescans from the portal at any time |
+| Uninstall | Nothing to uninstall | One-click uninstall from the portal |
+| Monitoring and alerts | Not supported. One-time scans only | Supported |
+| Scan reliability | Errors can leave a partial or incomplete scan | Built-in retries complete the scan |
+| Data collected | User-level data, unless the user grants admin access | Deep, device-level data |
+
+A standard-user agentless scan only sees what that user can open, so PII and password coverage
+is narrower than with the agent.
+
+## How agentless devices show up
+
+On the assessment's **Inventory > Endpoints** page and under **Deployment Status**, a device
+scanned without the agent shows an **Agentless Scan** badge, and its agent status reads "Not
+installed, scanned agentlessly". The device cannot be rescanned or uninstalled from the portal.
+If no device in the assessment runs the agent, **Rescan All** and **Uninstall All** are
+disabled.
+
+The agentless scanner still completes when an EDR such as ThreatLocker blocks the agent
+installer, which is the usual reason a device you meant to install the agent on shows up as
+agentless. Allow Telivy first, then run the agent installer again.
+
+## Install guides
+
+<CardGroup cols={2}>
+  <Card title="Install on Windows" icon="windows" href="/products/risk-assessments/install-telivy-agent-windows">
+    RMM command, installer, or agentless scanner
+  </Card>
+  <Card title="Install on macOS" icon="apple" href="/products/risk-assessments/install-telivy-agent-macos">
+    RMM or MDM command, installer, or agentless scanner
+  </Card>
+</CardGroup>

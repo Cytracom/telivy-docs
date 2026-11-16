@@ -85,11 +85,14 @@
           {
             "group": "Telivy Agent",
             "pages": [
+              "products/risk-assessments/agent-vs-agentless",
               "products/risk-assessments/whitelist-telivy-with-av-edr",
               "products/risk-assessments/allow-telivy-in-threatlocker",
               "products/risk-assessments/install-telivy-agent-windows",
+              "products/risk-assessments/install-telivy-agent-macos",
               "products/risk-assessments/auto-update",
-              "products/risk-assessments/uninstall-telivy-agent-windows"
+              "products/risk-assessments/uninstall-telivy-agent-windows",
+              "products/risk-assessments/uninstall-telivy-agent-macos"
             ]
           },
           {

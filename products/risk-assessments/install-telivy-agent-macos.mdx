@@ -1,0 +1,89 @@
+---
+title: "Install the Telivy Agent on macOS"
+sidebarTitle: "Install on macOS"
+tag: "Beta"
+description: "Deploy the Telivy agent to Macs with an RMM or MDM command or the .dmg installer, grant Full Disk Access and Keychain access, or run the agentless scanner."
+---
+
+macOS support is in beta. The agent runs on Apple Silicon and Intel Macs with macOS 13 Ventura
+or later, and installing it needs an administrator password. The instructions are on the
+assessment's **Setup** tab under **Deploy Agent > Instructions**. Select **macOS** in the
+operating system switch, then **Agent** or **Agentless**.
+
+Not sure which mode to use? See [Agent vs Agentless](/products/risk-assessments/agent-vs-agentless).
+
+<Warning>
+  Allow Telivy in the client's antivirus or EDR before you deploy: the app
+  `/Applications/Telivy.Scanner.Mac.app` and the `*.telivy.com` domains. See
+  [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr).
+</Warning>
+
+## Install the agent
+
+<Tabs>
+  <Tab title="With an RMM or MDM">
+    Each assessment has its own install command. Under **Instructions for RMM**, select **Copy
+    Agent Install Command** and run it as root from any RMM or MDM that can run a shell script,
+    or in Terminal on the Mac:
+
+    ```bash
+    sudo /bin/bash -c "curl -fsSL 'https://install.telivy.com/Installer/install-macos.sh' | bash -s -- -s <DEEP_SCAN_ID> scan"
+    ```
+
+    The copied command already contains the assessment's ID. The script detects whether the
+    Mac has Apple Silicon or an Intel chip and installs the matching package.
+  </Tab>
+  <Tab title="With the installer">
+    Select **Download Telivy Agent Installer (.dmg)** for **Apple Silicon** or **Intel**, or
+    **Copy Link to Download** and send the link to the employee. On the Mac:
+
+    1. Double-click the downloaded file to mount it.
+    2. In the window that opens, double-click **Telivy Agent One-Click Installer**.
+    3. Enter an administrator password when asked. The agent cannot be installed without it.
+    4. Wait for the confirmation that the agent is installed.
+  </Tab>
+</Tabs>
+
+## Grant the permissions the agent needs
+
+macOS asks each user to approve access to files and saved passwords. Without these two steps
+the agent still runs, but PII and password results are incomplete. Ask the person using the Mac
+to do both after the install.
+
+<Steps>
+  <Step title="Turn on Full Disk Access for PII scanning">
+    Open **System Settings > Privacy & Security > Full Disk Access**, find **Telivy.Scanner** in
+    the list, and turn it on. macOS asks for the user's password to confirm.
+  </Step>
+  <Step title="Allow Keychain access for password scanning">
+    In **Finder**, open the **Applications** folder and open **Telivy.Scanner.Mac**. It starts a
+    setup mode that asks for Keychain access once for each Chromium-based browser, such as
+    Chrome, Edge, or Opera. Enter the password and choose **Always Allow** each time.
+  </Step>
+</Steps>
+
+## Agentless deployment
+
+Use the agentless scanner when you cannot install software on the Mac, or when you want
+employees to run a one-time scan themselves. Select **Agentless**, then **Download Telivy
+Scanner (.dmg)** for **Apple Silicon** or **Intel**, or **Copy Link to Download**. Send
+employees these steps:
+
+1. Download the version for the Mac's chip.
+2. Double-click the file to mount it.
+3. In the window that opens, double-click **Telivy Scanner One-Click Runner**.
+4. Enter an administrator password when asked.
+
+The scanner leaves nothing installed. To clean up, eject the disk image and delete the
+downloaded file.
+
+## What happens after install
+
+The installer adds `Telivy.Scanner.Mac` to the **Applications** folder and a background service
+that starts with the Mac. Like the Windows agent, it checks in once an hour and starts the
+scanner, which only collects what is due. [Scanning Schedule](/products/risk-monitoring/scanning-schedule)
+lists how often each check runs. The Mac then appears under **Deploy Agent > Deployment
+Status** and on **Inventory > Endpoints**.
+
+Keep the agent current with [auto-update](/products/risk-assessments/auto-update), which
+supports macOS. To remove it, see [Uninstall on macOS](/products/risk-assessments/uninstall-telivy-agent-macos).

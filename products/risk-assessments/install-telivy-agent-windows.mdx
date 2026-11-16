@@ -1,10 +1,12 @@
 ---
 title: "Install the Telivy Agent on Windows"
-sidebarTitle: "Install Telivy Agent (Windows)"
+sidebarTitle: "Install on Windows"
 description: "Deploy the Telivy agent to Windows devices with an RMM PowerShell command or the installer, run an agentless scan, and see what happens after install."
 ---
 
-Telivy collects data from Windows devices in one of two ways. The **agent** installs as a Windows service, stays on the device, and keeps scanning on a schedule. The **agentless scanner** runs once, leaves nothing installed, and gives you a one-time snapshot. The instructions for both are on the assessment's **Setup** tab under **Deploy Agents**.
+Telivy collects data from Windows devices in one of two ways. The **agent** installs as a Windows service, stays on the device, and keeps scanning on a schedule. The **agentless scanner** runs once, leaves nothing installed, and gives you a one-time snapshot. [Agent vs Agentless](/products/risk-assessments/agent-vs-agentless) compares the two.
+
+The instructions for both are on the assessment's **Setup** tab under **Deploy Agent > Instructions**. Select **Windows** in the operating system switch, then **Agent** or **Agentless**. The agent supports Windows 10 64-bit (Enterprise, Pro, Home, and Education) and later, and Windows Server 2016 and later. For Macs, see [Install on macOS](/products/risk-assessments/install-telivy-agent-macos).
 
 Before you deploy, allow Telivy in the client's antivirus or EDR. See [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr), and if the client uses ThreatLocker, the [ThreatLocker policy guide](/products/risk-assessments/allow-telivy-in-threatlocker).
 
@@ -14,9 +16,11 @@ Before you deploy, allow Telivy in the client's antivirus or EDR. See [Whitelist
 
 Each assessment has its own install command, which you can run from any RMM.
 
-1. Open the assessment and go to **Setup > Deploy Agents**.
-2. Under **Agent Installer**, find **Instructions for RMM** and select **Copy** next to the install command.
+1. Open the assessment and go to **Setup > Deploy Agent > Instructions**, with **Windows** and **Agent** selected.
+2. On the **Agent Installer** card, find **Instructions for RMM** and select **Copy Powershell Command**.
 3. In your RMM, run the command from a PowerShell terminal or the Execute Script option, as Administrator or the System user.
+
+The command works in any RMM that can run a PowerShell script as Administrator or System, such as NinjaOne, Datto RMM, ConnectWise Automate, N-able, or Kaseya VSA. It downloads the MSI from `install.telivy.com` and installs it silently with the assessment's key.
 
 ![Agent Installer card with Download Telivy Installer (.exe), Copy Link to Download and the RMM command with its Copy button](/images/install-telivy-agent-windows.png)
 
@@ -26,7 +30,7 @@ If you have no RMM access, select **Download Telivy Installer (.exe)** and run i
 
 ## Agentless deployment
 
-Use the agentless scanner when you cannot install software on a device, or when you want employees to run the scan themselves. Select **Download Telivy Scanner (.exe)**, or **Copy Link to Download** and send employees these steps:
+Use the agentless scanner when you cannot install software on a device, or when you want employees to run the scan themselves. Select **Agentless**, then **Download Telivy Scanner (.exe)**, or **Copy Link to Download** and send employees these steps:
 
 1. Download the software from the link.
 2. Double-click to run it.

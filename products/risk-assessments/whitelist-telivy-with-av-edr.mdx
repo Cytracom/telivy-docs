@@ -1,10 +1,12 @@
 ---
 title: "Whitelist the Telivy Agent in Antivirus and EDR"
-sidebarTitle: "Whitelist Telivy with AV/EDR"
-description: "Domains, folders, and executables to allow in your antivirus or EDR so the Telivy agent installs, runs scans, and reaches Telivy's servers on Windows."
+sidebarTitle: "Allow in AV and EDR"
+description: "Domains, folders, and executables to allow in your antivirus or EDR so the Telivy agent installs, runs scans, and reaches Telivy on Windows and macOS."
 ---
 
 Antivirus and EDR products can block the Telivy installer or stop the agent from talking to Telivy. Allow the entries below before you deploy, and work down the list only as far as you need to.
+
+The Windows entries come first. Macs need fewer, listed under [On macOS](#on-macos).
 
 ## If the installation fails
 
@@ -24,6 +26,10 @@ And these executables:
 - `C:\Program Files (x86)\Telivy\Telivy Agent\Telivy.Scanner.Windows.exe`
 - `C:\Program Files (x86)\Telivy\Telivy Agent\Telivy.Launcher.Windows.exe`
 - `C:\Program Files (x86)\Telivy\Telivy Agent\Telivy.Updater.Windows.exe`
+
+## On macOS
+
+Allow the app `/Applications/Telivy.Scanner.Mac.app` and the `*.telivy.com` domains. The install script and the installer download from `install.telivy.com`.
 
 ## If neither works
 

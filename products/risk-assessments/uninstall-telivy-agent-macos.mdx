@@ -1,0 +1,30 @@
+---
+title: "Uninstall the Telivy Agent on macOS"
+sidebarTitle: "Uninstall on macOS"
+tag: "Beta"
+description: "Remove the Telivy agent from a Mac with the recommended uninstall command or the force uninstall script, run in Terminal or from your RMM or MDM."
+---
+
+The uninstall commands are on the assessment's **Setup** tab under **Optional Steps > Remove
+Telivy**. Select **macOS** under **Removal Instructions**, then **Copy Uninstall Command** next to
+the option you need. Run it in Terminal on the Mac or from your RMM or MDM. The data from the
+Mac's latest scan stays in the portal and in any report you generate.
+
+## Recommended uninstall
+
+```bash
+sudo /Applications/Telivy.Scanner.Mac.app/Contents/MacOS/Telivy.Scanner.Mac --IsUninstallMode=true
+```
+
+## Force uninstall
+
+Use this when the recommended command fails or the app is damaged. It stops the Telivy
+background service and removes the app and its data folder.
+
+```bash
+sudo /bin/bash -c "curl -fsSL 'https://install.telivy.com/Installer/force-uninstall.sh' | bash"
+```
+
+## Agentless scans
+
+The agentless scanner installs nothing. Eject the disk image and delete the downloaded file.
