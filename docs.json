@@ -341,6 +341,42 @@
     "socials": {
       "facebook": "https://www.facebook.com/profile.php?id=100078018562649",
       "linkedin": "https://www.linkedin.com/company/telivy/"
-    }
+    },
+    "links": [
+      {
+        "header": "Telivy",
+        "items": [
+          {
+            "label": "Website",
+            "href": "https://www.telivy.com/"
+          },
+          {
+            "label": "Log in",
+            "href": "https://portal.telivy.com/log-in"
+          },
+          {
+            "label": "Platform status",
+            "href": "https://status.telivy.com/"
+          },
+          {
+            "label": "Contact us",
+            "href": "https://www.telivy.com/contact-us"
+          }
+        ]
+      },
+      {
+        "header": "Cytracom",
+        "items": [
+          {
+            "label": "Cytracom",
+            "href": "https://www.cytracom.com/"
+          },
+          {
+            "label": "Release notes",
+            "href": "https://releases.cytracom.com/label/90693"
+          }
+        ]
+      }
+    ]
   }
 }

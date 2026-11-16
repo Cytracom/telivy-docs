@@ -8,6 +8,15 @@ The HaloPSA integration opens a Halo ticket for each security finding Telivy rai
 
 Setting it up needs someone with access to **Configuration** in HaloPSA and to **Account → Integrations** in Telivy.
 
+## Setup at a glance
+
+1. [Create the API application in HaloPSA](#step-1-create-the-api-application-in-halopsa)
+2. [Connect HaloPSA in Telivy](#step-2-connect-halopsa-in-telivy)
+3. [Choose which findings open tickets](#step-3-choose-which-findings-open-tickets)
+4. [Map each company to a Halo client](#step-4-map-each-company-to-a-halo-client)
+
+The [Prerequisites](#prerequisites) and each step are below. [How the integration works](#how-the-integration-works) explains what happens to tickets once sync is on.
+
 ## How the integration works
 
 Telivy talks to the HaloPSA REST API with an API application you create in your Halo instance. The application signs in with a client ID and secret (the OAuth 2.0 client credentials flow), so no Halo user password is shared with Telivy. Telivy stores the secret encrypted and never shows it again after you save it.
