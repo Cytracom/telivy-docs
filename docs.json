@@ -39,7 +39,8 @@
                 "pages": [
                   "getting-started/set-up-telivy-account/overview",
                   "getting-started/set-up-telivy-account/multi-factor-authentication",
-                  "getting-started/set-up-telivy-account/billing-usage-and-early-access"
+                  "getting-started/set-up-telivy-account/billing-usage-and-early-access",
+                  "getting-started/set-up-telivy-account/unity"
                 ]
               }
             ]
