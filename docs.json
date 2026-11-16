@@ -10,24 +10,10 @@
   },
   "favicon": "/logo/favicon.png",
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Website",
-          "icon": "globe",
-          "href": "https://www.telivy.com/"
-        },
-        {
-          "anchor": "Platform Status",
-          "icon": "heart-pulse",
-          "href": "https://status.telivy.com/"
-        }
-      ]
-    },
     "tabs": [
       {
-        "tab": "Guides",
-        "icon": "book-open",
+        "tab": "Get Started",
+        "icon": "rocket",
         "groups": [
           {
             "group": "Getting Started",
@@ -36,8 +22,9 @@
               "getting-started/quickstart",
               {
                 "group": "Account Setup",
+                "root": "getting-started/set-up-telivy-account/overview",
+                "expanded": false,
                 "pages": [
-                  "getting-started/set-up-telivy-account/overview",
                   "getting-started/set-up-telivy-account/multi-factor-authentication",
                   "getting-started/set-up-telivy-account/billing-usage-and-early-access",
                   "getting-started/set-up-telivy-account/unity"
@@ -49,19 +36,32 @@
             "group": "Your Clients",
             "pages": [
               "getting-started/companies",
-              "getting-started/insights"
+              "getting-started/insights",
+              {
+                "group": "Lead Magnet",
+                "expanded": false,
+                "pages": [
+                  "products/lead-magnet/configure-with-easy-go-link",
+                  "products/lead-magnet/configure-with-custom-form",
+                  "products/lead-magnet/track-submissions-with-utm-source"
+                ]
+              }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Assessments",
+        "icon": "shield-halved",
+        "groups": [
           {
             "group": "Assessments",
             "pages": [
-              "products/navigating-an-assessment",
-              "products/reports",
-              "products/risk-register",
               {
                 "group": "External Assessments",
+                "root": "products/external-assessments/overview",
+                "expanded": false,
                 "pages": [
-                  "products/external-assessments/overview",
                   "products/external-assessments/start-an-external-assessment",
                   "products/external-assessments/add-domains-and-ips",
                   "products/external-assessments/create-and-export-in-bulk",
@@ -72,8 +72,9 @@
               },
               {
                 "group": "Risk Assessments",
+                "root": "products/risk-assessments/overview",
+                "expanded": false,
                 "pages": [
-                  "products/risk-assessments/overview",
                   "products/risk-assessments/start-a-new-risk-assessment",
                   "products/risk-assessments/identity-and-access-management",
                   "products/risk-assessments/data-security",
@@ -81,28 +82,55 @@
                   "products/risk-assessments/google-workspace-security",
                   "products/risk-assessments/compliance"
                 ]
-              }
+              },
+              "products/navigating-an-assessment",
+              "products/reports",
+              "products/risk-register"
             ]
           },
           {
             "group": "Telivy Agent",
             "pages": [
               "products/risk-assessments/agent-vs-agentless",
-              "products/risk-assessments/whitelist-telivy-with-av-edr",
-              "products/risk-assessments/allow-telivy-in-threatlocker",
-              "products/risk-assessments/install-telivy-agent-windows",
-              "products/risk-assessments/install-telivy-agent-macos",
-              "products/risk-assessments/auto-update",
-              "products/risk-assessments/uninstall-telivy-agent-windows",
-              "products/risk-assessments/uninstall-telivy-agent-macos"
+              {
+                "group": "Before You Install",
+                "expanded": false,
+                "pages": [
+                  "products/risk-assessments/whitelist-telivy-with-av-edr",
+                  "products/risk-assessments/allow-telivy-in-threatlocker"
+                ]
+              },
+              {
+                "group": "Windows",
+                "expanded": false,
+                "pages": [
+                  "products/risk-assessments/install-telivy-agent-windows",
+                  "products/risk-assessments/uninstall-telivy-agent-windows"
+                ]
+              },
+              {
+                "group": "macOS",
+                "expanded": false,
+                "pages": [
+                  "products/risk-assessments/install-telivy-agent-macos",
+                  "products/risk-assessments/uninstall-telivy-agent-macos"
+                ]
+              },
+              "products/risk-assessments/auto-update"
             ]
           },
           {
-            "group": "Risk Monitoring",
+            "group": "Monitoring",
             "pages": [
-              "products/risk-monitoring/overview",
-              "products/risk-monitoring/scanning-schedule",
-              "products/risk-monitoring/alerts"
+              {
+                "group": "Risk Monitoring",
+                "root": "products/risk-monitoring/overview",
+                "expanded": false,
+                "pages": [
+                  "products/risk-monitoring/scanning-schedule",
+                  "products/risk-monitoring/alerts"
+                ]
+              }
             ]
           },
           {
@@ -113,33 +141,19 @@
               "scoring/ai-scoring",
               "scoring/m365"
             ]
-          },
-          {
-            "group": "Lead Magnet",
-            "pages": [
-              "products/lead-magnet/configure-with-easy-go-link",
-              "products/lead-magnet/configure-with-custom-form",
-              "products/lead-magnet/track-submissions-with-utm-source"
-            ]
-          },
-          {
-            "group": "Learning Center",
-            "pages": [
-              "learning-center/dark-web-scans",
-              "learning-center/open-ports",
-              "learning-center/ssl-tls-misconfigurations",
-              "learning-center/typo-squatting",
-              "learning-center/disk-encryption-detection",
-              "learning-center/vulnerability-data-sources"
-            ]
           }
         ]
       },
       {
-        "tab": "Integrations & API",
+        "tab": "Integrations",
         "icon": "plug",
-        "pages": [
-          "integrations/overview",
+        "groups": [
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/overview"
+            ]
+          },
           {
             "group": "PSA",
             "pages": [
@@ -150,31 +164,43 @@
             ]
           },
           {
-            "group": "Security and Compliance",
+            "group": "Security and Automation",
             "pages": [
               "integrations/nodeware",
-              "integrations/tentacle"
-            ]
-          },
-          {
-            "group": "Automation and API",
-            "pages": [
-              "integrations/api",
-              "integrations/webhooks",
+              "integrations/tentacle",
               "integrations/rewst"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "API & MCP",
+        "icon": "code",
+        "groups": [
           {
             "group": "MCP Server",
             "pages": [
               "integrations/mcp/overview",
-              "integrations/mcp/claude-code",
-              "integrations/mcp/claude-desktop",
-              "integrations/mcp/cursor",
-              "integrations/mcp/vscode",
-              "integrations/mcp/windsurf",
-              "integrations/mcp/codex",
-              "integrations/mcp/example-workflows"
+              "integrations/mcp/example-workflows",
+              {
+                "group": "Connect Your AI Client",
+                "expanded": true,
+                "pages": [
+                  "integrations/mcp/claude-code",
+                  "integrations/mcp/claude-desktop",
+                  "integrations/mcp/cursor",
+                  "integrations/mcp/vscode",
+                  "integrations/mcp/windsurf",
+                  "integrations/mcp/codex"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "API",
+            "pages": [
+              "integrations/api",
+              "integrations/webhooks"
             ]
           }
         ]
@@ -186,7 +212,8 @@
           {
             "group": "Support",
             "pages": [
-              "help/get-help"
+              "help/get-help",
+              "additional-information/release-notes"
             ]
           },
           {
@@ -201,9 +228,14 @@
             ]
           },
           {
-            "group": "Product Updates",
+            "group": "Learning Center",
             "pages": [
-              "additional-information/release-notes"
+              "learning-center/dark-web-scans",
+              "learning-center/open-ports",
+              "learning-center/ssl-tls-misconfigurations",
+              "learning-center/typo-squatting",
+              "learning-center/disk-encryption-detection",
+              "learning-center/vulnerability-data-sources"
             ]
           }
         ]

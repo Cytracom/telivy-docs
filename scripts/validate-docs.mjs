@@ -54,6 +54,7 @@ const navPages = new Set();
 (function collect(node) {
   if (Array.isArray(node)) return node.forEach(collect);
   if (!node || typeof node !== 'object') return;
+  if (typeof node.root === 'string') navPages.add(node.root);
   if (Array.isArray(node.pages)) {
     for (const p of node.pages) {
       if (typeof p === 'string') { if (!/^https?:\/\//.test(p)) navPages.add(p); }
