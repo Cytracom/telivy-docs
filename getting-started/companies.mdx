@@ -42,7 +42,7 @@ The toolbar under the Needs attention row holds the controls for the list.
 | **All**, **Clients**, **Prospects** | Limits the list to one segment, with a count for each |
 | **Search companies or assessments** | Searches company names and assessment names |
 | **Filters** | Narrows the list by company, assessment, or scope properties |
-| **View** | Chooses how assessments are shown and which columns appear |
+| **View** | Chooses how assessments are shown and which columns appear, and exports external scans |
 
 The preset views are:
 
@@ -57,8 +57,8 @@ The preset views are:
 
 To keep your own combination of filters and columns, open the views menu and click **Save
 current filters and columns**. **Make my default** opens that view whenever you return to the
-page. Agency admins also see **Set as team default**, which makes the view the default for
-everyone in the agency.
+page. While a preset or team view is selected, agency admins also see **Set as team default**,
+which makes the view the default for everyone in the agency.
 
 The **Filters** menu groups its filters under **Companies** (for example **Client status**,
 **Category**, **Company created**, and **Has monitoring on**), **Assessments** (for example
@@ -69,7 +69,9 @@ filters are listed as chips under the toolbar, where you can remove them one at 
 Under **View**, choose **Expanded** to list every assessment under its company, or **One row
 per company** to collapse them. A company with a single assessment always shows it in its
 row. The same menu turns these columns on and off: **Assessment Type**, **Status**,
-**Score**, **Critical**, **Cloud**, **Monitoring**, and **Last scan**.
+**Score**, **Critical**, **Cloud**, **Monitoring**, and **Last scan**. Under **Export**,
+**External scans (CSV)** downloads grades and top findings for your external scans. See
+[Bulk Create and Export External Scans](/products/external-assessments/create-and-export-in-bulk#export-findings-from-all-external-scans).
 
 ## Working with a company or an assessment
 
@@ -144,7 +146,8 @@ The import has three steps.
     that already exist in Telivy are linked to their PSA record instead of duplicated. For a
     row that matches several Telivy companies, pick the right one under **Choose a company
     to link**. Tick **Mark new companies as clients** to give the created companies the
-    Client status, then click **Import**.
+    Client status, then click **Import N companies**, where N is the number of companies
+    selected.
 
     The result shows how many companies were created, linked, and skipped, with the reason
     for each skipped company.
@@ -163,7 +166,7 @@ The import has three steps.
 
 ### Sync settings
 
-Telivy checks your PSA for new companies every few hours. **Sync settings** has three
+Telivy checks your PSA for new companies every few hours. **Sync settings** has up to three
 switches, and each one depends on the one before it:
 
 1. **Add new** companies **automatically** imports new PSA companies without you opening
@@ -171,6 +174,7 @@ switches, and each one depends on the one before it:
 2. **Run an external scan for each new company** creates an external scan for each company
    added that way. If external scans are not in your plan, the dialog says so and none run.
 3. **Send their findings to** your PSA **as tickets** turns on ticketing for those scans.
+   This switch only appears when your PSA has an alert policy.
 
 Assessments created by the sync are owned by the user who saved the settings, and the dialog
 names that user.
@@ -187,7 +191,8 @@ The bulk creation dialog opens from **Continue to assessments** after a PSA impo
   </Step>
   <Step title="Configure">
     For risk assessments, choose a **Scan frequency** (**One-time scan**, weekly, monthly,
-    or quarterly) if monitoring is in your plan. Each company gets its own risk assessment,
+    or quarterly) if monitoring is in your plan and your agency is not on Unity. Recurring
+    scans only apply to companies marked as clients, and prospects get a one-time scan. Each company gets its own risk assessment,
     and scanning starts once the agent is deployed on its devices.
 
     For external assessments, companies without a domain are listed with an **Add a domain**
@@ -224,7 +229,7 @@ clicking **Archive** in the bulk action bar.
 
 An archived assessment drops out of the list but can still be found with a search or the
 **Archived** option of the **Status** filter, and its reports stay available. Archiving a
-risk assessment triggers an uninstall of the agent on every online device. Offline devices
+risk assessment turns off its monitoring and triggers an uninstall of the agent on every online device. Offline devices
 keep the agent until someone runs the uninstall command on them.
 
 The menu of an archived assessment offers **Unarchive** and **Delete assessment**. An

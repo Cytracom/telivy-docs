@@ -17,7 +17,7 @@ Before you deploy, allow Telivy in the client's antivirus or EDR. See [Whitelist
 Each assessment has its own install command, which you can run from any RMM.
 
 1. Open the assessment and go to **Setup > Deploy Agent > Instructions**, with **Windows** and **Agent** selected.
-2. On the **Agent Installer** card, find **Instructions for RMM** and select **Copy Powershell Command**.
+2. On the **Agent Installer** card, find **Instructions for RMM** and select **Copy** next to the install command.
 3. In your RMM, run the command from a PowerShell terminal or the Execute Script option, as Administrator or the System user.
 
 The command works in any RMM that can run a PowerShell script as Administrator or System, such as NinjaOne, Datto RMM, ConnectWise Automate, N-able, or Kaseya VSA. It downloads the MSI from `install.telivy.com` and installs it silently with the assessment's key.
