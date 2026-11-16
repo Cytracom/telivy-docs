@@ -361,7 +361,11 @@
             "href": "https://status.telivy.com/"
           },
           {
-            "label": "Contact us",
+            "label": "Get help",
+            "href": "/help/get-help"
+          },
+          {
+            "label": "Contact sales",
             "href": "https://www.telivy.com/contact-us"
           }
         ]

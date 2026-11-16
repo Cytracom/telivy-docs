@@ -6,7 +6,7 @@ description: "Answers on installing the Telivy agent: AV, EDR and ThreatLocker b
 
 <AccordionGroup>
   <Accordion title="The installer is blocked by ThreatLocker, antivirus, or EDR. What do I do?">
-    Allow Telivy before you deploy. [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr) lists the domains, folders, and executables to allow, and [Allow Telivy in ThreatLocker](/products/risk-assessments/allow-telivy-in-threatlocker) walks through the one ThreatLocker policy you need. Then run the installer again.
+    Allow Telivy before you deploy. [Allow Telivy in AV and EDR](/products/risk-assessments/whitelist-telivy-with-av-edr) lists the domains, folders, and executables to allow, and [Allow Telivy in ThreatLocker](/products/risk-assessments/allow-telivy-in-threatlocker) walks through the one ThreatLocker policy you need. Then run the installer again.
   </Accordion>
 
   <Accordion title="How do I start installing the agent for a Risk Assessment?">
@@ -14,7 +14,7 @@ description: "Answers on installing the Telivy agent: AV, EDR and ThreatLocker b
   </Accordion>
 
   <Accordion title="What software does Telivy install?">
-    On Windows, a Windows service, the Telivy Agent, plus the scanner, launcher, and updater executables in `C:\Program Files (x86)\Telivy\Telivy Agent`. [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr#what-each-executable-does) lists each file and what it does. On macOS, the `Telivy.Scanner.Mac` app in **Applications** and a background service that starts with the Mac. Agentless scans install nothing.
+    On Windows, a Windows service, the Telivy Agent, plus the scanner, launcher, and updater executables in `C:\Program Files (x86)\Telivy\Telivy Agent`. [Allow Telivy in AV and EDR](/products/risk-assessments/whitelist-telivy-with-av-edr#what-each-executable-does) lists each file and what it does. On macOS, the `Telivy.Scanner.Mac` app in **Applications** and a background service that starts with the Mac. Agentless scans install nothing.
   </Accordion>
 
   <Accordion title="Which devices should I install Telivy on?">
@@ -26,7 +26,7 @@ description: "Answers on installing the Telivy agent: AV, EDR and ThreatLocker b
 
     If it does not appear, usually either:
 
-    1. An antivirus, EDR, firewall, or similar tool blocked it. See [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr).
+    1. An antivirus, EDR, firewall, or similar tool blocked it. See [Allow Telivy in AV and EDR](/products/risk-assessments/whitelist-telivy-with-av-edr).
     2. The device was added to a different assessment. Uninstall it from that one and install it again with the right assessment's command.
 
     On the device itself, check that "Telivy" is listed under installed programs in Control Panel on Windows, or that `Telivy.Scanner.Mac` is in the **Applications** folder on a Mac.

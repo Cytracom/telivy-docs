@@ -4,13 +4,10 @@ sidebarTitle: Welcome
 description: "Guides for running Telivy cyber risk assessments, external scans, monitoring, reports, and PSA integrations for your MSP clients."
 ---
 
-Telivy scans a company from the outside and the inside, scores what it finds, and keeps
-scanning after the first report goes out. Pick a guide below, or search for something
-specific.
-
-Telivy is part of Cytracom. If your agency uses Cytracom's Unity platform, see
-[Unity and Cytracom](/getting-started/set-up-telivy-account/unity) for sign-in, subscriptions,
-and client linking.
+Telivy, part of Cytracom, scans a company from the outside and the inside, scores what it
+finds, and keeps scanning after the first report goes out. Agencies on Cytracom's Unity
+platform should read [Unity and Cytracom](/getting-started/set-up-telivy-account/unity) for
+sign-in and subscriptions.
 
 ## Start here
 
@@ -106,13 +103,20 @@ and client linking.
 
 ## Common tasks
 
-<CardGroup cols={2}>
+<CardGroup cols={3}>
   <Card
-    title="Installer blocked by ThreatLocker or EDR"
+    title="Installer blocked by ThreatLocker"
     icon="shield-xmark"
     href="/products/risk-assessments/allow-telivy-in-threatlocker"
   >
-    Allow the Telivy agent before you deploy it
+    Add the built-in Telivy policy before you deploy
+  </Card>
+  <Card
+    title="Blocked by antivirus or EDR"
+    icon="shield-virus"
+    href="/products/risk-assessments/whitelist-telivy-with-av-edr"
+  >
+    Domains, folders, and apps to allow on Windows and macOS
   </Card>
   <Card
     title="Deploy to Macs"
@@ -134,6 +138,13 @@ and client linking.
     href="/integrations/overview"
   >
     ConnectWise, Autotask, and HaloPSA tickets for findings
+  </Card>
+  <Card
+    title="Connect Microsoft 365"
+    icon="microsoft"
+    href="/products/risk-assessments/microsoft-365-security"
+  >
+    MFA coverage, sign-ins, and Secure Score gaps as findings
   </Card>
 </CardGroup>
 
