@@ -10,7 +10,7 @@ The server uses the Streamable HTTP transport and authenticates with your agency
 
 ## Prerequisites
 
-- A Telivy agency account with access to **Account → Integrations** in the portal.
+- A Telivy agency account with access to **Account → Integrations → Telivy MCP** in the portal.
 - Your agency's Telivy API key (see [Get your API key](#get-your-api-key)).
 - An MCP client that can send a custom HTTP header with each request, or that can run the `mcp-remote` bridge locally. The client pages linked at the end of this page cover the supported clients.
 
@@ -68,7 +68,7 @@ The assistant decides which tools to call based on your prompt and the tool desc
 
 ### Get your API key
 
-1. Sign in to the Telivy portal and open [Account → Integrations](https://portal.telivy.com/agent/account/integrations).
+1. Sign in to the Telivy portal and open [Account → Integrations → API Key](https://portal.telivy.com/agent/account/integrations/api-key).
 2. Generate the API key, or copy it if you already have one, and store it somewhere safe such as a password manager.
 
 Telivy shows the key only once, when it is generated. Each agency has one API key, and every integration and MCP client your agency uses shares it.
@@ -105,7 +105,7 @@ Configure your client to ask for approval before it runs any Telivy tool that cr
 
 When the client asks for approval, check which tool the assistant chose and the arguments it filled in, especially the assessment or scan ID, before you approve an action that changes data.
 
-Keep the API key in an environment variable or in the client's secret storage, and reference it from the configuration. Do not commit a configuration file that contains the key to a repository, and do not paste the key into the chat. If the key leaks, regenerate it under **Account → Integrations** and update every MCP client and integration that used the old key.
+Keep the API key in an environment variable or in the client's secret storage, and reference it from the configuration. Do not commit a configuration file that contains the key to a repository, and do not paste the key into the chat. If the key leaks, regenerate it under **Account → Integrations → API Key** and update every MCP client and integration that used the old key.
 
 ## Rate limits
 

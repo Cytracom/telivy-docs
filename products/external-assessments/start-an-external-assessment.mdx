@@ -14,28 +14,43 @@ a website vulnerability check.
 ## Create the scan
 
 <Steps>
-  <Step title="Open the assessment picker">
-    Click **Create Assessment** in the top right corner of the portal. A card for each
-    assessment type opens.
+  <Step title="Open the New assessment dialog">
+    Click **Create Assessment** in the top right corner of the portal. Telivy opens the
+    **Companies** page with the **New assessment** dialog on top. To start from a company you
+    already have, open the menu on its row on the **Companies** page and choose **New
+    assessment**, which skips the next step.
+  </Step>
+  <Step title="Pick the company">
+    Type in the **Company** search and pick a company listed under **In Telivy**. When a PSA
+    is connected, picking a company listed under your PSA imports it into Telivy first. If the
+    company is new, choose **Create new company** with the name you typed. A company created
+    this way starts as a **Client**.
   </Step>
   <Step title="Select External Scan">
-    On the **External Scan** card, click **Select**.
+    On the **External Scan** card, click **Select**, then **Continue**. If your account only
+    runs external scans, Telivy skips this step.
   </Step>
-  <Step title="Enter the company details">
-    Fill in **Company Name** and **Domain**, and set **Company Status** to **Prospect** or
-    **Client**. You can also pick the company's **Industries**.
-
-    Tick **Notify me via email when external scan completes** if you don't want to wait on
-    the assessment page.
+  <Step title="Fill in the details">
+    If the company has no domain on record, enter one under **Domain**. An external scan
+    cannot be created without it. **Name (optional)** tells the scan apart from others on
+    the same company. When a PSA is connected and the company is linked to it, **Create**
+    your PSA **tickets** is on by default and opens tickets for findings according to your
+    alert policies.
   </Step>
-  <Step title="Create the assessment">
-    Click **Create**. The scan starts right away and findings appear as they come in.
+  <Step title="Create the scan">
+    Click **Create external scan**. The scan starts right away, the **Companies** list
+    highlights the new assessment under the company, and Telivy emails you when the scan
+    completes.
   </Step>
 </Steps>
 
+Industries and company status are no longer set in this dialog. Change them with **Edit
+company** in the company's row menu on the **Companies** page.
+
 <Note>
-  Scanning many prospects at once? Upload a CSV instead of creating them one by one. See
-  [Create and Export in Bulk](/products/external-assessments/create-and-export-in-bulk).
+  Creating scans for many companies at once? Select their assessments on the **Companies**
+  page and choose **New assessments**, or create them right after a PSA import. See
+  [Creating assessments in bulk](/getting-started/companies#creating-assessments-in-bulk).
 </Note>
 
 ## What the assessment cards tell you

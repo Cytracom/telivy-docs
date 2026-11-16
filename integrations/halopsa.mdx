@@ -7,7 +7,7 @@ description: "Connect HaloPSA to Telivy with an API application so security find
 
 The HaloPSA integration opens a Halo ticket for each security finding Telivy raises for a mapped client, so technicians can work it from the Halo service desk. When a technician closes the ticket, Telivy marks the finding as resolved. When you resolve or accept a finding in Telivy, Telivy can move its ticket to a status you choose.
 
-Setting it up needs someone with access to **Configuration** in HaloPSA and to **Account → Integrations** in Telivy.
+Setting it up needs someone with access to **Configuration** in HaloPSA and to **Account → Integrations → PSA** in Telivy.
 
 ## Setup at a glance
 
@@ -22,7 +22,7 @@ The [Prerequisites](#prerequisites) and each step are below. [How the integratio
 
 - A HaloPSA instance and a Halo account with access to **Configuration → Integrations**.
 - A Halo agent account the integration can act as.
-- A Telivy account with access to **Account → Integrations**.
+- A Telivy account with access to **Account → Integrations → PSA**.
 - No other PSA connected in Telivy. An agency connects one PSA at a time, see [One PSA at a time](#one-psa-at-a-time).
 
 ## Step 1: Create the API application in HaloPSA
@@ -70,7 +70,7 @@ The [Prerequisites](#prerequisites) and each step are below. [How the integratio
 
 <Steps>
   <Step title="Pick HaloPSA as your platform">
-    In Telivy, go to **Account → Integrations**. Under **PSA Integrations**, choose **HaloPSA** in the **Platform** picker.
+    In Telivy, go to **Account → Integrations → PSA** and choose **HaloPSA** in the **Platform** picker.
 
     <Frame>
       <img src="/images/halopsa/halopsa-5.png" alt="PSA Integrations section in Telivy with HaloPSA chosen in the Platform picker" />
@@ -111,7 +111,7 @@ The [Prerequisites](#prerequisites) and each step are below. [How the integratio
 
 Go to **Alerts → Policies** and turn on **PSA sync** for the finding categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
 
-Under **Account → Integrations → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether resolving or accepting a finding in Telivy updates its ticket.
+Under **Account → Integrations → PSA → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether resolving or accepting a finding in Telivy updates its ticket.
 
 ## Step 4: Map each company to a Halo client
 
@@ -187,7 +187,7 @@ Deleting a company in Telivy releases its Halo mapping, so the Halo client can b
 
 ## Check that it works
 
-- **Account → Integrations** shows HaloPSA as **Connected**.
+- **Account → Integrations → PSA** shows HaloPSA as **Connected**.
 - The company shows the Halo client name in the PSA column on **Companies**.
 - New tickets appear in Halo for the mapped client, with titles starting with `[Telivy]`.
 - When a technician closes one of those tickets in Halo, the finding shows **Resolved in PSA** in Telivy within the hour, or straight away after **Check HaloPSA for updates**.
@@ -202,7 +202,7 @@ Deleting a company in Telivy releases its Halo mapping, so the Halo client can b
     Open the application in **Configuration → Integrations → Halo API → View Applications** and make sure **read:tickets**, **edit:tickets** and **read:customers** are ticked on the **Permissions** tab.
   </Accordion>
   <Accordion title="The HaloPSA switch is greyed out">
-    Another PSA is connected. Disable it under **Account → Integrations** first. Its settings and mappings are kept.
+    Another PSA is connected. Disable it under **Account → Integrations → PSA** first. Its settings and mappings are kept.
   </Accordion>
   <Accordion title="Findings are not creating tickets">
     Check that the company is mapped to a Halo client, that PSA sync is on for the assessment, and that the finding's category is selected in **Alerts → Policies**. If Halo rejects the ticket, the finding's PSA status in Telivy shows Halo's reason, for example a ticket type the agent cannot create.

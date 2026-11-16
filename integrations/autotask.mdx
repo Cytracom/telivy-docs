@@ -7,7 +7,7 @@ description: "Connect Datto Autotask PSA to Telivy so security findings open Aut
 
 The Autotask integration opens a Datto Autotask PSA ticket for each security finding Telivy raises for a mapped client. When a technician completes the ticket, Telivy marks the finding as resolved. When you resolve or accept a finding in Telivy, Telivy can move its ticket to a status you choose.
 
-Setting it up needs someone with admin access to Autotask and access to **Account → Integrations** in Telivy.
+Setting it up needs someone with admin access to Autotask and access to **Account → Integrations → PSA** in Telivy.
 
 ## Setup at a glance
 
@@ -25,7 +25,7 @@ The [Prerequisites](#prerequisites) and each step are below. [How the integratio
 ## Prerequisites
 
 - A Datto Autotask PSA subscription and an Autotask account with admin access.
-- A Telivy account with access to **Account → Integrations**.
+- A Telivy account with access to **Account → Integrations → PSA**.
 - No other PSA connected in Telivy. An agency connects one PSA at a time, see [One PSA at a time](#one-psa-at-a-time).
 
 Some terms below are Autotask defaults. If your instance uses different names, see Datto's [Local Terms and Symbols](https://ww2.autotask.net/help/Content/4_Admin/2FeaturesSettings/ApplicationWide/LocalTermsandSymbols.htm) help page.
@@ -89,7 +89,7 @@ Some terms below are Autotask defaults. If your instance uses different names, s
 
 <Steps>
   <Step title="Pick Autotask as your platform">
-    In Telivy, go to **Account → Integrations**. Under **PSA Integrations**, choose **Autotask** in the **Platform** picker and turn on the **Enable** switch. The **Autotask** dialog opens on its **1. Connect** tab.
+    In Telivy, go to **Account → Integrations → PSA** and choose **Autotask** in the **Platform** picker, then turn on the **Enable** switch. The **Autotask** dialog opens on its **1. Connect** tab.
   </Step>
   <Step title="Enter the API user credentials">
     Enter the API user's key as **Username** and its **Secret**. Click **Test Connection** to check them without saving, then **Connect & Enable**. The **2. Settings** tab stays unavailable until the connection succeeds.
@@ -112,7 +112,7 @@ Some terms below are Autotask defaults. If your instance uses different names, s
 
 Go to **Alerts → Policies** and turn on **PSA sync** for the categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
 
-Under **Account → Integrations → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether Telivy uses the statuses from Step 4. Without those statuses, tickets are left open.
+Under **Account → Integrations → PSA → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether Telivy uses the statuses from Step 4. Without those statuses, tickets are left open.
 
 ## Step 6: Map each company and turn on sync
 
@@ -170,7 +170,7 @@ Deleting a company in Telivy releases its Autotask mapping, so the Autotask acco
 
 ## Check that it works
 
-- **Account → Integrations** shows Autotask as **Connected**.
+- **Account → Integrations → PSA** shows Autotask as **Connected**.
 - The **PSA** column on **Companies** shows the Autotask account name.
 - New tickets appear in your chosen queue with titles starting with `[Telivy]`.
 - Within an hour of a technician completing one of those tickets, the finding shows **Resolved in PSA** in Telivy.
@@ -182,7 +182,7 @@ Deleting a company in Telivy releases its Autotask mapping, so the Autotask acco
     Check that the key and secret were copied without extra spaces, that the API user is active, and that its security level includes **Can login to Web Services API**.
   </Accordion>
   <Accordion title="The Autotask switch is greyed out">
-    Another PSA is connected. Disable it under **Account → Integrations** first. Its settings and mappings are kept.
+    Another PSA is connected. Disable it under **Account → Integrations → PSA** first. Its settings and mappings are kept.
   </Accordion>
   <Accordion title="Findings are not creating tickets">
     Check that the company is mapped, that **Sync findings to PSA** is on for the assessment, and that the finding's category has PSA sync turned on in **Alerts → Policies**. If Autotask rejects a ticket, hover the finding's dot in the **PSA** column to see the reason, then check the queue, status and other defaults on the **2. Settings** tab.
