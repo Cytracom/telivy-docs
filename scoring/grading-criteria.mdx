@@ -6,112 +6,102 @@ description: "How Telivy assigns A to F letter grades to network, data, dark web
 
 Each section of the Security Report and the external scan gets a letter grade from A to F. This page lists the thresholds and weights behind those grades.
 
-<AccordionGroup>
-  <Accordion title="How the final grade is calculated">
-    Each security section has one or more subsections. Every subsection has its own grade and a weight, and the section's final score is their weighted average:
+## How the final grade is calculated
 
-    `Final Score = Sum(Section Weight X Section Score)/Sum(Section Weight)`
+Each security section has one or more subsections. Every subsection has its own grade and a weight, and the section's final score is their weighted average:
 
-    Subsection scores run from 1 (most secure) to 4 (least secure). The final score converts to a letter grade like this:
+`Final Score = Sum(Section Weight X Section Score)/Sum(Section Weight)`
 
-    | Final Score Range | Grade |
-    | ----------------- | ----- |
-    | 4                 | F     |
-    | 3 - 4             | D     |
-    | 2 - 3             | C     |
-    | 1 - 2             | B     |
+Subsection scores run from 1 (most secure) to 4 (least secure). The final score converts to a letter grade like this:
 
-    Network security has these subsections:
+| Final Score Range | Grade |
+| ----------------- | ----- |
+| 4                 | F     |
+| 3 - 4             | D     |
+| 2 - 3             | C     |
+| 1 - 2             | B     |
 
-    1. Internal Vulnerabilities
-    2. External Vulnerabilities
-    3. Open Ports
-    4. Certificate Security
-    5. HTTPS security
-  </Accordion>
+Network security has these subsections:
 
-  <Accordion title="Internal Vulnerability">
+1. Internal Vulnerabilities
+2. External Vulnerabilities
+3. Open Ports
+4. Certificate Security
+5. HTTPS security
 
-    | Criteria                                              | Grade |
-    | ----------------------------------------------------- | ----- |
-    | >10% of users have at least 1 critical vulnerability | 4     |
-  </Accordion>
+## Internal Vulnerability
 
-  <Accordion title="External Vulnerability">
+| Criteria                                              | Grade |
+| ----------------------------------------------------- | ----- |
+| >10% of users have at least 1 critical vulnerability | 4     |
 
-    | Criteria                     | Grade |
-    | ---------------------------- | ----- |
-    | Any High Severity findings   | 4     |
-    | Any Medium Severity findings | 3     |
-    | Only Low Severity findings   | 2     |
-    | No findings                  | 1     |
-  </Accordion>
+## External Vulnerability
 
-  <Accordion title="Open Ports">
+| Criteria                     | Grade |
+| ---------------------------- | ----- |
+| Any High Severity findings   | 4     |
+| Any Medium Severity findings | 3     |
+| Only Low Severity findings   | 2     |
+| No findings                  | 1     |
 
-    | Criteria                       | Grade |
-    | ------------------------------ | ----- |
-    | Any High Severity open ports   | 4     |
-    | Any Medium Severity open ports | 3     |
-    | Only Low Severity open ports   | 2     |
-    | No open ports                  | 1     |
-  </Accordion>
+## Open Ports
 
-  <Accordion title="Certificates">
+| Criteria                       | Grade |
+| ------------------------------ | ----- |
+| Any High Severity open ports   | 4     |
+| Any Medium Severity open ports | 3     |
+| Only Low Severity open ports   | 2     |
+| No open ports                  | 1     |
 
-    | Criteria                                 | Grade |
-    | ---------------------------------------- | ----- |
-    | Any High Severity certificate findings   | 4     |
-    | Any Medium Severity certificate findings | 3     |
-    | Only Low Severity certificate findings   | 2     |
-    | No certificate findings                  | 1     |
-  </Accordion>
+## Certificates
 
-  <Accordion title="HTTPS findings">
+| Criteria                                 | Grade |
+| ---------------------------------------- | ----- |
+| Any High Severity certificate findings   | 4     |
+| Any Medium Severity certificate findings | 3     |
+| Only Low Severity certificate findings   | 2     |
+| No certificate findings                  | 1     |
 
-    | Criteria          | Grade |
-    | ----------------- | ----- |
-    | HTTPS not enabled | 3     |
-    | HTTPS enabled     | 1     |
-  </Accordion>
+## HTTPS findings
 
-  <Accordion title="Network security weights">
-    | Subsection | Weight |
-    | --- | --- |
-    | Internal Vulnerabilities | 10 |
-    | External Vulnerabilities | 8 |
-    | Port Scans | 6 |
-    | Certificate | 4 |
-    | HTTPS | 8 |
-  </Accordion>
+| Criteria          | Grade |
+| ----------------- | ----- |
+| HTTPS not enabled | 3     |
+| HTTPS enabled     | 1     |
 
-  <Accordion title="Data Security">
+## Network security weights
 
-    | Criteria                                                                  | Grade |
-    | ------------------------------------------------------------------------- | ----- |
-    | At Least 1 user with data value >= $100,000 (OR) Total risk >= $1,000,000 | D     |
-    | Total risk >$100,000 and less than $1,000,000                             | C     |
-    | Total risk >$10,000 and less than $100,000                                | B     |
-    | Total risk \<$10,000                                                      | A     |
-  </Accordion>
+| Subsection | Weight |
+| --- | --- |
+| Internal Vulnerabilities | 10 |
+| External Vulnerabilities | 8 |
+| Port Scans | 6 |
+| Certificate | 4 |
+| HTTPS | 8 |
 
-  <Accordion title="Dark Web Security">
+## Data Security
 
-    | Criteria                                                            | Grade |
-    | ------------------------------------------------------------------- | ----- |
-    | Dark Web findings in the last 2 years                               | D     |
-    | Dark Web findings only prior to last 2 years but newer than 5 years | C     |
-    | Dark Web findings prior to 5 years                                  | B     |
-    | No Dark Web findings                                                | A     |
-  </Accordion>
+| Criteria                                                                  | Grade |
+| ------------------------------------------------------------------------- | ----- |
+| At Least 1 user with data value >= $100,000 (OR) Total risk >= $1,000,000 | D     |
+| Total risk >$100,000 and less than $1,000,000                             | C     |
+| Total risk >$10,000 and less than $100,000                                | B     |
+| Total risk \<$10,000                                                      | A     |
 
-  <Accordion title="Password Security">
+## Dark Web Security
 
-    | Criteria                                            | Grade |
-    | --------------------------------------------------- | ----- |
-    | High number of weak and compromised passwords found | D     |
-    | Weak and compromised passwords found                | C     |
-    | Few weak or compromised passwords found             | B     |
-    | No weak or compromised passwords found              | A     |
-  </Accordion>
-</AccordionGroup>
+| Criteria                                                            | Grade |
+| ------------------------------------------------------------------- | ----- |
+| Dark Web findings in the last 2 years                               | D     |
+| Dark Web findings only prior to last 2 years but newer than 5 years | C     |
+| Dark Web findings prior to 5 years                                  | B     |
+| No Dark Web findings                                                | A     |
+
+## Password Security
+
+| Criteria                                            | Grade |
+| --------------------------------------------------- | ----- |
+| High number of weak and compromised passwords found | D     |
+| Weak and compromised passwords found                | C     |
+| Few weak or compromised passwords found             | B     |
+| No weak or compromised passwords found              | A     |
