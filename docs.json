@@ -24,40 +24,35 @@
         }
       ]
     },
-    "anchors": [
+    "tabs": [
       {
-        "anchor": "Documentation",
+        "tab": "Guides",
         "icon": "book-open",
         "groups": [
           {
             "group": "Getting Started",
             "pages": [
               "getting-started/welcome",
-              "getting-started/insights",
+              "getting-started/quickstart",
               {
-                "group": "Set Up Telivy Account",
+                "group": "Account Setup",
                 "pages": [
                   "getting-started/set-up-telivy-account/overview",
                   "getting-started/set-up-telivy-account/multi-factor-authentication",
                   "getting-started/set-up-telivy-account/billing-usage-and-early-access"
                 ]
-              },
-              "getting-started/companies"
+              }
             ]
           },
           {
-            "group": "Learning Center",
+            "group": "Your Clients",
             "pages": [
-              "learning-center/disk-encryption-detection",
-              "learning-center/dark-web-scans",
-              "learning-center/typo-squatting",
-              "learning-center/open-ports",
-              "learning-center/ssl-tls-misconfigurations",
-              "learning-center/vulnerability-data-sources"
+              "getting-started/companies",
+              "getting-started/insights"
             ]
           },
           {
-            "group": "Products",
+            "group": "Assessments",
             "pages": [
               "products/navigating-an-assessment",
               "products/reports",
@@ -67,15 +62,10 @@
                   "products/external-assessments/overview",
                   "products/external-assessments/start-an-external-assessment",
                   "products/external-assessments/add-domains-and-ips",
+                  "products/external-assessments/create-and-export-in-bulk",
                   "products/external-assessments/close-open-ports",
-                  {
-                    "group": "Unsecured Emails",
-                    "pages": [
-                      "products/external-assessments/unsecured-emails/overview",
-                      "products/external-assessments/unsecured-emails/create-and-export-in-bulk",
-                      "products/external-assessments/unsecured-emails/ssl-tls-certificates"
-                    ]
-                  }
+                  "products/external-assessments/unsecured-emails",
+                  "products/external-assessments/ssl-tls-certificates"
                 ]
               },
               {
@@ -83,85 +73,129 @@
                 "pages": [
                   "products/risk-assessments/overview",
                   "products/risk-assessments/start-a-new-risk-assessment",
-                  "products/risk-assessments/whitelist-telivy-with-av-edr",
-                  "products/risk-assessments/install-telivy-agent-windows",
                   "products/risk-assessments/identity-and-access-management",
                   "products/risk-assessments/data-security",
                   "products/risk-assessments/microsoft-365-security",
                   "products/risk-assessments/google-workspace-security",
-                  "products/risk-assessments/compliance",
-                  "products/risk-assessments/auto-update",
-                  "products/risk-assessments/uninstall-telivy-agent-windows"
-                ]
-              },
-              {
-                "group": "Lead Magnet",
-                "pages": [
-                  "products/lead-magnet/configure-with-easy-go-link",
-                  "products/lead-magnet/configure-with-custom-form",
-                  "products/lead-magnet/track-submissions-with-utm-source"
-                ]
-              },
-              {
-                "group": "Risk Monitoring",
-                "pages": [
-                  "products/risk-monitoring/overview",
-                  "products/risk-monitoring/scanning-schedule",
-                  "products/risk-monitoring/alerts"
+                  "products/risk-assessments/compliance"
                 ]
               }
             ]
           },
           {
-            "group": "Frequently Asked Questions",
+            "group": "Telivy Agent",
             "pages": [
-              "frequently-asked-questions/getting-started",
-              "frequently-asked-questions/installation-and-troubleshooting",
-              "frequently-asked-questions/microsoft-365-and-google-workspace",
-              "frequently-asked-questions/risk-assessments-and-external-scans",
-              "frequently-asked-questions/telivy-accounts-and-platforms",
-              "frequently-asked-questions/uninstallation",
-              "frequently-asked-questions/threatlocker-and-telivy-policy-during-installation"
+              "products/risk-assessments/whitelist-telivy-with-av-edr",
+              "products/risk-assessments/allow-telivy-in-threatlocker",
+              "products/risk-assessments/install-telivy-agent-windows",
+              "products/risk-assessments/auto-update",
+              "products/risk-assessments/uninstall-telivy-agent-windows"
+            ]
+          },
+          {
+            "group": "Risk Monitoring",
+            "pages": [
+              "products/risk-monitoring/overview",
+              "products/risk-monitoring/scanning-schedule",
+              "products/risk-monitoring/alerts"
             ]
           },
           {
             "group": "Scoring",
             "pages": [
               "scoring/risk-scoring",
+              "scoring/grading-criteria",
               "scoring/ai-scoring",
-              "scoring/m365",
-              "scoring/telivycriteria"
+              "scoring/m365"
             ]
           },
+          {
+            "group": "Lead Magnet",
+            "pages": [
+              "products/lead-magnet/configure-with-easy-go-link",
+              "products/lead-magnet/configure-with-custom-form",
+              "products/lead-magnet/track-submissions-with-utm-source"
+            ]
+          },
+          {
+            "group": "Learning Center",
+            "pages": [
+              "learning-center/dark-web-scans",
+              "learning-center/open-ports",
+              "learning-center/ssl-tls-misconfigurations",
+              "learning-center/typo-squatting",
+              "learning-center/disk-encryption-detection",
+              "learning-center/vulnerability-data-sources"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integrations & API",
+        "icon": "plug",
+        "groups": [
           {
             "group": "Integrations",
             "pages": [
-              "integrations/nodeware",
-              "integrations/tentacle",
-              "integrations/rewst",
-              "integrations/connectwise",
-              "integrations/autotask",
-              "integrations/halopsa",
-              "integrations/psa-grouped-tickets",
-              "integrations/api",
-              "integrations/webhooks",
-              {
-                "group": "MCP Server",
-                "pages": [
-                  "integrations/mcp/overview",
-                  "integrations/mcp/claude-code",
-                  "integrations/mcp/claude-desktop",
-                  "integrations/mcp/cursor",
-                  "integrations/mcp/vscode",
-                  "integrations/mcp/windsurf",
-                  "integrations/mcp/codex",
-                  "integrations/mcp/example-workflows"
-                ]
-              }
+              "integrations/overview"
             ]
           },
           {
-            "group": "Additional Information",
+            "group": "PSA",
+            "pages": [
+              "integrations/connectwise",
+              "integrations/autotask",
+              "integrations/halopsa",
+              "integrations/psa-grouped-tickets"
+            ]
+          },
+          {
+            "group": "Security Tools",
+            "pages": [
+              "integrations/nodeware",
+              "integrations/tentacle"
+            ]
+          },
+          {
+            "group": "Automation and API",
+            "pages": [
+              "integrations/api",
+              "integrations/webhooks",
+              "integrations/rewst"
+            ]
+          },
+          {
+            "group": "MCP Server",
+            "pages": [
+              "integrations/mcp/overview",
+              "integrations/mcp/claude-code",
+              "integrations/mcp/claude-desktop",
+              "integrations/mcp/cursor",
+              "integrations/mcp/vscode",
+              "integrations/mcp/windsurf",
+              "integrations/mcp/codex",
+              "integrations/mcp/example-workflows"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Help",
+        "icon": "life-ring",
+        "groups": [
+          {
+            "group": "Frequently Asked Questions",
+            "pages": [
+              "frequently-asked-questions/getting-started",
+              "frequently-asked-questions/telivy-accounts-and-platforms",
+              "frequently-asked-questions/risk-assessments-and-external-scans",
+              "frequently-asked-questions/installation-and-troubleshooting",
+              "frequently-asked-questions/uninstallation",
+              "frequently-asked-questions/microsoft-365-and-google-workspace"
+            ]
+          },
+          {
+            "group": "Product Updates",
             "pages": [
               "additional-information/release-notes"
             ]
@@ -216,7 +250,7 @@
     },
     {
       "source": "/products/risk-assessments/grading-criteria",
-      "destination": "/scoring/telivycriteria",
+      "destination": "/scoring/grading-criteria",
       "permanent": true
     },
     {
@@ -235,11 +269,6 @@
       "permanent": true
     },
     {
-      "source": "/frequently-asked-questions/integrations",
-      "destination": "/integrations/nodeware",
-      "permanent": true
-    },
-    {
       "source": "/integrations/nodware",
       "destination": "/integrations/nodeware",
       "permanent": true
@@ -248,12 +277,47 @@
       "source": "/scoring/untitled-page",
       "destination": "/scoring/risk-scoring",
       "permanent": true
+    },
+    {
+      "source": "/frequently-asked-questions/integrations",
+      "destination": "/integrations/overview",
+      "permanent": true
+    },
+    {
+      "source": "/frequently-asked-questions/threatlocker-and-telivy-policy-during-installation",
+      "destination": "/products/risk-assessments/allow-telivy-in-threatlocker",
+      "permanent": true
+    },
+    {
+      "source": "/knowledge-base/threatlocker-and-telivy-policy-during-installation",
+      "destination": "/products/risk-assessments/allow-telivy-in-threatlocker",
+      "permanent": true
+    },
+    {
+      "source": "/products/external-assessments/unsecured-emails/overview",
+      "destination": "/products/external-assessments/unsecured-emails",
+      "permanent": true
+    },
+    {
+      "source": "/products/external-assessments/unsecured-emails/create-and-export-in-bulk",
+      "destination": "/products/external-assessments/create-and-export-in-bulk",
+      "permanent": true
+    },
+    {
+      "source": "/products/external-assessments/unsecured-emails/ssl-tls-certificates",
+      "destination": "/products/external-assessments/ssl-tls-certificates",
+      "permanent": true
+    },
+    {
+      "source": "/scoring/telivycriteria",
+      "destination": "/scoring/grading-criteria",
+      "permanent": true
     }
   ],
   "integrations": {
     "posthog": {
       "apiKey": "phc_mS6y6ZkHJ9hGBSBlyfz07B9k5J7Bg0b80OFRYdEAW1a",
-      "apiHost": "https://eu.i.posthog.com"
+      "apiHost": "https://us.i.posthog.com"
     }
   },
   "navbar": {
