@@ -1,10 +1,14 @@
 ---
 title: "Telivy Agent Installation and Troubleshooting FAQ"
 sidebarTitle: "Installation and Troubleshooting"
-description: "Answers on installing the Telivy agent: where to start, which devices to cover, checking a device reported in, slow scans, and removing Nodeware or Actifile."
+description: "Answers on installing the Telivy agent: AV, EDR and ThreatLocker blocks, which devices to cover, checking a device reported in, and slow scans."
 ---
 
 <AccordionGroup>
+  <Accordion title="The installer is blocked by ThreatLocker, antivirus, or EDR. What do I do?">
+    Allow Telivy before you deploy. [Whitelist Telivy with AV/EDR](/products/risk-assessments/whitelist-telivy-with-av-edr) lists the domains, folders, and executables to allow, and [Allow Telivy in ThreatLocker](/products/risk-assessments/allow-telivy-in-threatlocker) walks through the one ThreatLocker policy you need. Then run the installer again.
+  </Accordion>
+
   <Accordion title="How do I start installing the agent for a Risk Assessment?">
     Create the assessment, then open **Setup > Deploy Agents** for the install command and downloads. [Start a new Risk Assessment](/products/risk-assessments/start-a-new-risk-assessment) covers creating it, and [Install the Telivy agent on Windows](/products/risk-assessments/install-telivy-agent-windows) covers deployment by RMM, by installer, or without an agent.
   </Accordion>

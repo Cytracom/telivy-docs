@@ -133,13 +133,8 @@
       {
         "tab": "Integrations & API",
         "icon": "plug",
-        "groups": [
-          {
-            "group": "Integrations",
-            "pages": [
-              "integrations/overview"
-            ]
-          },
+        "pages": [
+          "integrations/overview",
           {
             "group": "PSA",
             "pages": [
@@ -150,7 +145,7 @@
             ]
           },
           {
-            "group": "Security Tools",
+            "group": "Security and Compliance",
             "pages": [
               "integrations/nodeware",
               "integrations/tentacle"
@@ -183,6 +178,12 @@
         "tab": "Help",
         "icon": "life-ring",
         "groups": [
+          {
+            "group": "Support",
+            "pages": [
+              "help/get-help"
+            ]
+          },
           {
             "group": "Frequently Asked Questions",
             "pages": [

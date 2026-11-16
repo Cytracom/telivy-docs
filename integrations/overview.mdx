@@ -1,12 +1,12 @@
 ---
 title: Telivy Integrations
-sidebarTitle: Overview
+sidebarTitle: "All Integrations"
 description: "Connect Telivy to your PSA, security tools, automation and AI assistants: ConnectWise, Autotask, HaloPSA, Nodeware, Tentacle, Rewst, API, webhooks and MCP."
 ---
 
-Account admins connect most integrations from **Account > Integrations** in the Telivy
-portal. Webhooks have their own **Webhooks** section in the same menu, and the Security API
-and MCP server use an agency API key.
+Account admins connect most integrations from **Account → Integrations** in the Telivy
+portal. Webhooks have their own section at **Account → Webhooks**. The Security API, Rewst,
+and the MCP server share one agency API key, so regenerating it disconnects all three.
 
 ## PSA
 
@@ -14,13 +14,13 @@ Send security findings to your PSA as tickets, and resolve them in Telivy when t
 closes.
 
 <CardGroup cols={2}>
-  <Card title="ConnectWise PSA" icon="ticket" href="/integrations/connectwise">
+  <Card title="ConnectWise PSA" icon="screwdriver-wrench" href="/integrations/connectwise">
     Service tickets that follow merges and resolve the finding when closed
   </Card>
-  <Card title="Autotask PSA" icon="ticket" href="/integrations/autotask">
+  <Card title="Autotask PSA" icon="gears" href="/integrations/autotask">
     Tickets with severity-based priority that resolve when completed
   </Card>
-  <Card title="HaloPSA" icon="ticket" href="/integrations/halopsa">
+  <Card title="HaloPSA" icon="headset" href="/integrations/halopsa">
     Halo tickets through an API application
   </Card>
   <Card title="Grouped tickets" icon="layer-group" href="/integrations/psa-grouped-tickets">
@@ -28,7 +28,7 @@ closes.
   </Card>
 </CardGroup>
 
-## Security tools
+## Security and compliance
 
 <CardGroup cols={2}>
   <Card title="Nodeware" icon="network-wired" href="/integrations/nodeware">

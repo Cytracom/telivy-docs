@@ -25,7 +25,7 @@ mint broken-links          # advisory link check
 - `learning-center/` — security concept explainers (dark web, open ports, SSL/TLS, typo-squatting, disk encryption, vulnerability data sources)
 - `products/` — core product docs: `external-assessments/`, `risk-assessments/`, `lead-magnet/`, `risk-monitoring/`
 - `frequently-asked-questions/` — FAQ pages, built almost entirely from `<Accordion>`/`<AccordionGroup>`
-- `scoring/` — risk-scoring, ai-scoring, m365, and legacy `telivycriteria`
+- `scoring/` — risk-scoring, ai-scoring, m365, and `grading-criteria`
 - `integrations/` — nodeware, rewst, connectwise, autotask, webhooks
 - `additional-information/release-notes.mdx` — uses `<Update>` blocks
 - `images/`, `logo/` — assets referenced from pages
