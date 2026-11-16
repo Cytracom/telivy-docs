@@ -22,7 +22,9 @@ Each assessment has its own install command, which you can run from any RMM.
 
 The command works in any RMM that can run a PowerShell script as Administrator or System, such as NinjaOne, Datto RMM, ConnectWise Automate, N-able, or Kaseya VSA. It downloads the MSI from `install.telivy.com` and installs it silently with the assessment's key.
 
-![Agent Installer card with Download Telivy Installer (.exe), Copy Link to Download and the RMM command with its Copy button](/images/install-telivy-agent-windows.png)
+<Frame>
+  <img src="/images/install-telivy-agent-windows.png" alt="Agent Installer card with Download Telivy Installer (.exe), Copy Link to Download and the RMM command with its Copy button" />
+</Frame>
 
 ### With the installer
 
@@ -42,7 +44,9 @@ The scanner runs as Administrator when the user has admin rights and as a standa
 
 On the assessment's **Inventory > Endpoints** page, a device that was scanned without the agent shows an **Agentless Scan** badge, and its **Agent Status** reads "Not installed, scanned agentlessly". These results are a one-time snapshot. The device cannot be rescanned or uninstalled from the portal and gets no continuous monitoring or alerts.
 
-![Deployment Status list with Agentless Scan badges next to devices scanned without the agent](/images/assessment-deployment-status-2.png)
+<Frame>
+  <img src="/images/assessment-deployment-status-2.png" alt="Deployment Status list with Agentless Scan badges next to devices scanned without the agent" />
+</Frame>
 
 When some or all devices in an assessment were scanned this way, a notice above the device list says how many. If no device runs the agent, **Rescan All** and **Uninstall All** are disabled because there is nothing to send the command to. To fix this, run the **Agent Installer** on those devices.
 

@@ -329,8 +329,8 @@
   "navbar": {
     "links": [
       {
-        "label": "Contact Us",
-        "href": "https://www.telivy.com/contact-us"
+        "label": "Get Help",
+        "href": "/help/get-help"
       }
     ],
     "primary": {

@@ -115,6 +115,13 @@ A scan can find issues that were not there before, such as a newly published CVE
 
 The score can also move when the findings stay the same. Adding or removing devices, users, or domains changes the size baseline the penalty is measured against. Telivy also adjusts severity weights and normalization from time to time and announces those changes in the release notes.
 
+To work out what moved for one client, check these in order:
+
+1. The device, user, and domain counts on the assessment, compared with the previous scan.
+2. New findings on the **Security** tab, and new [alerts](/products/risk-monitoring/alerts) raised since the last scan.
+3. Findings that were resolved or accepted, on the [Risk Register](/products/risk-register).
+4. The [score history](#score-history) chart, to see whether the change came in one scan or built up over several.
+
 ## Risk Priority Score
 
 The Risk Score describes the whole environment. The **Risk Priority Score (RPS)** answers a different question: which vulnerability to fix first. Every CVE finding, and every device with CVEs, gets an RPS from 0 to 100 that combines three factors:

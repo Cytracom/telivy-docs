@@ -18,7 +18,9 @@ Connecting a client's Microsoft 365 tenant adds identity and tenant configuratio
 2. On the **Microsoft 365** card, select **Connect Microsoft 365**. If someone else is the tenant admin, use the copy button next to it and send them the link.
 3. Sign in with a Global Administrator account and approve the permissions Microsoft asks for.
 
-<img alt="Connect Cloud step showing the Microsoft 365 and Google Workspace connection cards" src="/images/microsoft-365-security/microsoft-365-security-1.jpg" />
+<Frame>
+  <img alt="Connect Cloud step showing the Microsoft 365 and Google Workspace connection cards" src="/images/microsoft-365-security/microsoft-365-security-1.jpg" />
+</Frame>
 
 ### What the connection can do
 
@@ -47,7 +49,9 @@ Results are on the assessment's **Cloud** tab. If both Microsoft 365 and Google 
 
 The summary card shows the tenant's Microsoft **Security Score**, a **Benchmark Score** for organizations of a similar size, **Points Achieved**, **Total Accounts**, **Accounts without MFA**, **Total Failed Logins**, and **Orphaned Accounts**. Select the score to open the **Security Score History** chart.
 
-<img alt="Identity / Entra ID summary with Security Score, Benchmark Score, Points Achieved and account counts" src="/images/microsoft-365-security/microsoft-365-security-3.jpg" />
+<Frame>
+  <img alt="Identity / Entra ID summary with Security Score, Benchmark Score, Points Achieved and account counts" src="/images/microsoft-365-security/microsoft-365-security-3.jpg" />
+</Frame>
 
 For why two tenants can have very different maximum scores, see [Understanding Microsoft Secure Score](/scoring/m365).
 
@@ -57,17 +61,25 @@ This table lists every account with its email, admin role, **MFA Status**, authe
 
 **MFA Status** is **Enforced** when an account has at least two authentication methods registered and **Not Enforced** when it has fewer, which usually means a password only. Disabled accounts show **N/A**, since nobody can sign in to them, and they are not counted in **Accounts without MFA**.
 
-<img alt="Accounts Status table listing Microsoft 365 users with MFA status and sign-in counts" src="/images/microsoft-365-security/microsoft-365-security-5.jpg" />
+<Frame>
+  <img alt="Accounts Status table listing Microsoft 365 users with MFA status and sign-in counts" src="/images/microsoft-365-security/microsoft-365-security-5.jpg" />
+</Frame>
 
 ### Login Status
 
 The login section counts total, successful, and failed login events, maps where sign-ins came from, and charts failed logins by user and login activity over time. Locations are colored by severity, so sign-ins from unusual places stand out, and the **Login Locations** and **Login Failure Reasons** tables break down sign-ins by place and failed logins by Microsoft's failure reason.
 
-<img alt="Login Status totals for login events, successful and failed logins, and login locations" src="/images/microsoft-365-security/microsoft-365-security-6.jpg" />
+<Frame>
+  <img alt="Login Status totals for login events, successful and failed logins, and login locations" src="/images/microsoft-365-security/microsoft-365-security-6.jpg" />
+</Frame>
 
-<img alt="Login Locations table with successful and failed logins per location" src="/images/microsoft-365-security/microsoft-365-security-7.jpg" />
+<Frame>
+  <img alt="Login Locations table with successful and failed logins per location" src="/images/microsoft-365-security/microsoft-365-security-7.jpg" />
+</Frame>
 
-<img alt="Login Failure Reasons table listing each failure reason, user and count" src="/images/microsoft-365-security/microsoft-365-security-8.jpg" />
+<Frame>
+  <img alt="Login Failure Reasons table listing each failure reason, user and count" src="/images/microsoft-365-security/microsoft-365-security-8.jpg" />
+</Frame>
 
 **License Information** at the bottom lists the tenant's subscriptions and how many seats are in use.
 
@@ -77,7 +89,9 @@ The login section counts total, successful, and failed login events, maps where 
 
 Select a row to open that finding on the assessment's **Risk** tab, where all Microsoft 365 findings also appear alongside the rest of the assessment's findings.
 
-<img alt="Identity / Entra ID Risk Insights table with severity, insight, detail, protects against and fix link" src="/images/microsoft-365-security/microsoft-365-security-9.png" />
+<Frame>
+  <img alt="Identity / Entra ID Risk Insights table with severity, insight, detail, protects against and fix link" src="/images/microsoft-365-security/microsoft-365-security-9.png" />
+</Frame>
 
 ### Secure Score controls as findings
 
@@ -97,7 +111,9 @@ Policy Management checks tenant policies against a security baseline and can cha
 
 The **Policy Compliance** tab lists each policy as **Compliant** or **Non-Compliant**, with **Fix Available** on the ones Telivy can change, plus when each was last checked. Agency admins also see **Remediate**, which changes that policy in the tenant after a confirmation, and **Inspect**, which shows the current and desired state. Policies Telivy cannot change link to the right page with **Change in Admin Portal**.
 
-<img alt="Policy Management compliance list with Non-Compliant policies offering Remediate and Inspect" src="/images/microsoft-365-security/microsoft-365-security-10.png" />
+<Frame>
+  <img alt="Policy Management compliance list with Non-Compliant policies offering Remediate and Inspect" src="/images/microsoft-365-security/microsoft-365-security-10.png" />
+</Frame>
 
 The **Remediation Activity** tab keeps an **Activity Log** of every check and fix. **Refresh compliance scan** runs the checks again, and **Check + Auto-remediate** checks every policy and fixes all the non-compliant ones in one go.
 

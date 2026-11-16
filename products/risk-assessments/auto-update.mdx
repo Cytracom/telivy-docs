@@ -35,7 +35,9 @@ Telivy uses the most specific setting it finds. If auto-update is on for an asse
 
 Go to **Account > Assessment Defaults** (`https://portal.telivy.com/agent/account/assessments`) and find the **Agent Updates** card.
 
-![Agent Updates card on the Assessment Defaults page with the auto-update switch and release channel](/images/account-settings-agent-updates.png)
+<Frame>
+  <img src="/images/account-settings-agent-updates.png" alt="Agent Updates card on the Assessment Defaults page with the auto-update switch and release channel" />
+</Frame>
 
 Turn on the switch and choose a **Release Channel**. Use **Stable** at the account level.
 
@@ -43,11 +45,15 @@ Turn on the switch and choose a **Release Channel**. Use **Stable** at the accou
 
 Open the assessment and go to **Setup > Deploy Agent > Deployment Status**.
 
-![Deployment Status section of an assessment with the Update Settings button](/images/assessment-deployment-status-2.png)
+<Frame>
+  <img src="/images/assessment-deployment-status-2.png" alt="Deployment Status section of an assessment with the Update Settings button" />
+</Frame>
 
 Select **Update Settings** to open the assessment's update settings and override the account setting for this assessment.
 
-![Assessment update settings dialog with override checkboxes for auto-update and release channel](/images/assessment-update-settings.png)
+<Frame>
+  <img src="/images/assessment-update-settings.png" alt="Assessment update settings dialog with override checkboxes for auto-update and release channel" />
+</Frame>
 
 <Note>
   Auto-update needs agent version **30.3.6.1** or later on Windows and **3.3.0** or later on macOS. Older agents have to be redeployed by hand.
@@ -61,11 +67,15 @@ Tick **Override account setting** to turn auto-update on or off for this assessm
 
 In **Setup > Deploy Agent > Deployment Status**, open the **Actions** menu for a machine.
 
-![Actions menu for a single machine with the Update Settings option](/images/machine-actions-menu.png)
+<Frame>
+  <img src="/images/machine-actions-menu.png" alt="Actions menu for a single machine with the Update Settings option" />
+</Frame>
 
 Select **Update Settings** to override the account and assessment settings for that machine.
 
-![Machine update settings dialog showing inherited auto-update status and release channel](/images/machine-update-settings.png)
+<Frame>
+  <img src="/images/machine-update-settings.png" alt="Machine update settings dialog showing inherited auto-update status and release channel" />
+</Frame>
 
 Tick **Override account setting** to turn auto-update on or off for this machine, or **Override assessment setting** to give it a different release channel. The dialog shows the inherited values, for example "Currently using **Beta** channel (inherited from assessment)".
 

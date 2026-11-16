@@ -15,40 +15,15 @@ Setting it up needs someone who can create API members and Security Roles in Con
 3. [Choose which findings open tickets](#step-3-choose-which-findings-open-tickets)
 4. [Map each company and turn on sync](#step-4-map-each-company-and-turn-on-sync)
 
-The [Prerequisites](#prerequisites) and each step are below. [How the integration works](#how-the-integration-works) explains what happens to tickets once sync is on.
+The [Prerequisites](#prerequisites) and each step are below. [How the integration works](#how-the-integration-works), after the steps, explains what happens to tickets once sync is on.
 
 <iframe src="https://www.youtube.com/embed/zZXIyjQKaqo" title="ConnectWise integration walkthrough" frameborder="0" className="w-full aspect-video rounded-xl" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
-
-## How the integration works
-
-### Tickets
-
-Once ConnectWise is connected and a company is mapped, each finding in a category you chose to sync opens one service ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a service ticket on the board you picked, against the ConnectWise company mapped to that client. The summary starts with `[Telivy]`, the severity and the finding name, for example `[Telivy][HIGH] <finding name>`, and is cut to ConnectWise's 100-character limit. The ticket body covers the finding, the detected value, the risk, the recommended fix and references, and a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab.
-
-### Priority
-
-Telivy reads your instance's own priority list, so customized priority tables work. Critical and High findings get your highest priority, Low and Info get the lowest, and Medium gets your default priority.
-
-### Resolutions read back from ConnectWise
-
-Every hour Telivy checks the tickets it opened. A ticket that is closed, or that sits in a status the board marks as closed or as the **Resolved** escalation step, marks the finding **Resolved in PSA** in Telivy, with the ticket number and status in the reason. If the issue is still there, the next scan raises the finding again.
-
-### Merged tickets
-
-If a technician merges a Telivy ticket into another ticket, Telivy writes later updates to the ticket it was merged into instead of failing on the closed original.
-
-## One PSA at a time
-
-An agency connects one PSA. While Autotask or HaloPSA is enabled, the ConnectWise switch is disabled and Telivy shows **Disable Autotask to connect ConnectWise** (or HaloPSA). Disconnecting a PSA keeps its credentials, ticket settings and company mappings, so you can switch back later.
-
-<Frame>
-  <img src="/images/connectwise/connectwise-1.png" alt="PSA Integrations card with ConnectWise selected and the note to disable HaloPSA first" />
-</Frame>
 
 ## Prerequisites
 
 - A ConnectWise PSA (Manage) instance and a ConnectWise account that can create API members and Security Roles.
 - A Telivy account with access to **Account → Integrations**.
+- No other PSA connected in Telivy. An agency connects one PSA at a time, see [One PSA at a time](#one-psa-at-a-time).
 
 ## Step 1: Create an API member in ConnectWise
 
@@ -112,6 +87,32 @@ Under **Account → Integrations → Ticket settings**, the **Close tickets when
     Tick **Start syncing findings to ConnectWise after mapping** in the dialog, or turn on **Sync findings to PSA** on the assessment's PSA card later. Telivy then opens tickets for the assessment's existing findings that match your sync policy, and tells you how many it queued.
   </Step>
 </Steps>
+
+## How the integration works
+
+### Tickets
+
+Once ConnectWise is connected and a company is mapped, each finding in a category you chose to sync opens one service ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a service ticket on the board you picked, against the ConnectWise company mapped to that client. The summary starts with `[Telivy]`, the severity and the finding name, for example `[Telivy][HIGH] <finding name>`, and is cut to ConnectWise's 100-character limit. The ticket body covers the finding, the detected value, the risk, the recommended fix and references, and a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab.
+
+### Priority
+
+Telivy reads your instance's own priority list, so customized priority tables work. Critical and High findings get your highest priority, Low and Info get the lowest, and Medium gets your default priority.
+
+### Resolutions read back from ConnectWise
+
+Every hour Telivy checks the tickets it opened. A ticket that is closed, or that sits in a status the board marks as closed or as the **Resolved** escalation step, marks the finding **Resolved in PSA** in Telivy, with the ticket number and status in the reason. If the issue is still there, the next scan raises the finding again.
+
+### Merged tickets
+
+If a technician merges a Telivy ticket into another ticket, Telivy writes later updates to the ticket it was merged into instead of failing on the closed original.
+
+## One PSA at a time
+
+An agency connects one PSA. While Autotask or HaloPSA is enabled, the ConnectWise switch is disabled and Telivy shows **Disable Autotask to connect ConnectWise** (or HaloPSA). Disconnecting a PSA keeps its credentials, ticket settings and company mappings, so you can switch back later.
+
+<Frame>
+  <img src="/images/connectwise/connectwise-1.png" alt="PSA Integrations card with ConnectWise selected and the note to disable HaloPSA first" />
+</Frame>
 
 ## Work with tickets from Telivy
 
