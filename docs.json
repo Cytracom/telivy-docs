@@ -57,6 +57,7 @@
             "pages": [
               "products/navigating-an-assessment",
               "products/reports",
+              "products/risk-register",
               {
                 "group": "External Assessments",
                 "pages": [
