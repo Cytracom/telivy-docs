@@ -1,0 +1,49 @@
+#table-of-contents-content.has-toc-dot {
+  position: relative;
+  padding-left: 1rem;
+}
+
+#table-of-contents-content.has-toc-dot::before {
+  content: '';
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 3px;
+  width: 1px;
+  background: rgb(var(--gray-200));
+}
+
+html.dark #table-of-contents-content.has-toc-dot::before {
+  background: rgb(255 255 255 / 0.1);
+}
+
+#table-of-contents-content .toc-dot {
+  position: absolute;
+  top: -3.5px;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: rgb(var(--primary));
+  box-shadow: 0 0 0 3px rgb(var(--primary) / 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+}
+
+html.dark #table-of-contents-content .toc-dot {
+  background: rgb(var(--primary-light));
+  box-shadow: 0 0 0 3px rgb(var(--primary-light) / 0.2);
+}
+
+#table-of-contents-content .toc-dot.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #table-of-contents-content .toc-dot {
+    transition: none;
+  }
+}

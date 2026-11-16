@@ -4,16 +4,23 @@ sidebarTitle: "Webhooks"
 description: "Receive Telivy assessment status changes and security alerts as signed HTTP POST requests, with HMAC signature checks, custom headers and payload encryption."
 ---
 
-Telivy webhooks send an HTTP POST request to your endpoint when an assessment changes status or an alert is raised, so your own systems can react without polling the API. This page covers setup, signature verification, custom authentication headers, payload encryption and troubleshooting.
+Telivy webhooks send an HTTP POST request to your endpoint when something happens in Telivy, such as a finished scan, a changed grade, a new alert or an agent install, so your own systems can react without polling the API. This page covers setup, signature verification, custom authentication headers, payload encryption and troubleshooting.
 
 When one of the events below happens, Telivy sends an HTTP POST request to the URL you gave when setting up the webhook.
 
 ## Webhook events
 
-Telivy sends two events:
+| Event | Sent when | `data` includes |
+| --- | --- | --- |
+| `SCAN_COMPLETED` | An external scan of an assessment finishes, including scheduled rescans | `agencyId`, `assessmentId`, `securityScanId`, `domain`, `securityGrade`, `completedAt` |
+| `SECURITY_GRADE_CHANGED` | The overall security grade differs from the previous graded scan, or changes after a finding is resolved | `agencyId`, `assessmentId`, `securityScanId`, `domain`, `previousGrade` (null on the first graded scan), `grade`, `changedAt` |
+| `AGENT_INSTALLED` | The Telivy agent reports a completed install on a device. A reinstall sends it again | `agencyId`, `assessmentId`, `deviceId`, `hostname`, `osVersion`, `agentVersion`, `occurredAt` |
+| `AGENT_UNINSTALLED` | The Telivy agent reports it was uninstalled from a device | The same fields as `AGENT_INSTALLED` |
+| `ASSESSMENT_STATUS_CHANGED` | An assessment moves between `not_started`, `in_progress`, `complete` and `archived` | The assessment record, including `id` and `applicationStatus`. Other fields are not a stable contract |
+| `ALERT_RAISED` | A new security alert is raised for an assessment | The alert record, including `id`, `applicationId`, `category` and `data` |
+| `TEST` | You use the test button on a webhook | `message` and `scheduledAt` |
 
-- `ASSESSMENT_STATUS_CHANGED`, when an assessment's status changes
-- `ALERT_RAISED`, when an alert is raised for your agency
+Events go to the webhooks of the agency that owns the assessment. A master agency receives its sub-agencies' events only on webhooks created with sub-agencies included, and every payload carries the owning `agencyId`.
 
 ## Setting up webhooks
 
@@ -30,16 +37,16 @@ When you create the subscription, Telivy generates a secret key. You use it to v
 3. Return a 2xx response straight away, preferably `200 OK`.
 4. Process the data asynchronously after responding.
 
-Webhook requests time out after 10 seconds, so responding first and processing later avoids timeouts and unnecessary retries.
+Webhook requests time out after 60 seconds, so responding first and processing later avoids timeouts and unnecessary retries.
 
 ### HTTP response codes
 
-Any 2xx response counts as delivered. Any other status code counts as a failure, and Telivy retries: once immediately, then once more after a delay.
+Any 2xx response counts as delivered. Any other status code, or a timeout, counts as a failure, and Telivy retries with increasing delays, up to 3 attempts in total. `metadata.attemptNumber` tells the attempts apart. A delivery can arrive more than once, so make your handler safe to run twice for the same event.
 
 ## Authentication
 
 Every webhook request carries a signature in the `X-Telivy-Signature` header. Verify it to confirm the request came from Telivy.
-The signature is an HMAC-SHA256 hash of the entire request body, with your webhook secret as the key.
+The signature is the hex-encoded HMAC-SHA256 of the raw request body, with your webhook secret as the key. Compute it over the body exactly as received, before any JSON parsing.
 
 ### Verifying the signature
 
@@ -62,10 +69,10 @@ function verifyWebhookSignature(requestBody, signature, secret) {
   );
 }
 
-// In your Express.js route handler:
-app.post('/webhook', (req, res) => {
+// express.raw keeps the body as the exact bytes Telivy signed
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
   const signature = req.headers['x-telivy-signature'];
-  const requestBody = JSON.stringify(req.body);
+  const requestBody = req.body;
   const secret = 'your_webhook_secret';
 
   if (!verifyWebhookSignature(requestBody, signature, secret)) {
@@ -76,7 +83,7 @@ app.post('/webhook', (req, res) => {
   res.status(200).send('Webhook received');
 
   // Process data asynchronously
-  processWebhookData(req.body);
+  processWebhookData(JSON.parse(requestBody.toString('utf8')));
 });
 ```
 
@@ -84,6 +91,7 @@ app.post('/webhook', (req, res) => {
 
 ```csharp
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
@@ -95,11 +103,13 @@ using System.Text.Json;
 public class WebhookController : ControllerBase
 {
     [HttpPost]
-    public IActionResult ReceiveWebhook([FromBody] object payload)
+    public async Task<IActionResult> ReceiveWebhook()
     {
         var signature = Request.Headers["X-Telivy-Signature"].ToString();
         var secret = "your_webhook_secret";
-        var requestBody = JsonSerializer.Serialize(payload);
+        using var reader = new StreamReader(Request.Body, Encoding.UTF8);
+        var requestBody = await reader.ReadToEndAsync();
+        var payload = JsonSerializer.Deserialize<JsonElement>(requestBody);
 
         if (!VerifySignature(requestBody, signature, secret))
         {
@@ -123,7 +133,7 @@ public class WebhookController : ControllerBase
         }
     }
 
-    private void ProcessWebhookData(object payload)
+    private void ProcessWebhookData(JsonElement payload)
     {
         // Process the webhook data
     }
@@ -680,7 +690,7 @@ Any custom headers you set on the webhook are sent as well.
 | --- | --- |
 | Signature does not match | You are using this webhook's secret, and you hash the raw request body exactly as received |
 | Decryption fails | You use AES-256-CBC and base64-decode both `data` and `iv` before decrypting |
-| Requests time out | Your endpoint responds within 10 seconds. Return the response first and process afterwards, or Telivy retries |
+| Requests time out | Your endpoint responds within 60 seconds. Return the response first and process afterwards, or Telivy retries |
 | Events are missing | The subscription is active and subscribed to the event you expect |
 | Your endpoint rejects the request | The custom headers on the subscription match what your endpoint checks |
 

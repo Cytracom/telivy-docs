@@ -164,26 +164,34 @@
             ]
           },
           {
-            "group": "Security and Automation",
+            "group": "Security and Compliance",
             "pages": [
               "integrations/nodeware",
-              "integrations/tentacle",
-              "integrations/rewst"
+              "integrations/tentacle"
+            ]
+          },
+          {
+            "group": "Automation and API",
+            "pages": [
+              "integrations/n8n",
+              "integrations/rewst",
+              "integrations/api",
+              "integrations/webhooks"
             ]
           }
         ]
       },
       {
-        "tab": "API & MCP",
-        "icon": "code",
+        "tab": "AI with Telivy",
+        "icon": "sparkles",
         "groups": [
           {
-            "group": "MCP Server",
+            "group": "Telivy MCP Server",
             "pages": [
               "integrations/mcp/overview",
               "integrations/mcp/example-workflows",
               {
-                "group": "Connect Your AI Client",
+                "group": "Connect Your AI Assistant",
                 "expanded": true,
                 "pages": [
                   "integrations/mcp/claude-code",
@@ -194,13 +202,6 @@
                   "integrations/mcp/codex"
                 ]
               }
-            ]
-          },
-          {
-            "group": "API",
-            "pages": [
-              "integrations/api",
-              "integrations/webhooks"
             ]
           }
         ]
