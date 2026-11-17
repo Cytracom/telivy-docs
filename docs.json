@@ -118,7 +118,8 @@
                   "products/risk-assessments/uninstall-telivy-agent-macos"
                 ]
               },
-              "products/risk-assessments/auto-update"
+              "products/risk-assessments/auto-update",
+              "products/risk-assessments/troubleshoot-telivy-agent"
             ]
           },
           {
@@ -222,7 +223,8 @@
           {
             "group": "Support",
             "pages": [
-              "help/get-help"
+              "help/get-help",
+              "help/glossary"
             ]
           },
           {
@@ -370,7 +372,8 @@
   "integrations": {
     "posthog": {
       "apiKey": "phc_mS6y6ZkHJ9hGBSBlyfz07B9k5J7Bg0b80OFRYdEAW1a",
-      "apiHost": "https://us.i.posthog.com"
+      "apiHost": "https://ph.cytracom.net",
+      "sessionRecording": true
     }
   },
   "navbar": {
@@ -431,5 +434,9 @@
         ]
       }
     ]
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true
   }
 }

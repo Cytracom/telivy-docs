@@ -24,7 +24,30 @@ Each assessment has its own install command, which you can run from any RMM.
 2. On the **Agent Installer** card, find **Instructions for RMM** and select **Copy** next to the install command.
 3. In your RMM, run the command from a PowerShell terminal or the Execute Script option, as Administrator or the System user.
 
-The command works in any RMM that can run a PowerShell script as Administrator or System, such as NinjaOne, Datto RMM, ConnectWise Automate, N-able, or Kaseya VSA. It downloads the MSI from `install.telivy.com` and installs it silently with the assessment's key.
+The command works in any RMM that can run a PowerShell script as Administrator or System. It downloads the MSI from `install.telivy.com` and installs it silently with the assessment's key.
+
+#### Where to run it in common RMMs
+
+In every RMM, create a PowerShell script with the copied command as its body, run it as
+System (or a local administrator), and target the client's Windows devices. Each assessment
+has its own command, so keep one script per assessment, or one per client if each client has
+a single assessment.
+
+| RMM | Where to add the script | Run as |
+| --- | --- | --- |
+| NinjaOne | **Administration > Library > Automation**, new PowerShell script, then run it on the devices or add it to a policy | System |
+| Datto RMM | **Automation > Components**, new **Script** component with PowerShell, then run it as a quick job or a scheduled job | System (the default) |
+| ConnectWise Automate | A new script with a **Shell** or **PowerShell Command** step, run against the client's computers or group | Admin or System |
+| N-able N-central | **Configuration > Scheduled Tasks > Script/Software Repository**, add the `.ps1`, then run it as an automation task | LocalSystem |
+| Kaseya VSA | **Agent Procedures**, a new procedure that runs the PowerShell command, scheduled on the machines | System |
+| Microsoft Intune | **Devices > Scripts and remediations > Platform scripts**, add a Windows script, assign it to the device group | System, with **Run this script using the logged on credentials** set to **No** |
+
+<Tip>
+  Use the RMM to roll out to every device at once, then check
+  **Setup > Deploy Agent > Deployment Status** after an hour. Devices that are off at run time
+  install the next time the RMM reaches them, if you schedule the script rather than running
+  it once.
+</Tip>
 
 <Frame>
   <img src="/images/install-telivy-agent-windows.png" alt="Agent Installer card with Download Telivy Installer (.exe), Copy Link to Download and the RMM command with its Copy button" />
@@ -68,3 +91,5 @@ The scanner still completes when an EDR such as ThreatLocker blocks the agent in
 4. On its first run, the scanner registers the device in your assessment with its hostname, OS, and other identifying details.
 5. The scanner then runs the vulnerability, application, PII, and password scans, and the device shows as **In Progress** in the portal.
 6. The agent checks every hour whether the first scan has finished. The PII scan usually takes longest, depending on how many files are on the device.
+
+If a device does not appear or stops checking in, see [Troubleshoot the Telivy Agent](/products/risk-assessments/troubleshoot-telivy-agent).

@@ -7,8 +7,13 @@ description: "Remove the Telivy agent from a Mac with the recommended uninstall 
 
 The uninstall commands are on the assessment's **Setup** tab under **Optional Steps > Remove
 Telivy**. Select **macOS** under **Removal Instructions**, then **Copy Uninstall Command** next to
-the option you need. Run it in Terminal on the Mac or from your RMM or MDM. The data from the
+the option you need. Run it in Terminal on the Mac or from your RMM or MDM. Tools that
+already run scripts as root do not need the `sudo` prefix. The data from the
 Mac's latest scan stays in the portal and in any report you generate.
+
+<Frame>
+  <img src="/images/uninstall-telivy-agent-macos/uninstall-telivy-agent-macos-1.png" alt="Setup tab of a risk assessment on Optional Steps → Remove Telivy with macOS selected, showing the recommended and force uninstall commands with Copy Uninstall Command buttons" />
+</Frame>
 
 ## Recommended uninstall
 
@@ -18,8 +23,13 @@ sudo /Applications/Telivy.Scanner.Mac.app/Contents/MacOS/Telivy.Scanner.Mac --Is
 
 ## Force uninstall
 
-Use this when the recommended command fails or the app is damaged. It stops the Telivy
-background service and removes the app and its data folder.
+Use this when the recommended command fails or the app is damaged. The script unloads the
+`com.cytracom.telivy.agent` background service, deletes its launch daemon, the
+`/Applications/Telivy.Scanner.Mac.app` app and the
+`/Users/Shared/Library/Application Support/Telivy` data folder, and removes the package
+receipt. You can read it at
+[install.telivy.com/Installer/force-uninstall.sh](https://install.telivy.com/Installer/force-uninstall.sh)
+before you run it.
 
 ```bash
 sudo /bin/bash -c "curl -fsSL 'https://install.telivy.com/Installer/force-uninstall.sh' | bash"

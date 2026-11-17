@@ -32,6 +32,17 @@ Not sure which mode to use? See [Agent vs Agentless](/products/risk-assessments/
     The copied command already contains the assessment's ID. The script detects whether the
     Mac has Apple Silicon or an Intel chip and installs the matching package.
 
+    Tools that already run scripts as root, such as Jamf Pro, Kandji, Mosyle, Microsoft Intune,
+    and NinjaOne, do not need the `sudo` prefix. Leaving it in is harmless.
+
+    | Tool | Where to add the script |
+    | --- | --- |
+    | Jamf Pro | **Settings > Computer management > Scripts**, then a **Policy** that runs the script on the Macs |
+    | Kandji | **Library > Custom Script**, assigned to the Macs' Blueprint |
+    | Mosyle | **Management > Custom Commands**, assigned to the Macs |
+    | Microsoft Intune | **Devices > Scripts and remediations > Platform scripts**, a macOS shell script run as root (**Run script as signed-in user** set to **No**) |
+    | NinjaOne | **Administration > Library > Automation**, a new Shell script for macOS run as System |
+
     <Warning>
       The command cannot grant Full Disk Access or Keychain access. After it runs, the person
       using each Mac still has to approve both, as described in
@@ -100,3 +111,5 @@ Status** and on **Inventory > Endpoints**.
 
 Keep the agent current with [auto-update](/products/risk-assessments/auto-update), which
 supports macOS. To remove it, see [Uninstall on macOS](/products/risk-assessments/uninstall-telivy-agent-macos).
+If a Mac does not appear or its results are incomplete, see
+[Troubleshoot the Telivy Agent](/products/risk-assessments/troubleshoot-telivy-agent).

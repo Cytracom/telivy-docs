@@ -41,9 +41,14 @@ finding in Telivy when the ticket closes, which a one-way n8n workflow does not 
   </Step>
   <Step title="Create the webhook in Telivy">
     In the Telivy portal, open **Account → Webhooks** and add a webhook. Paste the Webhook
-    node's **Production URL** as the destination, pick the events you want, and add a custom
-    header with the same name and value as the n8n credential. See
+    node's **Production URL** as the destination and pick the events you want. In
+    **Headers (Optional)**, enter the n8n credential's header as JSON, for example
+    `{"X-N8N-Auth": "your-long-random-value"}`. See
     [Setting up webhooks](/integrations/webhooks#setting-up-webhooks).
+
+    <Frame>
+      <img src="/images/n8n/n8n-1.png" alt="Create New Webhook form in Telivy with an n8n Webhook Url, the Alert event type selected, and an X-N8N-Auth header entered as JSON under Headers" />
+    </Frame>
   </Step>
   <Step title="Test, then publish">
     In n8n, select **Listen for test event** and switch the URL in Telivy to the **Test URL**
@@ -98,7 +103,7 @@ endpoint, and the interactive reference shows each response in full.
   uses it until you update the credential.
 </Warning>
 
-## Related
+## Related guides
 
 <CardGroup cols={2}>
   <Card title="Webhooks" icon="webhook" href="/integrations/webhooks">

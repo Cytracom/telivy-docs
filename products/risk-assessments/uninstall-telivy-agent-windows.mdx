@@ -26,6 +26,10 @@ The **Uninstall** action is disabled for devices that are not connected to the p
 
 The commands are on the assessment's **Setup** tab under **Optional Steps > Remove Telivy**, with **Windows** selected under **Removal Instructions**. Run one on the device itself, in a terminal or through your RMM. Use this for devices that never pick up the scheduled uninstall, or when you do not want to wait. The two options handle the data already on the device differently.
 
+<Frame>
+  <img src="/images/uninstall-telivy-agent-windows/uninstall-telivy-agent-windows-1.png" alt="Setup tab of a risk assessment on Optional Steps → Remove Telivy with Windows selected, showing the Standard Uninstall command, the Copy Standard Command button, and the Full Wipe option" />
+</Frame>
+
 ### Option 1: Standard Uninstall (recommended)
 
 Use this for routine removal. It keeps the device's local PII database, so if Telivy is reinstalled later, the next scan is faster. It works on agent version 30.0.0.0 and later.

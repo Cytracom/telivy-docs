@@ -1,0 +1,164 @@
+---
+title: "Glossary"
+icon: "book"
+description: "Definitions of the terms used across Telivy: assessments, agent and agentless scans, Risk Score, Risk Priority Score, grades, monitoring, alerts and more."
+---
+
+Short definitions of the terms used in the Telivy portal and these docs, each with a link to
+the page that covers it in full.
+
+## Assessments and companies
+
+### Company
+
+A client or prospect in your account. The [Companies](/getting-started/companies) page lists
+every company once, with its assessments grouped underneath.
+
+### Prospect
+
+A company you are trying to win rather than one you already manage. Prospects have their own
+segment on the Companies page and can be monitored with **Monitor Prospect**.
+
+### External Assessment (external scan)
+
+A scan of a company's public-facing systems, such as domains, IP addresses, email security,
+and SSL/TLS certificates, from the outside. It needs no agent and no access to the client's
+network. See [External Assessments](/products/external-assessments/overview).
+
+### Risk Assessment
+
+Everything in an External Assessment plus data from the Telivy agent on the client's devices
+and from their Microsoft 365 or Google Workspace tenant. See
+[Risk Assessments](/products/risk-assessments/overview).
+
+### Finding
+
+One issue Telivy detected, such as a missing patch, an open port, or a breached password. The
+**Risk** tab groups findings by issue. See [Risk and Priorities](/products/risk-and-priorities).
+
+### Risk Register
+
+The record of every decision to accept a finding or resolve it with a compensating control,
+with the reason and a review date. See [Risk Register](/products/risk-register).
+
+## Agent and scanning
+
+### Telivy agent
+
+Software installed on a Windows or Mac device that stays there, checks in once an hour, and
+keeps scanning on a schedule. See [Agent vs Agentless](/products/risk-assessments/agent-vs-agentless).
+
+### Agentless scan
+
+A one-time scan run by the agentless scanner. It leaves nothing installed and gives a
+snapshot, with no rescans or monitoring.
+
+### Enhanced Agentless (Beta)
+
+A separate Windows agentless scanner that runs with elevated system privileges, so it can
+scan more than the standard agentless scanner, such as Chrome passwords. See
+[Agent vs Agentless](/products/risk-assessments/agent-vs-agentless#enhanced-agentless-deployment-beta-on-windows).
+
+### Remediator
+
+A Windows component that applies the fixes you approve. It appears only when it is enabled
+for your agency, with its status per endpoint under **Inventory > Endpoints**. See
+[Inventory](/products/risk-assessments/inventory).
+
+### Auto-update
+
+Keeps the agent on each device current without reinstalling it. See
+[Auto Update](/products/risk-assessments/auto-update).
+
+## Scores and grades
+
+### Risk Score
+
+A number from 0 to 100 that summarizes a client's security posture in a Risk Assessment.
+Higher is better. See [Risk Scoring](/scoring/risk-scoring).
+
+### Risk Priority Score (RPS)
+
+A 0 to 100 score given to every vulnerability (CVE) and every device with vulnerabilities, so
+you know what to fix first. The **Priorities** tab ranks by it. See
+[Risk Priority Score](/scoring/risk-scoring#risk-priority-score).
+
+### Security grade
+
+The A to F letter grade given to each section of the Security Report and the external scan.
+See [Grading Criteria](/scoring/grading-criteria).
+
+### CVSS and EPSS
+
+CVSS rates how severe a vulnerability is. EPSS estimates how likely it is to be exploited in
+the next 30 days. Both feed into the RPS. See
+[Vulnerability data sources](/learning-center/vulnerability-data-sources).
+
+### Insurability Score
+
+A score on an External Assessment's Overview tab, based on the client's answers to the
+assessment questionnaire.
+
+### Financial Exposure
+
+The card on every assessment's Overview tab that estimates what a cyber incident could cost
+the client: ransomware, business interruption, and a data breach. See
+[Data Security](/products/risk-assessments/data-security#financial-exposure-card).
+
+### PII
+
+Personally identifiable information, such as Social Security numbers, card numbers, and
+health IDs, found in files on the client's devices. See
+[Data Security](/products/risk-assessments/data-security).
+
+## Monitoring and alerts
+
+### Risk Monitoring (Continuous Monitoring)
+
+Rescans a client on a schedule and saves a snapshot after each scan, so you can show how
+their posture changes. See [Risk Monitoring](/products/risk-monitoring/overview).
+
+### Alert
+
+A notification that Telivy found something new between rescans, such as a new breach or a
+new critical vulnerability. See [Alerts](/products/risk-monitoring/alerts).
+
+### Alert policy
+
+The settings that decide, for each alert category, which team members get an email and
+whether matching findings open a ticket in your PSA. See
+[Alerts](/products/risk-monitoring/alerts).
+
+### PSA integration
+
+The connection to ConnectWise, Autotask, or HaloPSA that opens tickets for findings and closes
+the finding in Telivy when the ticket closes. See [Integrations](/integrations/overview#psa).
+
+## Account
+
+### Agency
+
+Your MSP's account in Telivy. A **master agency** can have **sub-agencies** and work with
+their assessments.
+
+### Account Admin
+
+A user who can manage the agency's users, billing, and integrations. See
+[Account Setup](/getting-started/set-up-telivy-account/overview).
+
+### Unity
+
+Cytracom's partner platform. For agencies on Unity it handles signing in to Telivy,
+subscriptions and billing, and the customer records Telivy clients are linked to. See
+[Unity](/getting-started/set-up-telivy-account/unity).
+
+### Early Access
+
+Features that are switched on for specific agencies before general release. See
+[Billing, Usage, and Early Access](/getting-started/set-up-telivy-account/billing-usage-and-early-access).
+
+### Telivy MCP Server
+
+Lets AI assistants such as Claude Code, Cursor, or GitHub Copilot in VS Code work with your
+Telivy data in conversation. See
+[Telivy MCP Server](/integrations/mcp/overview).

@@ -1,0 +1,110 @@
+---
+title: "Troubleshoot the Telivy Agent"
+sidebarTitle: "Troubleshooting"
+icon: "stethoscope"
+description: "Fix the common Telivy agent problems on Windows and macOS: blocked installs, devices that never appear, offline devices, stuck scans and missing Mac results."
+---
+
+Find the symptom you see in the portal, then follow the checks in order. Most problems come
+from a security tool blocking the agent, or from the device being off or offline.
+
+## The install command fails or the installer is blocked
+
+The RMM command downloads the installer from `install.telivy.com`. An antivirus, EDR,
+application allowlisting tool, or web filter that blocks that download or the installer
+stops the install.
+
+1. Allow Telivy before you deploy, as listed in
+   [Allow Telivy in AV and EDR](/products/risk-assessments/whitelist-telivy-with-av-edr). If
+   the client uses ThreatLocker, add the policy in
+   [Allow Telivy in ThreatLocker](/products/risk-assessments/allow-telivy-in-threatlocker).
+2. Make sure the RMM runs the command as Administrator or System on Windows, and as root on
+   macOS. A command run as a standard user cannot install the agent.
+3. Run the command again.
+
+On Windows, the installer writes a log named `telivy_install.log` in the folder it ran from.
+Attach it if you contact support.
+
+## Telivy installed but the device never appears
+
+A device appears under **Setup > Deploy Agent > Deployment Status** and on
+**Inventory > Endpoints** after its first check-in, which can take up to an hour after the
+install.
+
+1. Check that the agent is running on the device.
+   - Windows: in PowerShell, run `Get-Service TelivyAgent`. The status should be **Running**.
+   - macOS: in Terminal, run `sudo launchctl list | grep com.cytracom.telivy.agent`. A line
+     should come back.
+2. Check that the device can reach `agent-v1.telivy.com` and `install.telivy.com` on port 443.
+   Firewalls, web filters, and SSL inspection that block `*.telivy.com` stop the check-in.
+3. Look for the device in your other assessments. The install command carries one
+   assessment's ID, so a command copied from a different assessment registers the device
+   there. Uninstall it from that assessment and install it again with the right command.
+
+## The device shows Agentless Scan
+
+The device was scanned by the agentless scanner, not by the agent. This usually happens
+when an EDR blocked the agent installer and the scanner still finished. Allow Telivy in the
+EDR, then run the **Agent Installer** on the device. See
+[Devices scanned without the agent](/products/risk-assessments/install-telivy-agent-windows#devices-scanned-without-the-agent).
+
+## The device shows Offline or an old Last Seen date
+
+The agent checks in once an hour, and **Last Seen** on **Inventory > Endpoints** is the time
+of the last check-in. A device that is switched off, asleep, or off the network shows
+**Offline** until it checks in again.
+
+If the device is on and online but still not checking in:
+
+1. Restart the agent.
+   - Windows: `Restart-Service TelivyAgent` in PowerShell as Administrator.
+   - macOS: `sudo launchctl kickstart -k system/com.cytracom.telivy.agent` in Terminal.
+2. Check that a security tool has not started blocking `*.telivy.com` or the agent files
+   since the install, for example after a policy change.
+3. If it still does not check in, reinstall the agent with the assessment's install command.
+
+## The scan stays In progress
+
+A full scan needs the device to stay on for about two hours without interruption. The PII
+scan takes longest, and devices with many files take longer. A laptop that sleeps or shuts
+down restarts the remaining work at the next check-in. If a scan is still **In progress**
+after the device has been online for a day, [contact support](/help/get-help) with the
+device name and assessment.
+
+## Mac results are missing PII or passwords
+
+The agent runs without Full Disk Access and Keychain access, but PII and password results
+stay incomplete until the person using the Mac approves both. Ask them to follow
+[Grant the permissions the agent needs](/products/risk-assessments/install-telivy-agent-macos#grant-the-permissions-the-agent-needs).
+An RMM or MDM command cannot grant these permissions, so the approval has to be done on each
+Mac.
+
+## Logs to send to support
+
+When you [contact support](/help/get-help), include the device name, the assessment, and
+these files from the device.
+
+| Platform | File |
+| --- | --- |
+| Windows | `C:\Program Files (x86)\Telivy\Telivy Agent\telivyagent.log` |
+| Windows | `C:\Program Files (x86)\Telivy\Telivy Agent\Temp\Scanner\Scanner.log` |
+| Windows | `telivy_install.log`, in the folder the installer ran from |
+| macOS | `/usr/local/var/log/telivyagent.log` and `/usr/local/var/log/telivyagent-error.log` |
+| macOS | `/Users/Shared/Library/Application Support/Telivy/Scanner.log` |
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Allow Telivy in AV and EDR" icon="shield-check" href="/products/risk-assessments/whitelist-telivy-with-av-edr">
+    Domains, folders, and executables to allow
+  </Card>
+  <Card title="Installation FAQ" icon="circle-question" href="/frequently-asked-questions/installation-and-troubleshooting">
+    Short answers on installing and checking the agent
+  </Card>
+  <Card title="Install on Windows" icon="windows" href="/products/risk-assessments/install-telivy-agent-windows">
+    RMM command, installer, and agentless scan
+  </Card>
+  <Card title="Install on macOS" icon="apple" href="/products/risk-assessments/install-telivy-agent-macos">
+    RMM or MDM command, .dmg installer, and permissions
+  </Card>
+</CardGroup>
