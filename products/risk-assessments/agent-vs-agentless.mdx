@@ -41,6 +41,33 @@ The agentless scanner still completes when an EDR such as ThreatLocker blocks th
 installer, which is the usual reason a device you meant to install the agent on shows up as
 agentless. Allow Telivy first, then run the agent installer again.
 
+## Enhanced Agentless Deployment (Beta) on Windows
+
+On Windows, the **Agentless** instructions include a second scanner under **Enhanced Agentless
+Deployment (Beta)**. It is a separate download from the standard agentless scanner, and the
+instructions for employees do not apply to it.
+
+The enhanced scanner runs with elevated system privileges so it can scan Chrome passwords in
+full, including passwords protected by Chrome's App-Bound Encryption (Chrome v20). This gives
+much more complete password coverage than the standard agentless scanner. Run it as
+Administrator.
+
+Select the **Download Telivy Scanner, Enhanced (Beta)** button or the **Copy Link to Download**
+button next to it. A dialog
+explains the scanner first, and you confirm with **I understand, download** or **I understand,
+copy link**.
+
+<Warning>
+  While it runs, the enhanced scanner creates a temporary SYSTEM-level scheduled task and runs
+  from `C:\ProgramData\Telivy\Runner\`. Antivirus and EDR products such as CrowdStrike,
+  SentinelOne, Microsoft Defender for Endpoint, or ThreatLocker may flag or block it on
+  hardened systems. If your endpoint security blocks it, add a path exclusion for
+  `C:\ProgramData\Telivy\Runner\` or ask your security team. You can always fall back to the
+  standard agentless scanner.
+</Warning>
+
+This scanner is in beta. Report problems to [support@telivy.com](mailto:support@telivy.com).
+
 ## Install guides
 
 <CardGroup cols={2}>

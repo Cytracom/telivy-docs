@@ -65,10 +65,10 @@ Turn it on for clients that handle protected health information or whose vendor 
 
 PII settings live in a dialog called **Configure PII Settings**. You can open it in two places:
 
-- **For one assessment:** select **Configure PII Settings** in the Data Security section of the **Security** tab, or on the **Overview** tab.
-- **As your agency default:** go to **Account > Assessment Defaults**, find the **PII Capture** card, and select **Configure default PII Settings**. Only agency admins see this button.
+- **For one assessment:** select **Configure PII Settings** in the Data Security section of the **Security** tab, or on the **Financial Exposure** card on the **Overview** tab. The Overview button is only shown to account admins.
+- **As your agency default:** go to **Account > Assessment Defaults**, find the **PII Capture** card, and select **Edit PII defaults**. Only account admins see this button.
 
-The agency default applies to assessments created after you save it. Existing assessments keep their own settings, so change those one at a time.
+The agency default applies to new assessments and to existing External Assessments. Existing Risk Assessments keep their own settings, so change those one at a time.
 
 ### Masking needs a rescan
 
@@ -86,6 +86,60 @@ The dialog groups its fields under two headings. **Mask PII Data**, **Mask Dark 
 
 Change the costs when a client is in a regulated industry with known per-record penalties, when they operate in a different currency, or when you want a more conservative figure for a QBR.
 
+## Financial Exposure card
+
+The **Overview** tab of every assessment has a **Financial Exposure** card that estimates what a cyber incident could cost the client. It shows three figures on the left and the **Financial Risk Calculator** on the right.
+
+| Figure | What it estimates | What drives it |
+| --- | --- | --- |
+| **Ransomware Cost** | The cost of a ransomware attack | Industry and annual revenue |
+| **Interruption Cost** | Business lost while systems are down | Industry and annual revenue |
+| **Data Breach Cost** | The cost of handling a breach of personal records | Estimated number of personal records |
+
+These figures come from the assessment's questionnaire answers, not from the PII found on devices. The per-match costs in **Configure PII Settings** only set the dollar risk in Data Security and do not change the Financial Exposure card.
+
+### How the estimate is calculated
+
+**Ransomware Cost** and **Interruption Cost** start from a base cost for the client's industry sector (the first two digits of its NAICS code) and scale it by annual revenue. The cost grows more slowly than revenue: doubling revenue raises the Ransomware Cost by about 60% and the Interruption Cost by about 65%. Revenue below $1 million is counted as $1 million. If no industry is set, both figures are zero.
+
+**Data Breach Cost** is the sum of seven items, each worked out from the estimated number of personal records. Select **Show Cost Breakdown** under the figure to open the **Data Breach Cost Breakdown**, which lists each item with its amount.
+
+| Item | How it is estimated |
+| --- | --- |
+| Breach Coach | A fixed amount by record count, from $25,000 for up to 10,000 records to $750,000 above 50 million |
+| Crisis Management | A fixed amount by record count, from $60,000 to $750,000 |
+| Notification | A base fee plus a cost per record that falls as the number of records rises |
+| Call Center | $2,000, plus $0.50 per record once there are more than 1,000 records |
+| Credit Monitoring | Between $0.50 and $1 per record, lower per record for larger volumes |
+| Regulatory Fines | A fixed amount by record count, from $310,000 to $1.3 million |
+| Class Action Settlements | Zero up to 10,000 records, then an amount that grows with the record count |
+
+Several items have a minimum amount, so the Data Breach Cost is above zero even when the client reports no personal records.
+
+The record count comes from the **Estimated Personal Records** answer. Each range counts as its upper bound (for example, "up to 100,000" counts as 100,000), the employees-only option counts as the employee count, and **Other** uses the number entered in **Total Personal Records**.
+
+All amounts are calculated in US dollars and then converted with a fixed exchange rate for the assessment's PII country. The country comes from the assessment's PII settings, then the agency default, and otherwise the United States. The currency symbol shown is the **Currency** value from the PII settings.
+
+### Changing the inputs
+
+The **Financial Risk Calculator** on the right side of the card has two steps. **1. Industry** asks for **Annual Revenue (Sales)** and the industry. **2. Data & Compliance** asks for **Estimated Personal Records**, **Total Personal Records** when you pick Other, **PCI-DSS Compliance**, and **HIPAA Compliance**. These are the same answers as in the assessment's questionnaire.
+
+<Steps>
+  <Step title="Pick a step">
+    Select **1. Industry** or **2. Data & Compliance** at the top of the calculator.
+  </Step>
+  <Step title="Edit the answers">
+    Change the values you want to test, for example a higher revenue or a larger record count.
+  </Step>
+  <Step title="Recalculate">
+    Select **Recalculate**. Telivy saves the answers to the assessment and updates the three figures. **Reset input** puts back the values the page loaded with.
+  </Step>
+</Steps>
+
+### Configure PII Settings on the card
+
+On a Risk Assessment, account admins see a **Configure PII Settings** button in the card header. It opens the same dialog described in [Where to set it](#where-to-set-it). On this card, the **Country** setting changes the exchange rate used for the figures and **Currency** changes the symbol. External Assessments do not show the button on the card.
+
 ## Using the results with a client
 
 Start by filtering the data risk table by device. A few machines usually hold most of the exposure: file servers, finance and HR laptops, and old devices full of years of exports. Sort by risk rather than match count, because a single large export can have thousands of matches. Check those devices against [disk encryption](/learning-center/disk-encryption-detection) findings too. An unencrypted laptop holding regulated PII is the most urgent fix.
@@ -100,7 +154,7 @@ Typical fixes: delete or archive stale exports, move active datasets into manage
   </Accordion>
 
   <Accordion title="How do I turn on masking for all my clients?">
-    Set it in **Account > Assessment Defaults > Configure default PII Settings**. That covers new assessments. For assessments that already exist, open **Configure PII Settings** on each one, turn on **Mask PII Data**, and run **Rescan All**.
+    Set it in **Account > Assessment Defaults > Edit PII defaults**. That covers new assessments. For assessments that already exist, open **Configure PII Settings** on each one, turn on **Mask PII Data**, and run **Rescan All**.
   </Accordion>
 
   <Accordion title="Does Mask PII Data hide findings?">

@@ -75,6 +75,8 @@
                 "expanded": false,
                 "pages": [
                   "products/risk-assessments/start-a-new-risk-assessment",
+                  "products/risk-assessments/network-security",
+                  "products/risk-assessments/inventory",
                   "products/risk-assessments/identity-and-access-management",
                   "products/risk-assessments/data-security",
                   "products/risk-assessments/microsoft-365-security",
@@ -83,6 +85,7 @@
                 ]
               },
               "products/navigating-an-assessment",
+              "products/risk-and-priorities",
               "products/reports",
               "products/risk-register"
             ]
@@ -166,7 +169,8 @@
             "group": "Security and Compliance",
             "pages": [
               "integrations/nodeware",
-              "integrations/tentacle"
+              "integrations/tentacle",
+              "integrations/pen-testing"
             ]
           },
           {
@@ -184,6 +188,12 @@
         "tab": "AI with Telivy",
         "icon": "sparkles",
         "groups": [
+          {
+            "group": "Telivy AI",
+            "pages": [
+              "scoring/ai-recommendations"
+            ]
+          },
           {
             "group": "Telivy MCP Server",
             "pages": [

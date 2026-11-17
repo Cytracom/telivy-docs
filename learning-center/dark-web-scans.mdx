@@ -30,6 +30,24 @@ Select a breach to open its details:
 | Who's affected | The client's email addresses that appear in the breach. |
 | What to do | Numbered steps to remediate. |
 
+### Adding email addresses with the Dark Web Email List
+
+Telivy finds most of the email addresses it checks on its own, from public sources for the client's domain and, on a Risk Assessment with Microsoft 365 connected, from the tenant's users. Addresses it cannot discover, such as contractors, shared mailboxes, or employees' personal addresses, can be added with the **Dark Web Email List** on a Risk Assessment.
+
+<Steps>
+  <Step title="Open the step">
+    On the Risk Assessment's **Setup** tab, go to **5. Optional Steps > Dark Web Email List**.
+  </Step>
+  <Step title="Prepare the CSV">
+    Select **Download CSV Template**. The file has three columns: `first_name`, `last_name`, and `email`. Fill in one person per row. The upload is rejected if any of the three column headers is missing.
+  </Step>
+  <Step title="Upload it">
+    Drop the file on **Upload CSV file here**, or select it to browse. When the upload finishes, the file name appears with a check mark.
+  </Step>
+</Steps>
+
+The upload adds addresses to the assessment. Addresses already on it are skipped, and uploading another file does not remove earlier ones. Telivy checks each new address against breach data straight away and starts a new external scan, so the uploaded addresses appear in **What we checked** and in the **Breaches** table along with the ones Telivy found itself.
+
 On a Risk Assessment, Telivy also checks the passwords saved in employees' browsers against breach data and lists matches under **Browser Credentials on Dark Web** on the **Identity and Access Management** view. See [Identity and Access Management](/products/risk-assessments/identity-and-access-management).
 
 ## Why it matters

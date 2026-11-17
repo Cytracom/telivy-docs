@@ -1,0 +1,116 @@
+---
+title: "Inventory: Devices, Apps, Data and Endpoints in a Risk Assessment"
+sidebarTitle: "Inventory"
+description: "What each Inventory sub-tab of a Risk Assessment lists: company details, network devices, web activity, installed apps, PII data and endpoint posture."
+---
+
+The **Inventory** tab of a Risk Assessment lists what Telivy found in the client's environment: the company record, the devices and domains on its network, the websites and applications in use, the personal data stored on devices, and the security posture of each endpoint. Most of it comes from the Telivy agent, so the tab fills in as devices finish scanning. External Assessments do not have it.
+
+The sub-tabs sit in a selector at the top, and each label shows a count, for example **Installed Apps (212)**. **Web Activity** and **Installed Apps** appear once the assessment has an agent scan, and **Endpoints** appears once at least one device has the agent.
+
+## Company
+
+**Company** has two views. **Details** shows the **Company Details** card with **Company Name**, **Company Domain**, **Status**, **Category**, and **Anti Virus**. **Edit Company** opens the company's settings, and **View All Assessments** opens the list of the company's assessments. **Questionnaire** shows the assessment questionnaire for the company.
+
+## Network
+
+**Network** has three views. The count on the **Network** label adds the devices found on the local network to the domains and IP addresses in scope.
+
+### Security Graph
+
+**Security Graph** draws the local network as one diagram per router, with each device connected to its gateway. Devices running the Telivy agent are marked **Telivy Deployed**, routers are marked **Router**, and everything else is **Other Devices**. Select a router's header to expand or collapse its diagram, scroll to zoom, and drag to pan. **Select Router** limits the view to one router. When there are many routers, the diagrams are split into pages.
+
+### Devices
+
+**Devices** lists every host the agent found when it scanned the client's local network, including printers, phones, and other devices that cannot run the agent. Search by hostname or IP address, or use the filters for **Router**, **Gateway Status**, and **Deployment Status** (**Deployed** or **Not Deployed**).
+
+| Column | What it shows |
+| --- | --- |
+| Type | **Router** or **Device** |
+| IP Address | The host's local IP address |
+| Host Name | The hostname, when the network reports one |
+| Primary Mac Address | The host's MAC address |
+| Device Vendor | The manufacturer, looked up from the MAC address |
+| Telivy Deployed | A check mark when the Telivy agent runs on the host |
+| OS Version | The operating system, for hosts with the agent |
+| Open Ports | The ports that answered the scan |
+| Potential Services | The services those ports usually run |
+| Results | **View** opens the host details |
+
+The host details show **Device Info** (hostname, IP and MAC address, and vendor), **Network Connection** (device type and gateway), and, when available, **OS Detected**, **Port Scan - Potential Services**, and **Processes Listening on Ports**.
+
+### Domains and IP Addresses
+
+**Domains and IP Addresses** lists the domains, subdomains, and public IP addresses included in the external scan, leaving out any you have excluded. To add or exclude targets, see [Add Domains and IPs](/products/external-assessments/add-domains-and-ips).
+
+## Web Activity
+
+**Web Activity** shows the websites visited from company devices. **Websites** lists each site once with its category, whether it is an AI tool, its risk rating, and its users, and **Activity** lists every visit by user and device. See [Web activity and AI use](/products/risk-assessments/overview#web-activity-and-ai-use) for the columns and what the AI classification means.
+
+## Installed Apps
+
+**Installed Applications** lists every application version installed on devices with the agent, one row per name and version. Search with **Search installed applications**.
+
+| Column | What it shows |
+| --- | --- |
+| Name | The application name |
+| Version | The installed version |
+| Assets | The number of devices with this version. Select the information icon to list them |
+| Max EPSS | The highest EPSS probability among the version's CVEs |
+| Critical Severity CVEs, High Severity CVEs, Medium Severity CVEs, Low Severity CVEs | The number of CVEs affecting this version at each severity |
+
+To see the CVEs themselves for one application, use **Show CVEs** under **Security > Network > Vulnerabilities by Applications**. See [Network Security](/products/risk-assessments/network-security#vulnerabilities-by-applications).
+
+## Data
+
+**Data** shows the **Data Risk Distribution** table, with one row per PII type found on the client's devices: **PII Type**, the **Risk per match** and **Total PII Risk** in the assessment's currency, **Total PII Matches**, and **Sensitive Files**. **Details** opens the breakdown for that PII type. For how PII is detected, how the dollar risk is set, and how to mask matched values, see [Data Security](/products/risk-assessments/data-security).
+
+## Endpoints
+
+**Endpoints** shows the **Endpoint Posture** card: whether antivirus, the firewall, and disk encryption are in place on each device with the agent.
+
+### Summary
+
+A strip at the top shows how many endpoints pass each check, as a count and a bar:
+
+- **Antivirus**: endpoints with antivirus installed and turned on. Otherwise it shows how many are without AV.
+- **Firewall**: endpoints with the built-in firewall turned on.
+- **Encryption**: endpoints where every drive is encrypted. An endpoint with one unencrypted drive counts as unencrypted.
+- **Remediator**: Windows devices running the Telivy Remediator, which applies the fixes you approve. This item and the matching column appear only when the Remediator is enabled for your agency.
+
+Endpoints that have not reported a check yet are listed below the bar as "not reported yet (counted as unprotected)".
+
+### Columns
+
+The table is sorted by **Max RPS**, with the riskiest endpoint first. Endpoints without a score stay at the bottom.
+
+| Column | What it shows |
+| --- | --- |
+| Host Name | The hostname, operating system version, and an Apple or Windows icon |
+| Max RPS | The highest [Risk Priority Score](/scoring/risk-scoring#risk-priority-score) among the endpoint's CVEs. Select it to see how it was calculated |
+| Antivirus | The active product, with **+N** when more are installed. Hover over **+N** to see each product and whether it is enabled. Shows **No AV detected**, or the product name followed by "disabled", when none is active |
+| Firewall | The firewall name, or **Enabled** or **Disabled** |
+| Disk Encryption | The encryption method when every drive is encrypted, or **Not fully encrypted** with the count of encrypted drives. Hover to see each drive's size, method, protection status, and percentage encrypted |
+| Remediator | **Active**, **Update pending**, **Suspended**, **Not supported**, or **Not installed**. Select **Not installed** to open the Remediator install instructions |
+| Last Seen | The date the agent last checked in |
+
+A cell reads **Not reported yet** when the agent has not sent that check. An information icon next to an antivirus or firewall entry means the endpoint only reports that the product is registered with the operating system, so Telivy cannot confirm it is running.
+
+The Endpoints table has no row actions. To set a device's criticality, which feeds into its RPS, use **Setup > Deploy Agent > Deployment Status**; see [Setting asset criticality](/scoring/risk-scoring#setting-asset-criticality). To check whether each agent is on the current version, see [Auto-update](/products/risk-assessments/auto-update#checking-which-devices-are-up-to-date). For more on encryption findings, see [Disk Encryption Detection](/learning-center/disk-encryption-detection).
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Network Security" icon="network-wired" href="/products/risk-assessments/network-security">
+    Internal and external vulnerabilities on the Security tab.
+  </Card>
+  <Card title="Data Security" icon="file-shield" href="/products/risk-assessments/data-security">
+    PII detection, dollar risk, and masking.
+  </Card>
+  <Card title="Risk Scoring" icon="gauge" href="/scoring/risk-scoring">
+    How the Risk Score and Risk Priority Score are calculated.
+  </Card>
+  <Card title="Add Domains and IPs" icon="globe" href="/products/external-assessments/add-domains-and-ips">
+    Add or exclude targets for the external scan.
+  </Card>
+</CardGroup>
