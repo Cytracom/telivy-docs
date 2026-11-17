@@ -1,6 +1,6 @@
 ---
 title: "How the Telivy Risk Score Is Calculated"
-sidebarTitle: "Understanding Risk Scoring"
+sidebarTitle: "Risk Score"
 description: "How Telivy calculates a client's 0-100 Risk Score and risk band, how the Risk Priority Score ranks vulnerabilities, and why scores change between scans."
 ---
 
@@ -115,6 +115,13 @@ A scan can find issues that were not there before, such as a newly published CVE
 
 The score can also move when the findings stay the same. Adding or removing devices, users, or domains changes the size baseline the penalty is measured against. Telivy also adjusts severity weights and normalization from time to time and announces those changes in the release notes.
 
+To work out what moved for one client, check these in order:
+
+1. The device, user, and domain counts on the assessment, compared with the previous scan.
+2. New findings on the **Security** tab, and new [alerts](/products/risk-monitoring/alerts) raised since the last scan.
+3. Findings that were resolved or accepted, on the [Risk Register](/products/risk-register).
+4. The [score history](#score-history) chart, to see whether the change came in one scan or built up over several.
+
 ## Risk Priority Score
 
 The Risk Score describes the whole environment. The **Risk Priority Score (RPS)** answers a different question: which vulnerability to fix first. Every CVE finding, and every device with CVEs, gets an RPS from 0 to 100 that combines three factors:
@@ -146,6 +153,25 @@ Hover over a score to see its band and a one-line reason. Select it to open **Wh
 <Frame>
   <img src="/images/risk-scoring/risk-scoring-1.png" alt="Why this score breakdown showing likelihood, impact and exposure points for a 94 Risk Priority Score" />
 </Frame>
+
+### Setting asset criticality
+
+The Impact factor depends partly on how critical the affected device is. Telivy estimates this automatically, mainly from the amount and sensitivity of personal data (PII) it finds on the device. When you know the device matters more or less than that, set its criticality yourself, and your setting takes precedence over the estimate.
+
+To set it, open the assessment and go to **Setup > Deploy Agent > Deployment Status**. In the **Criticality** column, choose one of these for the device:
+
+| Criticality | Criticality score |
+| --- | --- |
+| Critical Asset | 1.0 |
+| High Value | 0.8 |
+| Standard | 0.5 |
+| Low Value | 0.3 |
+
+<Frame>
+  <img src="/images/risk-scoring/risk-scoring-3.png" alt="Deployment Status table with the Criticality column dropdown open, showing Critical Asset, High Value, Standard and Low Value" />
+</Frame>
+
+To go back to the automatic estimate, choose **Clear override**. The setting is stored for the device across the company, so it applies to that device in every assessment of the same company. Telivy recalculates the company's RPS after each change. Hover over the information icon next to **Asset Criticality** or **Criticality** to see a short explanation of the signal.
 
 ### Adjusting the RPS weights
 

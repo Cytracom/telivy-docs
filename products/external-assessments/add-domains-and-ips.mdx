@@ -13,8 +13,8 @@ original domain.
 
 <Steps>
   <Step title="Open the domains list">
-    In an External Scan, go to **Setup > Manage Domains**. In a Risk Assessment, use
-    **Inventory > Manage Domains and IP Addresses**. The table lists every target with its
+    In an External Scan or a Risk Assessment, go to **Setup > 1. Manage Domains**. In a Risk
+    Assessment you can also use **Inventory > Network > Domains and IP Addresses**. The table lists every target with its
     type, scanning status, when it was last scanned, and how many findings it has.
   </Step>
   <Step title="Click Add Target">
@@ -23,6 +23,10 @@ original domain.
   <Step title="Enter the values">
     Type the value, or paste several separated by commas. Telivy checks the format first and
     rejects a malformed address or domain instead of saving it.
+
+    <Frame>
+      <img src="/images/add-domains-and-ips/add-domains-and-ips-1.png" alt="Add Target dialog with Subdomain selected and two comma-separated subdomains entered in the Value field" />
+    </Frame>
   </Step>
   <Step title="Save">
     Click **Add Target**. The new targets appear in the table and are picked up by the next
@@ -47,3 +51,14 @@ Email [accounts@telivy.com](mailto:accounts@telivy.com).
 Each target gets the same checks as the primary domain, so open ports and certificate
 problems on a forgotten subdomain show up in
 [the same findings](/products/external-assessments/overview).
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Start an External Assessment" icon="globe" href="/products/external-assessments/start-an-external-assessment">
+    Create the scan for a company's primary domain
+  </Card>
+  <Card title="Close Open Ports" icon="door-closed" href="/products/external-assessments/close-open-ports">
+    Fix the risky ports the scan finds on each target
+  </Card>
+</CardGroup>

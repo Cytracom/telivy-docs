@@ -1,0 +1,126 @@
+---
+title: "Report Grading Criteria (A to F)"
+sidebarTitle: "Report Grading Criteria"
+description: "How Telivy assigns A to F letter grades to network, data, dark web, and password security sections of the Security Report, with weights and thresholds."
+---
+
+Each section of the Security Report and the external scan gets a letter grade from A to F. This page lists the thresholds and weights behind those grades.
+
+<Frame>
+  <img src="/images/grading-criteria/grading-criteria-1.png" alt="Executive Summary on a risk assessment's Security overview in Telivy with a letter grade for Network Security, Application Security, Data Security, Identity and Access Management, and Dark Web Presence" />
+</Frame>
+
+<Frame>
+  <img src="/images/grading-criteria/grading-criteria-2.png" alt="External assessment overview in Telivy with the External Scan Score letter grade and the count of issues by severity" />
+</Frame>
+
+## How the final grade is calculated
+
+Each security section has one or more subsections. Every subsection has its own grade and a weight, and the section's final score is their weighted average:
+
+`Final Score = Sum(Section Weight X Section Score)/Sum(Section Weight)`
+
+Subsection scores run from 1 (most secure) to 4 (least secure). The final score converts to a letter grade like this:
+
+| Final Score Range | Grade |
+| ----------------- | ----- |
+| 4                 | F     |
+| 3 - 4             | D     |
+| 2 - 3             | C     |
+| 1 - 2             | B     |
+
+Network security has these subsections:
+
+1. Internal Vulnerabilities
+2. External Vulnerabilities
+3. Open Ports
+4. Certificate Security
+5. HTTPS security
+
+## Internal Vulnerability
+
+| Criteria                                              | Grade |
+| ----------------------------------------------------- | ----- |
+| >10% of users have at least 1 critical vulnerability | 4     |
+
+## External Vulnerability
+
+| Criteria                     | Grade |
+| ---------------------------- | ----- |
+| Any High Severity findings   | 4     |
+| Any Medium Severity findings | 3     |
+| Only Low Severity findings   | 2     |
+| No findings                  | 1     |
+
+## Open Ports
+
+| Criteria                       | Grade |
+| ------------------------------ | ----- |
+| Any High Severity open ports   | 4     |
+| Any Medium Severity open ports | 3     |
+| Only Low Severity open ports   | 2     |
+| No open ports                  | 1     |
+
+## Certificates
+
+| Criteria                                 | Grade |
+| ---------------------------------------- | ----- |
+| Any High Severity certificate findings   | 4     |
+| Any Medium Severity certificate findings | 3     |
+| Only Low Severity certificate findings   | 2     |
+| No certificate findings                  | 1     |
+
+## HTTPS findings
+
+| Criteria          | Grade |
+| ----------------- | ----- |
+| HTTPS not enabled | 3     |
+| HTTPS enabled     | 1     |
+
+## Network security weights
+
+| Subsection | Weight |
+| --- | --- |
+| Internal Vulnerabilities | 10 |
+| External Vulnerabilities | 8 |
+| Port Scans | 6 |
+| Certificate | 4 |
+| HTTPS | 8 |
+
+## Data Security
+
+| Criteria                                                                  | Grade |
+| ------------------------------------------------------------------------- | ----- |
+| At Least 1 user with data value >= $100,000 (OR) Total risk >= $1,000,000 | D     |
+| Total risk >$100,000 and less than $1,000,000                             | C     |
+| Total risk >$10,000 and less than $100,000                                | B     |
+| Total risk \<$10,000                                                      | A     |
+
+## Dark Web Security
+
+| Criteria                                                            | Grade |
+| ------------------------------------------------------------------- | ----- |
+| Dark Web findings in the last 2 years                               | D     |
+| Dark Web findings only prior to last 2 years but newer than 5 years | C     |
+| Dark Web findings prior to 5 years                                  | B     |
+| No Dark Web findings                                                | A     |
+
+## Password Security
+
+| Criteria                                            | Grade |
+| --------------------------------------------------- | ----- |
+| High number of weak and compromised passwords found | D     |
+| Weak and compromised passwords found                | C     |
+| Few weak or compromised passwords found             | B     |
+| No weak or compromised passwords found              | A     |
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Risk Score" icon="gauge-high" href="/scoring/risk-scoring">
+    How the 0 to 100 Risk Score is calculated
+  </Card>
+  <Card title="Reports" icon="file-lines" href="/products/reports">
+    Generate the Security Report that carries these grades
+  </Card>
+</CardGroup>

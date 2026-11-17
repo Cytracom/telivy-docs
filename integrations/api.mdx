@@ -1,6 +1,7 @@
 ---
 title: "Telivy Security API"
 sidebarTitle: "Security API"
+icon: "code"
 description: "Read and manage Telivy external scans, risk assessments, findings and reports from your own tools with the Telivy Security API and an agency API key."
 ---
 
@@ -27,8 +28,12 @@ curl https://api-v1.telivy.com/api/v1/security/risk-assessments \
 
 ### Get your API key
 
-1. Sign in to the Telivy portal and open [Account → Integrations](https://portal.telivy.com/agent/account/integrations).
+1. Sign in to the Telivy portal and open [Account → Integrations → API Key](https://portal.telivy.com/agent/account/integrations/api-key).
 2. Generate the API key, or copy it if you already have one, and store it in a secret store such as a password manager or Azure Key Vault.
+
+<Frame>
+  <img src="/images/api/api-1.png" alt="Account → Integrations → API Key page in Telivy with the masked API key, its creation date, and the Regenerate button" />
+</Frame>
 
 Each agency has one API key, and every integration your agency uses shares it. The key does not expire. It stays valid until someone in your agency regenerates it.
 
@@ -108,7 +113,7 @@ Over the limit, the API answers `429 Too Many Requests`. Wait for the window to 
 | `403` | The key is not allowed to act on that record or agency. |
 | `429` | The rate limit was reached. |
 
-## Related
+## Related guides
 
 <CardGroup cols={2}>
   <Card title="Webhooks" icon="webhook" href="/integrations/webhooks">

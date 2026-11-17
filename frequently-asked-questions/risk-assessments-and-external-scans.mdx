@@ -1,10 +1,14 @@
 ---
 title: "Risk Assessments and External Scans FAQ"
 sidebarTitle: "Risk Assessments and External Scans"
-description: "Answers on Telivy assessments: assessment types and timings, adding domains, archiving, Rescan All, agent vs agentless scans, CVE data, and PII masking."
+description: "Answers on Telivy assessments: score changes, assessment types and timings, adding domains, Rescan All, agent vs agentless scans, and PII masking."
 ---
 
 <AccordionGroup>
+  <Accordion title="Why did the Risk Score change between scans?">
+    New findings lower the score, such as a newly published CVE, a configuration change, or a new device, and resolved findings raise it. The score can also move when the findings stay the same, because adding or removing devices, users, or domains changes the baseline the penalty is measured against. [Why the score changes between scans](/scoring/risk-scoring#why-the-score-changes-between-scans) has the details.
+  </Accordion>
+
   <Accordion title="What types of assessment can I create?">
     <Tabs>
       <Tab title="Risk Assessment">

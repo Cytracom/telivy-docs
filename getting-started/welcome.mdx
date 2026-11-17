@@ -4,23 +4,20 @@ sidebarTitle: Welcome
 description: "Guides for running Telivy cyber risk assessments, external scans, monitoring, reports, and PSA integrations for your MSP clients."
 ---
 
-<Frame>
-<img alt="The Telivy platform dashboard" src="/images/welcome-image.jpg" />
-</Frame>
-
-Telivy scans a company from the outside and the inside, scores what it finds, and keeps
-scanning after the first report goes out. Pick a guide below, or search for something
-specific.
+Telivy, part of Cytracom, scans a company from the outside and the inside, scores what it
+finds, and keeps scanning after the first report goes out. Agencies on Cytracom's Unity
+platform should read [Unity and Cytracom](/getting-started/set-up-telivy-account/unity) for
+sign-in and subscriptions.
 
 ## Start here
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card
-    title="Set Up Your Account"
-    icon="user-gear"
-    href="/getting-started/set-up-telivy-account/overview"
+    title="Quickstart"
+    icon="rocket"
+    href="/getting-started/quickstart"
   >
-    Branding, team members, and admin settings
+    From a new account to a first client report, step by step
   </Card>
   <Card
     title="Start a Risk Assessment"
@@ -35,6 +32,39 @@ specific.
     href="/products/external-assessments/start-an-external-assessment"
   >
     A domain-only scan that finishes in minutes
+  </Card>
+  <Card
+    title="Deploy the Telivy Agent"
+    icon="download"
+    href="/products/risk-assessments/agent-vs-agentless"
+  >
+    Windows and macOS, by RMM or installer, or agentless
+  </Card>
+</CardGroup>
+
+## Find your path
+
+<CardGroup cols={3}>
+  <Card
+    title="I deploy and look after agents"
+    icon="screwdriver-wrench"
+    href="/products/risk-assessments/troubleshoot-telivy-agent"
+  >
+    Roll out with your RMM, then fix devices that are blocked, offline, or missing
+  </Card>
+  <Card
+    title="I present results to clients"
+    icon="presentation-screen"
+    href="/products/reports"
+  >
+    Reports, scores, and the priorities to bring to a QBR
+  </Card>
+  <Card
+    title="I win new clients"
+    icon="handshake"
+    href="/products/external-assessments/start-an-external-assessment"
+  >
+    External scans of prospects, then Lead Magnet on your website
   </Card>
 </CardGroup>
 
@@ -66,18 +96,18 @@ specific.
 
 ## Understand the results
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card
     title="Risk Scoring"
     icon="gauge-high"
     href="/scoring/risk-scoring"
   >
-    How the score is calculated and what the bands mean
+    How the score is calculated and why it changes
   </Card>
   <Card
     title="Report Grading"
     icon="clipboard-check"
-    href="/scoring/telivycriteria"
+    href="/scoring/grading-criteria"
   >
     How each section of the report earns its grade
   </Card>
@@ -88,6 +118,102 @@ specific.
   >
     Findings mapped to the CIS Critical Security Controls
   </Card>
+  <Card
+    title="Risk Register"
+    icon="scale-balanced"
+    href="/products/risk-register"
+  >
+    Accept or resolve findings and track review dates
+  </Card>
+</CardGroup>
+
+## Common tasks
+
+<CardGroup cols={3}>
+  <Card
+    title="Installer blocked by ThreatLocker"
+    icon="shield-xmark"
+    href="/products/risk-assessments/allow-telivy-in-threatlocker"
+  >
+    Add the built-in Telivy policy before you deploy
+  </Card>
+  <Card
+    title="Blocked by antivirus or EDR"
+    icon="shield-virus"
+    href="/products/risk-assessments/whitelist-telivy-with-av-edr"
+  >
+    Domains, folders, and apps to allow on Windows and macOS
+  </Card>
+  <Card
+    title="Deploy to Macs"
+    icon="apple"
+    href="/products/risk-assessments/install-telivy-agent-macos"
+  >
+    RMM or MDM command, installer, and macOS permissions
+  </Card>
+  <Card
+    title="Scan many prospects at once"
+    icon="file-csv"
+    href="/products/external-assessments/create-and-export-in-bulk"
+  >
+    Create external scans for many companies at once
+  </Card>
+  <Card
+    title="Send findings to your PSA"
+    icon="ticket"
+    href="/integrations/overview"
+  >
+    ConnectWise, Autotask, and HaloPSA tickets for findings
+  </Card>
+  <Card
+    title="Connect Microsoft 365"
+    icon="microsoft"
+    href="/products/risk-assessments/microsoft-365-security"
+  >
+    MFA coverage, sign-ins, and Secure Score gaps as findings
+  </Card>
+  <Card
+    title="Send alerts to Slack or Teams"
+    icon="slack"
+    href="/integrations/n8n"
+  >
+    Route new security alerts to a channel with n8n
+  </Card>
+  <Card
+    title="Connect Claude or Cursor"
+    icon="sparkles"
+    href="/integrations/mcp/overview"
+  >
+    Ask an AI assistant about your clients through the Telivy MCP server
+  </Card>
+  <Card
+    title="Why did a score change?"
+    icon="chart-line"
+    href="/scoring/risk-scoring#why-the-score-changes-between-scans"
+  >
+    What to check when a client's Risk Score moves
+  </Card>
+  <Card
+    title="Map clients to ConnectWise"
+    icon="screwdriver-wrench"
+    href="/integrations/connectwise#step-4-map-each-company-and-turn-on-sync"
+  >
+    Link each company so its findings open tickets
+  </Card>
+  <Card
+    title="What each assessment tab shows"
+    icon="compass"
+    href="/products/navigating-an-assessment"
+  >
+    Overview, Security, Inventory, Risk, Register, and more
+  </Card>
+  <Card
+    title="Reset a teammate's MFA"
+    icon="key"
+    href="/getting-started/set-up-telivy-account/multi-factor-authentication#lost-your-device-and-recovery-code"
+  >
+    What admins and users do when an authenticator is lost
+  </Card>
 </CardGroup>
 
 ## Connect and get help
@@ -96,7 +222,7 @@ specific.
   <Card
     title="Integrations"
     icon="plug"
-    href="/integrations/connectwise"
+    href="/integrations/overview"
   >
     ConnectWise, Autotask, HaloPSA, Rewst, Nodeware, Tentacle, webhooks, and MCP
   </Card>
@@ -108,10 +234,10 @@ specific.
     Turn free scans on your website into leads
   </Card>
   <Card
-    title="Frequently Asked Questions"
-    icon="circle-question"
-    href="/frequently-asked-questions/getting-started"
+    title="Get Help"
+    icon="life-ring"
+    href="/help/get-help"
   >
-    Installation, uninstallation, platforms, and troubleshooting
+    FAQs, platform status, and how to reach the Telivy team
   </Card>
 </CardGroup>

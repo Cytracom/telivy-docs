@@ -1,14 +1,16 @@
 ---
 title: Password Analysis for Weak, Reused and Breached Passwords
 sidebarTitle: Identity and Access Management
-description: 'How Telivy analyzes passwords saved in Chromium browsers to find weak, reused, and breached credentials without storing cleartext passwords off the device.'
+description: 'How Telivy analyzes passwords saved in Chromium browsers and Firefox to find weak, reused, and breached credentials without storing cleartext passwords.'
 ---
 
 Attackers often get in with a password that is weak, reused, or already leaked. As part of a Risk Assessment, Telivy checks the passwords saved in users' browsers and flags each of those cases.
 
 ## How passwords are collected
 
-When you deploy the Telivy agent, it includes a password analysis tool that reads the passwords saved in Chromium-based browsers such as Chrome and Edge. Chromium encrypts saved passwords per user, so the tool can only read them while that user is signed in. If a user is not signed in during the scan, the capture runs the next time they sign in.
+When you deploy the Telivy agent, it includes a password analysis tool that reads the passwords saved in Chromium-based browsers such as Chrome and Edge, and in Firefox, on both Windows and macOS. The tool reads each user's browser profiles from inside that user's session, so it can only capture a user's passwords while that user is signed in. If a user is not signed in during the scan, the capture runs the next time they sign in.
+
+Firefox passwords protected by a Firefox primary password cannot be read, so they do not appear in the results.
 
 The analysis runs on the device. Cleartext passwords are never sent to or stored on Telivy's servers. Telivy stores a hash of each password, and a hash cannot be turned back into the password.
 
@@ -18,7 +20,9 @@ When the agent runs as an administrator, it schedules password capture for most 
 
 The summary at the top counts the passwords found and how many are weak, breached, or reused.
 
-<img alt="Identity and Access Management summary with total, weak, breached and reused password counts" src="/images/identity-and-access-management/identity-and-access-management-4.png" />
+<Frame>
+  <img alt="Identity and Access Management summary with total, weak, breached and reused password counts" src="/images/identity-and-access-management/identity-and-access-management-4.png" />
+</Frame>
 
 <AccordionGroup>
   <Accordion title="Breached credentials">
@@ -26,7 +30,9 @@ The summary at the top counts the passwords found and how many are weak, breache
 
     In the example below, the first password has appeared in breach data 9.65 million times.
 
-    <img alt="Browser Passwords table with host, browser, URL, masked password, strength and breach count" src="/images/identity-and-access-management/identity-and-access-management-2.jpg" />
+    <Frame>
+      <img alt="Browser Passwords table with host, browser, URL, masked password, strength and breach count" src="/images/identity-and-access-management/identity-and-access-management-2.jpg" />
+    </Frame>
   </Accordion>
 
   <Accordion title="Weak passwords">
@@ -36,7 +42,9 @@ The summary at the top counts the passwords found and how many are weak, breache
   <Accordion title="Reused passwords">
     One password used across many accounts means one leak opens all of them. The reuse table groups identical passwords and shows **Total Reuse**, plus how many hosts, users, browsers, and URLs share each one.
 
-    <img alt="Password reuse table showing how many hosts, users and sites share each password" src="/images/identity-and-access-management/identity-and-access-management-3.jpg" />
+    <Frame>
+      <img alt="Password reuse table showing how many hosts, users and sites share each password" src="/images/identity-and-access-management/identity-and-access-management-3.jpg" />
+    </Frame>
 
     Select **Show All** on a row to see every place that password is used.
   </Accordion>
@@ -45,3 +53,14 @@ The summary at the top counts the passwords found and how many are weak, breache
 ## Acting on the results
 
 Start with passwords that have breach hits, then the ones reused across many URLs, then the weak ones. For each, have the user change the password and turn on MFA for the account. A password manager makes unique passwords practical. The next scan shows whether the old passwords are gone.
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Microsoft 365 Security" icon="microsoft" href="/products/risk-assessments/microsoft-365-security">
+    Accounts, MFA, and sign-ins in the tenant
+  </Card>
+  <Card title="Dark Web Scans" icon="user-secret" href="/learning-center/dark-web-scans">
+    Leaked credentials tied to the client's domains
+  </Card>
+</CardGroup>

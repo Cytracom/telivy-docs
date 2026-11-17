@@ -1,61 +1,280 @@
 ---
 title: "Manage Client Companies"
 sidebarTitle: "Companies"
-description: "Manage your client companies in Telivy: filter and search the list, edit details, map each company to your PSA, and delete companies safely."
+description: "Use the Companies page to see which clients need attention, import companies from your PSA, create assessments in bulk, and archive or delete safely."
 ---
 
 ## What the Companies page is for
 
-**Companies** lists the organizations you work with, separately from the assessments run
-against them. One company can have several assessments over time, and this page is the
-single list that ties them together.
+**Companies** is the page Telivy opens after you log in. It lists every client company with
+the assessments that belong to it, so one company with several assessments appears once,
+with its assessments grouped underneath.
 
-## The companies list
+## Needs attention
 
-Each row is one client company. The columns are:
+The row at the top counts the companies that need work, by reason. Only reasons with a count
+above zero are shown, and if nothing needs work the row reads **Nothing needs attention.**
 
-| Column | What it shows |
+| Chip | What it counts |
 | --- | --- |
-| Status | Where the company stands with you, from early prospect to client |
-| Company Name | The company and its domain |
-| Industry | The industry recorded for the company |
-| Category | Your own grouping for the company |
-| Anti Virus | The antivirus product in use |
-| PSA | Which PSA company it is mapped to, or **Not mapped**. Only shown when a PSA integration is enabled |
-| Assessments | How many assessments belong to the company |
-| Created | When the company was added |
+| agents offline | Devices whose Telivy agent has stopped reporting |
+| failed deployments | Devices where the agent failed to install |
+| cloud connections | Microsoft 365 or Google Workspace connections that need fixing |
+| new critical risks | Assessments with new critical findings |
 
-Use **Search by company** to find a company by name, and the filter buttons to narrow the
-list by **Status**, **Category**, or **Creation Date**.
+Click a chip to filter the list to the companies behind it, and click it again (or
+**Clear**) to remove the filter.
 
 <Frame>
-  <img src="/images/companies/companies-1.png" alt="Companies list with the PSA column showing mapped HaloPSA companies" />
+  <img src="/images/companies/companies-1.png" alt="Companies page with the Needs attention chips, the views menu, All, Clients and Prospects segments, search, Filters, Import from HaloPSA and View, above the first company row" />
 </Frame>
 
-## Managing a company
+<Note>
+  The agents offline and failed deployments counts are recalculated every 15 minutes and
+  when a device's status changes, so they can lag behind the agent by a few minutes. The
+  text **Device counts updated N minutes ago** at the right of the row shows when they were
+  last recalculated. Hover over it to see the exact time.
+</Note>
 
-Open the menu at the end of a row to:
+## Finding companies
 
-- **Edit** the company details, such as industry, category, and antivirus.
-- **View Assessments** to jump to that company's assessments.
-- **Map to PSA** (or **Change PSA mapping** if it is already mapped) to link the company to
-  a company in ConnectWise, Autotask, or HaloPSA, so tickets for its findings land in the
-  right place.
-- **Delete** the company.
+The toolbar under the Needs attention row holds the controls for the list.
 
-Filling in the category for every company is what makes the **Category** filter useful once
-the list gets long.
+| Control | What it does |
+| --- | --- |
+| Views menu | Switches between preset views and the views you saved |
+| **All**, **Clients**, **Prospects** | Limits the list to one segment, with a count for each |
+| **Search companies or assessments** | Searches company names and assessment names |
+| **Filters** | Narrows the list by company, assessment, or scope properties |
+| **View** | Chooses how assessments are shown and which columns appear, and exports external scans |
+
+The preset views are:
+
+| Preset | What it shows |
+| --- | --- |
+| Needs attention first | The default order, with companies that need work at the top |
+| Prospecting | Prospects, newest first |
+| Risk management | Clients, lowest score first |
+| Monitoring | Only companies with monitoring turned on |
+| Cloud setup | Companies where Microsoft 365 or Google Workspace is not fully connected |
+| PSA cleanup | Companies not linked to your PSA. Only shown when a PSA integration is connected |
+
+To keep your own combination of filters and columns, open the views menu and click **Save
+current filters and columns**. **Make my default** opens that view whenever you return to the
+page. While a preset or team view is selected, agency admins also see **Set as team default**,
+which makes the view the default for everyone in the agency.
+
+The **Filters** menu groups its filters under **Companies** (for example **Client status**,
+**Category**, **Company created**, and **Has monitoring on**), **Assessments** (for example
+**User**, **Status**, **Type**, **Source**, **Monitoring**, **Microsoft 365**, and **Google
+Workspace**), and **Scope**. Which filters appear depends on your role and account. Active
+filters are listed as chips under the toolbar, where you can remove them one at a time.
+
+Under **View**, choose **Expanded** to list every assessment under its company, or **One row
+per company** to collapse them. A company with a single assessment always shows it in its
+row. The same menu turns these columns on and off: **Assessment Type**, **Status**,
+**Score**, **Critical**, **Cloud**, **Monitoring**, and **Last scan**. Under **Export**,
+**External scans (CSV)** downloads grades and top findings for your external scans. See
+[Bulk Create and Export External Scans](/products/external-assessments/create-and-export-in-bulk#export-findings-from-all-external-scans).
+
+## Working with a company or an assessment
+
+Open the menu at the end of an assessment row for:
+
+- **Open assessment**
+- **Rename**, or **Add a name** if the assessment has none
+- **Turn on monitoring**, or **Change monitoring schedule** if it is already on
+- **Download report**
+- **Manage agents** on a risk assessment, or **Convert to risk assessment** on an external
+  scan
+- **Move to another company**
+- **Archive assessment**
+
+The same menu has a **Company** section with:
+
+- **New assessment** for that company
+- **Edit company**, to change its status, category, antivirus, and industries
+- **Map to** your PSA, or **Change PSA mapping** if it is already linked. Only shown when a
+  PSA integration is connected
+- **Delete company**
+
+## Bulk actions
+
+Tick the boxes next to assessments to open the bulk action bar at the bottom of the page.
+
+<Frame>
+  <img src="/images/companies/companies-2.png" alt="Bulk action bar with 2 selected, Reassign user, New assessments, Archive and Clear" />
+</Frame>
+
+| Action | What it does | Who sees it |
+| --- | --- | --- |
+| **Reassign user** | Hands the selected assessments to another user, or to a user in a sub-agency | Admins |
+| **New assessments** | Creates one new assessment for each company behind the selection | Anyone who can create assessments |
+| **Archive** | Archives the selected assessments | Admins |
+
+**New assessments** opens the same dialog used after a PSA import, described in
+[creating assessments in bulk](#creating-assessments-in-bulk).
+
+## Importing companies from your PSA
+
+When [ConnectWise](/integrations/connectwise), [Autotask](/integrations/autotask), or [HaloPSA](/integrations/halopsa) is connected, an **Import from** button for your PSA
+appears in the toolbar. It shows how many PSA companies are new since you last looked. If no
+PSA is connected, a notice at the top of the page links to the PSA settings instead.
+
+The arrow next to the button opens a menu that shows how many of your PSA companies have an
+assessment and how many are not linked to a Telivy company. It also contains:
+
+| Item | What it does |
+| --- | --- |
+| **Import companies** | Opens the import. Reads **Import all N companies** before your first import |
+| **Review N new in** your PSA | Opens the import with only the new PSA companies, already selected |
+| **Dismiss N new** | Clears the new-company count without importing |
+| **Link recommendations** | Lists Telivy companies that match exactly one PSA company, so you can link them in one step |
+| **Check** your PSA **for changes** | Asks Telivy to sync the PSA company list now |
+| **Sync settings** | Controls what Telivy does with new PSA companies on its own |
+
+The import has three steps.
+
+<Steps>
+  <Step title="Choose companies">
+    The list shows your PSA companies with their **Type**, **Status**, and, where your PSA
+    has one, **Classification**. The **In Telivy** column says whether each company is
+    **Not in Telivy**, **Matches** an existing Telivy company, **Needs review** because it
+    matches more than one, or is **Already imported**. Search by name or domain, filter by
+    any of the PSA's fields, and sort by any column. **Hide already imported** is on by
+    default. The line above the table shows when the list was last synced, with a
+    **Refresh** link.
+
+    One import takes up to 500 companies. If more match, **Select first 500** selects a
+    batch. Imported companies drop out of the list, so the next batch starts where the last
+    one ended.
+
+    <Frame>
+      <img src="/images/companies/companies-3.png" alt="Import companies from HaloPSA dialog on the Choose companies step with search, Type and Status filters, the Hide already imported switch and a list of PSA companies marked Already imported" />
+    </Frame>
+  </Step>
+  <Step title="Review and import">
+    Telivy shows what will happen to each company: new companies are created, and companies
+    that already exist in Telivy are linked to their PSA record instead of duplicated. For a
+    row that matches several Telivy companies, pick the right one under **Choose a company
+    to link**. Tick **Mark new companies as clients** to give the created companies the
+    Client status, then click **Import N companies**, where N is the number of companies
+    selected.
+
+    The result shows how many companies were created, linked, and skipped, with the reason
+    for each skipped company.
+  </Step>
+  <Step title="Create assessments">
+    Click **Continue to assessments** to create assessments for the imported companies, or
+    **Skip for now** to do it later from the Companies list.
+  </Step>
+</Steps>
+
+<Note>
+  If your PSA has a very large number of companies, the counts, filters, and sorting cover
+  only the first part of the directory that Telivy has synced, and a note in the import
+  says so. Search by name to find the others.
+</Note>
+
+### Sync settings
+
+Telivy checks your PSA for new companies every few hours. **Sync settings** has up to three
+switches, and each one depends on the one before it:
+
+1. **Add new** companies **automatically** imports new PSA companies without you opening
+   the import.
+2. **Run an external scan for each new company** creates an external scan for each company
+   added that way. If external scans are not in your plan, the dialog says so and none run.
+3. **Send their findings to** your PSA **as tickets** turns on ticketing for those scans.
+   This switch only appears when your PSA has an alert policy.
+
+Assessments created by the sync are owned by the user who saved the settings, and the dialog
+names that user.
+
+## Creating assessments in bulk
+
+The bulk creation dialog opens from **Continue to assessments** after a PSA import, or from
+**New assessments** in the bulk action bar. To scan a list of domains that are not in Telivy yet, use the Security API. See [Bulk Create and Export External Scans](/products/external-assessments/create-and-export-in-bulk).
+
+<Steps>
+  <Step title="Choose the type">
+    Pick **Risk Assessment** or **External Scan**. One run creates one type. A type
+    your plan does not include is shown locked, with an upgrade or contact option.
+  </Step>
+  <Step title="Configure">
+    For risk assessments, choose a **Scan frequency** (**One-time scan**, weekly, monthly,
+    or quarterly) if monitoring is in your plan and your agency is not on Unity. Recurring
+    scans only apply to companies marked as clients, and prospects get a one-time scan. Each company gets its own risk assessment,
+    and scanning starts once the agent is deployed on its devices.
+
+    For external assessments, companies without a domain are listed with an **Add a domain**
+    field. Fill it in to scan the company, or leave it blank to skip it. External results
+    usually arrive within 10 minutes.
+
+    If your PSA is connected and has an alert policy, tick **Send findings to** your PSA
+    **as tickets** to ticket the results.
+
+    <Frame>
+      <img src="/images/companies/companies-4.png" alt="Creating Risk Assessments dialog for 2 companies with the Scan frequency menu set to One-time scan and the Send findings to HaloPSA as tickets checkbox" />
+    </Frame>
+  </Step>
+  <Step title="Check the results">
+    The dialog lists the assessments it created, each with a link to open it (or to set up
+    the agent, for a risk assessment), and the companies it skipped.
+  </Step>
+</Steps>
+
+| Skip reason | What to do |
+| --- | --- |
+| No domain to scan | Add a domain in the results and click **Retry with domains** |
+| Already has an active assessment of this type | Nothing; the company is already covered |
+| Not included in your plan | Upgrade the plan to create this type |
+| Belongs to another account | The company is managed under another account |
+| Could not be created, try again | Retry the creation |
+
+<Note>
+  If your master agency does not allow sub-agencies to create assessments, the bulk creation
+  options are not shown.
+</Note>
+
+## Archiving assessments
+
+There is no archive for a company itself. To stop working on a client, archive their
+assessments, either with **Archive assessment** in the row menu or by selecting several and
+clicking **Archive** in the bulk action bar.
+
+An archived assessment drops out of the list but can still be found with a search or the
+**Archived** option of the **Status** filter, and its reports stay available. Archiving a
+risk assessment turns off its monitoring and triggers an uninstall of the agent on every online device. Offline devices
+keep the agent until someone runs the uninstall command on them.
+
+The menu of an archived assessment offers **Unarchive** and **Delete assessment**. An
+assessment has to be archived before it can be deleted.
 
 ## Deleting a company
 
-Deleting a company also deletes every assessment that belongs to it, and it cannot be
-undone. The confirmation dialog shows how many assessments will go with it.
-
-Because of the amount of data involved, Telivy schedules the deletion and processes it in
-the background. Until it finishes, the row shows **Company scheduled for deletion** and the
-**Delete** action is disabled.
+**Delete company** removes the company and every assessment that belongs to it, and it
+cannot be undone. The confirmation dialog states how many assessments will be deleted with
+it. Telivy schedules the deletion and processes it in the background.
 
 <Warning>
   If you only want to stop working on a client, archive their assessments instead. Archived
   assessments keep their history and can be unarchived later.
 </Warning>
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Navigating an assessment" icon="compass" href="/products/navigating-an-assessment">
+    What each assessment tab shows
+  </Card>
+  <Card title="Alerts" icon="bell" href="/products/risk-monitoring/alerts">
+    Get notified about new risks across your clients
+  </Card>
+  <Card title="Unity and Cytracom" icon="building" href="/getting-started/set-up-telivy-account/unity">
+    Client linking for agencies on Unity
+  </Card>
+  <Card title="All integrations" icon="plug" href="/integrations/overview">
+    Connect your PSA before importing companies
+  </Card>
+</CardGroup>

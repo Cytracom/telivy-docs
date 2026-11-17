@@ -14,28 +14,43 @@ a website vulnerability check.
 ## Create the scan
 
 <Steps>
-  <Step title="Open the assessment picker">
-    Click **Create Assessment** in the top right corner of the portal. A card for each
-    assessment type opens.
+  <Step title="Open the New assessment dialog">
+    Click **Create Assessment** in the top right corner of the portal. Telivy opens the
+    **Companies** page with the **New assessment** dialog on top. To start from a company you
+    already have, open the menu on its row on the **Companies** page and choose **New
+    assessment**, which skips the next step.
+  </Step>
+  <Step title="Pick the company">
+    Type in the **Company** search and pick a company listed under **In Telivy**. When a PSA
+    is connected, picking a company listed under your PSA imports it into Telivy first. If the
+    company is new, choose **Create new company** with the name you typed. A company created
+    this way starts as a **Client**.
   </Step>
   <Step title="Select External Scan">
-    On the **External Scan** card, click **Select**.
+    On the **External Scan** card, click **Select**, then **Continue**. If your account only
+    runs external scans, Telivy skips this step.
   </Step>
-  <Step title="Enter the company details">
-    Fill in **Company Name** and **Domain**, and set **Company Status** to **Prospect** or
-    **Client**. You can also pick the company's **Industries**.
-
-    Tick **Notify me via email when external scan completes** if you don't want to wait on
-    the assessment page.
+  <Step title="Fill in the details">
+    If the company has no domain on record, enter one under **Domain**. An external scan
+    cannot be created without it. **Name (optional)** tells the scan apart from others on
+    the same company. When a PSA is connected and the company is linked to it, **Create**
+    your PSA **tickets** is on by default and opens tickets for findings according to your
+    alert policies.
   </Step>
-  <Step title="Create the assessment">
-    Click **Create**. The scan starts right away and findings appear as they come in.
+  <Step title="Create the scan">
+    Click **Create external scan**. The scan starts right away, the **Companies** list
+    highlights the new assessment under the company, and Telivy emails you when the scan
+    completes.
   </Step>
 </Steps>
 
+Industries and company status are no longer set in this dialog. Change them with **Edit
+company** in the company's row menu on the **Companies** page.
+
 <Note>
-  Scanning many prospects at once? Upload a CSV instead of creating them one by one. See
-  [Create and Export in Bulk](/products/external-assessments/unsecured-emails/create-and-export-in-bulk).
+  Creating scans for many companies at once? Select their assessments on the **Companies**
+  page and choose **New assessments**, or create them right after a PSA import. See
+  [Creating assessments in bulk](/getting-started/companies#creating-assessments-in-bulk).
 </Note>
 
 ## What the assessment cards tell you
@@ -45,10 +60,11 @@ Each card shows its setup time, typical scan duration, and what it includes. Abo
 
 | Card says | Meaning |
 | --- | --- |
-| Included in your plan | You can create this assessment type now |
-| Requires Assess | Your agency is billed through Unity and needs the Assess subscription for this type. A Unity admin sees **Unlock with Assess** to buy it in the portal, and other users are asked to contact their agency admin |
-| Not included in your plan | Your plan doesn't cover this type. Use **Contact support to upgrade** |
-| Available through Unity | Your agency has Cytracom Foundations coverage, and this type is added in Unity. Admins get **Manage in Unity** |
+| Included in your plan | You can create this assessment type now. |
+| Not included in your plan | Your plan does not cover this type. Without Unity, use **Contact support to upgrade**. |
+| Included with Foundations coverage | Shown on the **Monitored Risk Assessment** card for Cytracom Foundations agencies. |
+
+Agencies that sign in through Unity see a second line under **Not included in your plan**, such as "Available with Assess, billed through Unity", and an action such as **Unlock with Assess** or **Manage in Unity**. [Unity and Cytracom](/getting-started/set-up-telivy-account/unity#what-the-create-assessment-cards-say) lists every variation.
 
 A card your plan doesn't cover has a dashed border and a greyed-out title, so it doesn't
 look like an equal choice.
@@ -57,9 +73,8 @@ look like an equal choice.
   <img src="/images/start-an-external-assessment/start-an-external-assessment-1.png" alt="Create Assessment picker with External Scan and Risk Assessment cards, each marked Included in your plan" />
 </Frame>
 
-Unity agencies also see a third card, **Monitored Risk Assessment**, for a Risk Assessment
-that goes straight onto recurring scans. It is billed per client, and you choose the plan in
-the next step. For Foundations partners it says **Included with Foundations coverage**.
+Agency admins who sign in through Unity also see a third card, **Monitored Risk Assessment**,
+for a Risk Assessment that goes straight onto recurring scans.
 
 ## Next steps
 

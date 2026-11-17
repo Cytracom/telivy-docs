@@ -1,89 +1,108 @@
 ---
 title: Insights Dashboard for Your Client Portfolio
 sidebarTitle: Insights
-description: 'Use the Telivy Insights dashboard to see which clients need work next: cloud coverage gaps, unread alerts, unfinished assessments, and top score gains.'
+description: 'Use the Telivy Insights dashboard for a portfolio summary: attention counts, average score, critical findings, monitoring coverage, and fixes worth making.'
 ---
 
-Insights is the first screen you see after logging in, and every user in the agency has it.
-The Assessments list shows everything you have. Insights answers a narrower question: across
-all your clients, what needs attention today?
+Insights summarizes scores, critical findings, monitoring, and scan age across all your
+companies. Open it from **Insights** in the top navigation. It is built on the same data as
+the [Companies](/getting-started/companies) page, so its counts match the counts there, and
+almost every number on it opens the matching filtered view of the Companies list.
 
 <Note>
   The portal labels Insights as a preview and asks for feedback at the top of the page.
 </Note>
 
-## Choosing which assessments to include
+If your account has no companies yet, Insights shows a short introduction and a **New
+assessment** button instead of the sections below.
 
-The selector at the top switches the whole page between **All assessments**, **External
-scans**, and **Risk assessments**. One recommended action ignores this setting, as noted
-further down.
+## What needs attention
 
-## Security posture and cloud coverage
+The first row lists the reasons companies need work, each with a count. A reason only appears
+when its count is above zero.
 
-This section breaks down the assessments in scope by status (complete, in progress, not
-started, archived) and shows coverage rows for the cloud connections:
-
-- Microsoft 365 connected
-- M365 security policies configured
-- Google Workspace connected
-
-The coverage rows catch the client whose assessment finished but only covers half the
-picture because nobody connected a cloud account.
-
-## Recommended actions
-
-These are ranked by how much they matter, not by when they happened. Telivy can raise five:
-
-| Action | Raised when |
+| Item | Opens |
 | --- | --- |
-| Reconnect cloud integrations | A Microsoft 365 or Google Workspace connection lost authorization and stopped collecting |
-| Configure Microsoft 365 security policies | M365 is connected but no policy baseline exists |
-| Review unread alerts | Any alert is unread |
-| Finish incomplete assessments | An assessment never got past setup |
-| Put more assessments into monitoring | Assessments exist that aren't being re-scanned |
+| new critical risks | Companies filtered to new critical risks |
+| agents offline | Companies filtered to offline agents |
+| failed deployments | Companies filtered to failed agent deployments |
+| cloud connections | Companies filtered to cloud connections that need fixing |
+| unread alerts | The Alerts page |
+| companies without Microsoft 365 checks | Companies where Microsoft 365 or Google Workspace is not fully connected |
+| PSA companies not imported | Companies not linked to your PSA |
 
-Each action shows a count and links to a list that is already filtered. For example,
-"Configure Microsoft 365 security policies" opens the assessments for exactly those
-clients.
+<Frame>
+  <img src="/images/insights/insights-1.png" alt="Insights Needs attention row with new critical risks, cloud connections, unread alerts and companies without Microsoft 365 checks, above the Average risk score, Critical findings, Monitoring and Stale scans tiles" />
+</Frame>
 
-<Note>
-  The monitoring action counts across the whole agency rather than per assessment type, so
-  it only appears when the scope is **All assessments**.
-</Note>
+## Portfolio figures
 
-## Top opportunities to improve security posture
+Four tiles summarize the portfolio. Each one opens the Companies list sorted or filtered to
+match.
 
-This section is about score movement rather than alerts. Telivy collects the remediation
-actions from each assessment, groups the same finding across clients, and ranks the groups
-by their combined projected impact. A row reads roughly as "fix this at these five clients
-and the portfolio score goes up by about this much."
+| Tile | What it shows | Opens |
+| --- | --- | --- |
+| Average risk score | The average score of your scored risk assessments, with the external scan average underneath | Companies, lowest score first |
+| Critical findings | Open critical findings across all assessments, and how many companies have them | Companies, most critical first |
+| Monitoring | The share of assessments with monitoring turned on | Companies with monitoring off |
+| Stale scans | Assessments with no scan in the last 30 days, and how many were never scanned | Companies, oldest scan first |
+
+## Score distribution
+
+This panel shows how scored assessments spread across four score bands, with separate bars
+for risk assessments and external scans.
+
+| Band | Score range |
+| --- | --- |
+| Low | 0 to 19 |
+| Fair | 20 to 49 |
+| Good | 50 to 79 |
+| High | 80 to 100 |
+
+## Most critical findings and lowest scores
+
+**Most critical findings** lists the six companies with the most open critical findings.
+Each row opens the company's assessment with the most critical findings at its prioritized
+findings view. **All by critical** opens the full Companies list in that order.
+
+<Frame>
+  <img src="/images/insights/insights-2.png" alt="Most critical findings panel listing six companies with their open critical finding counts and the All by critical link" />
+</Frame>
+
+**Lowest scores** lists the six companies whose worst assessment has the lowest score. Each
+row opens that assessment, and **All by score** opens the full Companies list in that order.
+
+## Fixes that raise the lowest scores most
+
+This panel takes the remediation actions from up to 25 of your lowest-scoring risk
+assessments, groups the same fix across assessments, and ranks the fixes by the total score
+gain they would bring. Each row shows the finding, its severity, how many assessments it
+affects, and the average score gain per affected assessment. A row opens the assessment that
+gains most from that fix.
+
+The calculation runs when you open the page. Click **Recalculate** to run it again after
+new scans finish. Until your risk assessments have been scanned, the panel stays empty.
 
 <Warning>
-  The calculation runs on demand across your active assessments and stops after the first
-  25. On a large client list, treat it as a sample rather than a complete ranking.
+  Because the panel only looks at the lowest-scoring risk assessments, a fix that matters
+  across many higher-scoring clients can be missing from it.
 </Warning>
-
-## Needs attention, recent alerts, and recent activity
-
-The lower half of the page is a working list. Assessments flagged with a reason (cloud
-needs re-authorization, no M365 policies) come first, worst first. Below them are the
-latest alerts across all clients and a feed of recent activity.
 
 ## Related guides
 
 <CardGroup cols={2}>
+  <Card
+    title="Companies"
+    icon="building"
+    href="/getting-started/companies"
+  >
+    The full list of companies and assessments that Insights links into
+  </Card>
   <Card
     title="Alerts"
     icon="bell"
     href="/products/risk-monitoring/alerts"
   >
     What each alert category means and who gets notified
-  </Card>
-  <Card
-    title="Risk Monitoring"
-    icon="repeat"
-    href="/products/risk-monitoring/overview"
-  >
-    Putting assessments on a recurring scan schedule
   </Card>
 </CardGroup>

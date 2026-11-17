@@ -9,6 +9,12 @@ site. Multi-factor authentication (MFA) means a stolen password isn't enough: wh
 in also needs a one-time code from your phone. Your Telivy account holds client data and
 payment details, so MFA is on by default for every account.
 
+<Note>
+  This page covers the Telivy email and password login. If you sign in with
+  **Sign in with Cytracom**, you sign in on Unity's page instead, and this page doesn't apply.
+  See [Unity and Cytracom](/getting-started/set-up-telivy-account/unity).
+</Note>
+
 ## Registering for MFA
 
 <Steps>
@@ -19,13 +25,17 @@ payment details, so MFA is on by default for every account.
     If the app can't scan it, click **Trouble Scanning?** to show the seed phrase and type
     that into the app instead.
 
-    <img alt="MFA registration screen with a QR code and the seed phrase option" src="/images/multi-factor-authentication/register-mfa-1.jpg" />
+    <Frame>
+      <img alt="MFA registration screen with a QR code and the seed phrase option" src="/images/multi-factor-authentication/register-mfa-1.jpg" />
+    </Frame>
   </Step>
 
   <Step title="Enter the one-time code">
     Type the one-time code the authenticator app now shows.
 
-    <img alt="One-time code entry screen during MFA registration" src="/images/multi-factor-authentication/register-mfa-2.jpg" />
+    <Frame>
+      <img alt="One-time code entry screen during MFA registration" src="/images/multi-factor-authentication/register-mfa-2.jpg" />
+    </Frame>
   </Step>
 
   <Step title="Save your recovery code">
@@ -33,7 +43,9 @@ payment details, so MFA is on by default for every account.
     lose your phone or the authenticator app, so store it somewhere safe, such as a password
     manager.
 
-    <img alt="Recovery code screen shown after MFA registration" src="/images/multi-factor-authentication/register-mfa-3.jpg" />
+    <Frame>
+      <img alt="Recovery code screen shown after MFA registration" src="/images/multi-factor-authentication/register-mfa-3.jpg" />
+    </Frame>
   </Step>
 
   <Step title="Confirm you saved it">
@@ -45,7 +57,9 @@ payment details, so MFA is on by default for every account.
 
 When you log in to the Telivy portal, you may be asked for an MFA code.
 
-<img alt="MFA code prompt on the Telivy portal login screen" src="/images/multi-factor-authentication/login-mfa.jpg" />
+<Frame>
+  <img alt="MFA code prompt on the Telivy portal login screen" src="/images/multi-factor-authentication/login-mfa.jpg" />
+</Frame>
 
 Enter the current code from your authenticator app. On a device you trust, you can choose
 to remember it for 30 days, and Telivy won't ask for a code on that device until then.
@@ -55,5 +69,12 @@ your recovery code.
 
 ## Lost your device and recovery code?
 
-Email [support@telivy.com](mailto:support@telivy.com) from the address registered with
-Telivy. Support may need to verify your identity before resetting MFA on the account.
+Ask an Account Admin in your agency to reset it. On **Account > Users**, they open the
+actions menu on your row in **Team Members** and select **Reset MFA**. The next time you
+log in, Telivy asks you to register an authenticator app again, as described in
+[Registering for MFA](#registering-for-mfa).
+
+If you are the only Account Admin and you are locked out, or no admin can reach the
+**Users** page, email [support@telivy.com](mailto:support@telivy.com) from the address
+registered with Telivy. Support may need to verify your identity before resetting MFA on
+the account.

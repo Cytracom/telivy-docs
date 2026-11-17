@@ -1,0 +1,162 @@
+---
+title: "Network Security and Threats"
+sidebarTitle: "Network Security"
+description: "Read the Network and Threats & Vulns views of a Risk Assessment: internal and external vulnerabilities, open ports, IP reputation, filters and exports."
+---
+
+The **Security** tab of a Risk Assessment has a view selector at the top. Two of its views cover network risk. **Network** shows the vulnerabilities found on the client's devices and on its internet-facing systems, card by card. **Threats & Vulns** shows the same device vulnerabilities as one table you can filter, triage, and export. This page explains both.
+
+## Where the data comes from
+
+The cards on the **Network** view use two kinds of scan. Internal results come from the Telivy agent, which reports the software and services on each device so Telivy can match them to known CVEs. External results come from Telivy's scan of the client's domains and public IP addresses, which needs no agent. For how CVEs are matched and scored, see [Vulnerability Data Sources](/learning-center/vulnerability-data-sources).
+
+| Card | Source |
+| --- | --- |
+| Summary | Agent scan |
+| Internal Vulnerabilities | Agent scan |
+| Trends | Agent scan, recorded once per monitoring scan |
+| Vulnerabilities by Devices | Agent scan |
+| Vulnerabilities by Applications | Agent scan |
+| Vulnerabilities by CVEs | Agent scan |
+| External Vulnerabilities | External scan |
+| Open Ports and Network Vulnerabilities | External scan |
+| IP Reputation | External scan |
+
+## The Network view
+
+Open the assessment, go to **Security**, and select **Network**. The page is titled **Network Security**.
+
+### Summary
+
+The **Summary** card shows three numbers: **Devices** is the number of devices the agent has scanned, and **Critical Vulnerabilities** and **High Vulnerabilities** count the unique CVEs of that severity across those devices. A CVE found on ten devices counts once.
+
+### Internal Vulnerabilities
+
+This card shows two charts built from the agent scan, **Vulnerability by Devices** and **Vulnerability by Risk Level**. The number next to the title is the count of scanned devices.
+
+<Frame>
+  <img src="/images/network-security/network-security-1.png" alt="Network view Summary card with devices, critical and high vulnerability counts, above the Internal Vulnerabilities card with Vulnerability by Devices and Vulnerability by Risk Level charts" />
+</Frame>
+
+### Trends
+
+**Trends** plots the number of critical vulnerabilities across all devices for each scan over time. Use **Filter Assets** to limit the line to selected devices, and **Select Period** to choose **7 days**, **30 days**, **2 months**, or **YTD**. A device name followed by an asterisk in the chart tooltip had not finished scanning when that point was recorded.
+
+The chart needs continuous monitoring. When monitoring is off, the chart is blurred and shows **Enable Continuous Monitoring to view trends.**
+
+### Vulnerabilities by Devices
+
+One row per scanned device, sorted by **Max EPSS** with the highest first.
+
+| Column | What it shows |
+| --- | --- |
+| Host | The device hostname |
+| Mac Address | The device's MAC address |
+| Scan Status | Where the agent scan stands on that device, for example **Finished**, **Finished (non-admin)**, **In progress**, **Rescan scheduled**, **Offline**, **Not supported**, or **Error** |
+| Max EPSS | The highest EPSS probability among the device's CVEs |
+| Critical Severity, High Severity, Medium Severity, Low Severity, Informational | The number of CVEs on the device at each severity |
+| Actions | **Show CVEs** filters the **Vulnerabilities by CVEs** card to this device and scrolls to it |
+
+**Finished (non-admin)** means the scan ran without administrator rights, so it may have missed software that only an administrator can see. See [Agent vs Agentless](/products/risk-assessments/agent-vs-agentless).
+
+### Vulnerabilities by Applications
+
+One row per installed application version that has at least one CVE, sorted by **Max EPSS**. The columns are **Name**, **Version**, **Assets** (the number of devices with that version), **Max EPSS**, the five severity counts, and **Actions**. Select the number in **Assets** to open **Related Assets**, a list of the devices that have the application. **Show CVEs** filters the CVE card to that application and version.
+
+### Vulnerabilities by CVEs
+
+This card lists every CVE found by the agent scan. The number next to the title is the total, and it names the device or application when you have filtered by one. **Show All** removes that filter.
+
+You can search with **Search for CVEs** and narrow the list by severity with **All**, **Critical**, **High**, **Medium**, **Low**, or **Info**.
+
+| Column | What it shows |
+| --- | --- |
+| # / CVE | The CVE ID, or **INFO** for informational results that have no CVE |
+| Title | The CVE title, or the start of its description |
+| Source | The product and version the CVE was found in, or the port for informational results |
+| Published Date | When the CVE was published |
+| EPSS | The probability of exploitation in the next 30 days |
+| CVSS | The CVSS base score |
+| Severity | **Critical**, **High**, **Medium**, **Low**, or **Info**, based on the CVSS score |
+| Assets | The number of affected devices. Select it to list them |
+
+Select a row or a CVE ID to open its details: the description, source product and version, port, score, a link to the CVE's page on `nvd.nist.gov`, and the CVE ID.
+
+**Export Report** generates the **Vulnerabilities Report (CSV)** for the assessment and downloads it.
+
+<Frame>
+  <img src="/images/network-security/network-security-2.png" alt="Vulnerabilities by CVEs card with the CVE search, severity tabs, Export Report and a table of CVEs with title, source, published date, EPSS, CVSS, severity and assets" />
+</Frame>
+
+### External Vulnerabilities
+
+Vulnerabilities in the services Telivy found on the client's public domains and IP addresses. The count next to the title leaves out informational findings. While the external scan is running, the title also shows **(External scan ongoing)**. Select a finding to open its details page. To scan more domains or IP addresses, see [Add Domains and IPs](/products/external-assessments/add-domains-and-ips).
+
+### Open Ports and Network Vulnerabilities
+
+Open ports and other weaknesses in how the client's network is exposed to the internet, such as mail services that accept unencrypted connections. Each finding opens its details page. For which ports to close and how, see [Close Open Ports](/products/external-assessments/close-open-ports).
+
+### IP Reputation
+
+Whether the client's domain and addresses appear on threat and reputation lists, such as Spamhaus and Google Web Risk. A listed address can cause the client's email to be rejected or its website to be flagged in browsers. When a card has nothing to report, it shows **No findings detected**.
+
+## The Threats & Vulns view
+
+Select **Threats & Vulns** on the **Security** tab. It appears only on assessments that have an agent scan. It presents the agent's CVE findings as one table with three tabs, ranked by [Risk Priority Score](/scoring/risk-scoring#risk-priority-score) (RPS) so the finding to fix first is at the top.
+
+### Tabs
+
+- **By CVE** has one row per CVE. The columns are **CVE ID**, **Max RPS**, **KEV**, **Exploit**, **CVSS**, **EPSS**, **Category**, and the number of affected devices. **KEV** reads **Yes** when CISA lists the CVE as exploited in real attacks, and **Exploit** reads **Yes** when public exploit code exists. Select **Show N devices** on a row to list each affected device with its finding **Status** and its own RPS. Select a CVE ID to open the finding.
+- **By Device** has one row per device. The columns are **Hostname**, **OS**, **Total CVEs**, **Max RPS**, **Max CVSS**, **Max EPSS**, **Asset Criticality**, and **PII Exposure**. Select **Show N CVEs** to list the device's CVEs with **CVSS**, **EPSS**, **Severity**, **Patch status**, **RPS**, **Status**, and **Product**. When the findings are for domains or other assets, the tab is named **By Domain** or **By Asset** and leaves out the device-only columns.
+- **All findings** lists every finding in the group with its full details.
+
+<Frame>
+  <img src="/images/network-security/network-security-3.png" alt="Threats and Vulns By CVE tab with status and exploitability filters and one CVE row expanded to list its two affected devices with status and RPS" />
+</Frame>
+
+**Max RPS** is the highest RPS among the findings in the row. Select a score to see how it was calculated. **Asset Criticality** comes from the device's data and from any override you set; see [Setting asset criticality](/scoring/risk-scoring#setting-asset-criticality). For **Patch status**, see [Patch status per device](/products/risk-register#patch-status-per-device).
+
+### Filters
+
+On the **By CVE** and **By Device** tabs:
+
+- **Filters** opens a panel with **Device** (or **Domain** or **Asset**), **CVE**, **Severity**, and a text **Search**.
+- The status filter shows **New**, **Regressed**, and **Open** findings by default. Add **Resolved** to include fixed findings.
+- **Exploitability** has two toggles on the **By CVE** tab only. **KEV** keeps CVEs on the CISA KEV list, and **Exploit** keeps CVEs with public exploit code.
+- **Clear filters** appears once any filter is set and resets them all.
+
+### Acting on findings
+
+Each row has an actions menu with **Accept/Resolve**, which records a risk decision for every finding in that row. See [Risk Register](/products/risk-register).
+
+If the company is connected to a PSA, the tables also show a **PSA Sync** column. You can sync a single finding with **Sync now** in its actions menu, or select rows and use **Sync to** with your PSA's name to open tickets for all unsynced findings in them. See [PSA grouped tickets](/integrations/psa-grouped-tickets).
+
+### Export All (XLSX)
+
+**Export All (XLSX)** downloads a workbook named after the company and the date, for example `Acme-vulnerabilities-2026-11-17.xlsx`. It covers every CVE finding in the assessment and ignores the filters set on screen. The workbook has four sheets:
+
+| Sheet | One row per | Columns |
+| --- | --- | --- |
+| By CVE | CVE | CVE ID, CVSS, EPSS, Severity, Category, Affected Devices, Affected Users, KEV, KEV Due Date, KEV Action, Exploit Count, CWE, CVSS Vector, Description, Affected Products, Fix Versions |
+| By Device | Device | Hostname, OS, Total CVEs, Critical, High, Medium, Low, Info, Max CVSS, Users |
+| By User | User | Name, Email, Devices, Total CVEs, Critical, High, Medium, Low, Max CVSS |
+| By Patch | Product update | Product, Target Version, Vulns Resolved, Affected Devices, CVE Count, Critical, High, Medium, Low, Max CVSS, Max EPSS, KEV, Score |
+
+The **By Patch** sheet is sorted by **Score**, so the update that removes the most risk is first. Patch status is not included in the export.
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Risk Scoring" icon="gauge" href="/scoring/risk-scoring#risk-priority-score">
+    How the Risk Priority Score ranks each CVE and device.
+  </Card>
+  <Card title="Vulnerability Data Sources" icon="database" href="/learning-center/vulnerability-data-sources">
+    Where CVE, CVSS, EPSS, KEV, and exploit data come from.
+  </Card>
+  <Card title="Close Open Ports" icon="door-closed" href="/products/external-assessments/close-open-ports">
+    Which open ports to close and how.
+  </Card>
+  <Card title="Risk Register" icon="clipboard-check" href="/products/risk-register">
+    Accept or resolve findings and track the decisions.
+  </Card>
+</CardGroup>

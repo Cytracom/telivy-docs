@@ -1,6 +1,7 @@
 ---
 title: "Telivy Agent Auto-Update"
-sidebarTitle: "Auto Update (Beta)"
+sidebarTitle: "Agent Auto-Update"
+tag: "Beta"
 description: "Keep the Telivy agent on Windows and macOS up to date automatically, with account, assessment, and per-device settings and Stable or Beta release channels."
 ---
 
@@ -34,19 +35,25 @@ Telivy uses the most specific setting it finds. If auto-update is on for an asse
 
 Go to **Account > Assessment Defaults** (`https://portal.telivy.com/agent/account/assessments`) and find the **Agent Updates** card.
 
-![Agent Updates card on the Assessment Defaults page with the auto-update switch and release channel](/images/account-settings-agent-updates.png)
+<Frame>
+  <img src="/images/account-settings-agent-updates.png" alt="Agent Updates card on the Assessment Defaults page with the auto-update switch and release channel" />
+</Frame>
 
 Turn on the switch and choose a **Release Channel**. Use **Stable** at the account level.
 
 ### Assessment level
 
-Open the assessment and go to **Setup > Deploy Agents > Deployment Status**.
+Open the assessment and go to **Setup > Deploy Agent > Deployment Status**.
 
-![Deployment Status section of an assessment with the Update Settings button](/images/assessment-deployment-status-2.png)
+<Frame>
+  <img src="/images/assessment-deployment-status-2.png" alt="Deployment Status section of an assessment with the Update Settings button" />
+</Frame>
 
 Select **Update Settings** to open the assessment's update settings and override the account setting for this assessment.
 
-![Assessment update settings dialog with override checkboxes for auto-update and release channel](/images/assessment-update-settings.png)
+<Frame>
+  <img src="/images/assessment-update-settings.png" alt="Assessment update settings dialog with override checkboxes for auto-update and release channel" />
+</Frame>
 
 <Note>
   Auto-update needs agent version **30.3.6.1** or later on Windows and **3.3.0** or later on macOS. Older agents have to be redeployed by hand.
@@ -58,15 +65,38 @@ Tick **Override account setting** to turn auto-update on or off for this assessm
 
 ### Machine level
 
-In **Setup > Deploy Agents > Deployment Status**, open the **Actions** menu for a machine.
+In **Setup > Deploy Agent > Deployment Status**, open the **Actions** menu for a machine.
 
-![Actions menu for a single machine with the Update Settings option](/images/machine-actions-menu.png)
+<Frame>
+  <img src="/images/machine-actions-menu.png" alt="Actions menu for a single machine with the Update Settings option" />
+</Frame>
 
 Select **Update Settings** to override the account and assessment settings for that machine.
 
-![Machine update settings dialog showing inherited auto-update status and release channel](/images/machine-update-settings.png)
+<Frame>
+  <img src="/images/machine-update-settings.png" alt="Machine update settings dialog showing inherited auto-update status and release channel" />
+</Frame>
 
 Tick **Override account setting** to turn auto-update on or off for this machine, or **Override assessment setting** to give it a different release channel. The dialog shows the inherited values, for example "Currently using **Beta** channel (inherited from assessment)".
+
+## Checking which devices are up to date
+
+The **Deployment Status** table under **Setup > Deploy Agent** shows an agent status badge on each device. Hover over the badge to see the installed version, the version it should be on, and the reason for its state.
+
+| Status | What it means |
+| --- | --- |
+| Agent Installed | The agent is on the current version. |
+| Updating to *version* | The agent is behind and will update itself, usually within an hour of being online. |
+| Update Failing | The last automatic update failed and the agent keeps retrying, or an update started more than a day ago and has not finished. |
+| Auto-update Off | The agent is behind and automatic updates are turned off in **Update Settings**. Turn them on or redeploy the agent. |
+| Reinstall Required | The agent cannot update itself and has to be redeployed by hand. This happens when the installed version predates automatic updates, when it cannot update directly to the current release, or when automatic updates failed three times and stopped. |
+| Not Connected | The agent has not checked in for more than 3 days. The tooltip also shows its update state if it is behind. |
+
+<Frame>
+  <img src="/images/auto-update/auto-update-1.png" alt="Device rows in Deployment Status with the Agent Installed, Updating to 30.4.2.0, Update Failing, Auto-update Off, Reinstall Required and Not Connected badges" />
+</Frame>
+
+When some devices run an older agent than the current release, a banner above the table says how many there are, how many will update automatically, and how many need your attention. **Show these devices** filters the table to those devices. You can apply the same filters from **Device Status**: **Update Required** lists every device that is behind, and **Needs Attention** lists devices that are **Update Failing**, **Auto-update Off**, or **Reinstall Required**.
 
 ## Release channels
 

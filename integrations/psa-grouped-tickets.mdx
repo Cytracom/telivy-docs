@@ -1,6 +1,8 @@
 ---
-title: "Grouped PSA tickets"
-description: "Choose whether each finding category opens one ticket per finding or one ticket per scan in Autotask, ConnectWise or HaloPSA"
+title: "Grouped PSA Tickets"
+sidebarTitle: "Grouped Tickets"
+icon: "layer-group"
+description: "Choose whether each finding category opens one ticket per finding or one ticket per scan in Autotask, ConnectWise or HaloPSA."
 ---
 
 By default, Telivy opens one PSA ticket for every finding. A first scan of a large customer can therefore open hundreds of tickets at once. Grouping lets you choose, for each finding category, to receive one ticket per scan that lists everything new in that category.
@@ -14,12 +16,16 @@ This works the same way in Autotask, ConnectWise and HaloPSA.
 3. Pick **One per finding** or **One per scan** to apply it to every category, or choose under **Or choose by category**.
 4. Click **Save**.
 
+<Frame>
+  <img src="/images/psa-grouped-tickets/psa-grouped-tickets-1.png" alt="HaloPSA ticketing dialog in Telivy with One per finding and One per scan under Apply to every category, a per-category choice under Or choose by category, and the Grouped ticket options" />
+</Frame>
+
 You can also make the same choice for one category while editing an alert policy, in the **Delivery** step.
 
 The choice applies to every customer in your account, and only to new tickets. Existing tickets stay as they are.
 
 <Note>
-Categories marked **No PSA policy on** can be set in advance. Telivy sends nothing for them until you turn on a PSA policy for that category, and your choice is kept if you later turn the policy off and on again.
+Categories marked **No policy on yet** can be set in advance. Telivy sends nothing for them until you turn on a PSA policy for that category, and your choice is kept if you later turn the policy off and on again.
 </Note>
 
 Grouping covers categories built from scan findings: Dark Web Breach, Device Posture, Email / DNS Authentication, External Patching Cadence, Google Workspace Posture, Internal Vulnerabilities, IP Reputation, Microsoft 365 Posture, Network / External Surface, TypoSquatting Domains and Web Application Security. Event-based alerts already open one ticket per alert.
@@ -64,8 +70,12 @@ Telivy waits five minutes after the last finding of a scan before opening the ti
 
 These settings are at the bottom of the ticketing dialog and apply to every grouped ticket.
 
-- **Set the customer primary contact on the ticket.** Telivy sets the primary contact from your PSA on the ticket: the primary contact in Autotask, the company default contact in ConnectWise, and the main contact of the main site in HaloPSA. If a company has none, the ticket opens without one.
+- **Set the customer's primary contact on the ticket.** Telivy sets the primary contact from your PSA on the ticket: the primary contact in Autotask, the company default contact in ConnectWise, and the main contact of the main site in HaloPSA. If a company has none, the ticket opens without one.
 - **Remind on tickets with open findings.** Weekly, monthly or quarterly, Telivy adds a note to each open grouped ticket saying how many of its findings are still open, with a link to them. It skips tickets where nothing is open.
+
+<Frame>
+  <img src="/images/psa-grouped-tickets/psa-grouped-tickets-2.png" alt="Grouped ticket options in the HaloPSA ticketing dialog with the Set the customer's primary contact on the ticket switch and the Remind on tickets with open findings picker" />
+</Frame>
 
 ## If a ticket is deleted in your PSA
 
@@ -85,3 +95,26 @@ A finding marked this way stays marked until you recreate its ticket. Decisions 
 - Finding rows show a stacked icon beside the sync status, and the tooltip gives the ticket number and how many findings it covers.
 - The finding drawer shows how many findings share the ticket, with a link to all of them.
 - **Find unsynced** tells you how many tickets a sync will open before you confirm it.
+
+<Frame>
+  <img src="/images/psa-grouped-tickets/psa-grouped-tickets-3.png" alt="More menu on an assessment in Telivy with the HaloPSA tickets item" />
+</Frame>
+
+<Frame>
+  <img src="/images/psa-grouped-tickets/psa-grouped-tickets-4.png" alt="HaloPSA tickets list for an assessment in Telivy with All, Open, Closed and Deleted filters, and grouped tickets marked with a stacked icon in the Covers column with their finding counts" />
+</Frame>
+
+<Frame>
+  <img src="/images/psa-grouped-tickets/psa-grouped-tickets-5.png" alt="Alerts Policies page in Telivy with the HaloPSA ticketing · 7 grouped button and HaloPSA · Grouped in the Delivery column of grouped policies" />
+</Frame>
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Alerts and alert policies" icon="bell" href="/products/risk-monitoring/alerts">
+    Choose which findings open PSA tickets
+  </Card>
+  <Card title="All integrations" icon="plug" href="/integrations/overview">
+    ConnectWise, Autotask, and HaloPSA setup
+  </Card>
+</CardGroup>

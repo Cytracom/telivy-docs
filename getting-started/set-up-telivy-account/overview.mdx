@@ -13,7 +13,7 @@ it. The sections below follow the order of the side menu.
 | Users | Inviting teammates and setting what they can see |
 | Assessment Defaults | Default PII capture settings and the agent update channel for new assessments |
 | Lead Magnet | Your lead magnet link, for Lead Magnet subscribers |
-| Integrations | PSA, Nodeware, and other connections |
+| Integrations | Sub-pages for **PSA** (ConnectWise, Autotask, HaloPSA), **API Key**, **Telivy MCP**, and **General** (Nodeware) |
 | Unity | Unity-linked agencies only. See [Billing, Usage, and Early Access](/getting-started/set-up-telivy-account/billing-usage-and-early-access#unity) |
 | Webhooks | Sending Telivy events to your own systems. See [Webhooks](/integrations/webhooks) |
 | Early Access, Billing, Usage | See [Billing, Usage, and Early Access](/getting-started/set-up-telivy-account/billing-usage-and-early-access) |
@@ -29,7 +29,9 @@ it. The sections below follow the order of the side menu.
     The **Usage** card shows how many users, Risk Assessments, Risk Assessment assets,
     monitored assessments, and monitored assets your account has.
 
-    ![Usage card on Account > Profile with users, assessments and monitored asset counts](/images/keep-tabs-on-your-assets.jpg)
+    <Frame>
+      <img src="/images/keep-tabs-on-your-assets.jpg" alt="Usage card on Account → Profile with users, assessments and monitored asset counts" />
+    </Frame>
   </Accordion>
 </AccordionGroup>
 
@@ -37,21 +39,52 @@ it. The sections below follow the order of the side menu.
 
 <AccordionGroup>
   <Accordion title="Permission levels">
-    The **Users** page lists everyone in your organization with their permission level.
-    There are two:
+    The **Team Members** card on the **Users** page lists everyone in your organization
+    with their role, the number of assessments they own, and their assets. There are two
+    roles:
 
-    - **All Assessments**: the user can open every assessment in your organization. This
-      makes them an Account Admin.
-    - **Own Assessments**: the user can open assessments they created, plus any that an
-      admin or the owner has shared with them. See "Sharing an assessment with a teammate"
-      below.
+    - **Admin** ("Sees all assessments"): the user can open every assessment in your
+      organization. This makes them an Account Admin.
+    - **Member** ("Sees own assessments"): the user can open assessments they own, plus any
+      that an admin or the owner has shared with them. See "Sharing an assessment with a
+      teammate" below.
 
-    ![Team Members list with each user's role, risk assessments and assets](/images/access-control-made-simple.jpg)
+    <Frame>
+      <img src="/images/access-control-made-simple.jpg" alt="Team Members list with each user's role, risk assessments and assets" />
+    </Frame>
   </Accordion>
   <Accordion title="Adding a user">
-    Click **Add User**, enter their details, and choose a permission level.
+    Click **Add User**, enter their name, email, and a starting password, and choose a
+    role.
 
-    ![Add User dialog with name, email, password and the Own Assessments or All Assessments role](/images/expand-your-team.png)
+    If your agency signs in through Unity, users are managed in Unity instead. Click **Manage Users** to open Unity. See [Unity and Cytracom](/getting-started/set-up-telivy-account/unity).
+
+    <Frame>
+      <img src="/images/expand-your-team.png" alt="Add User dialog with name, email, password and the Own Assessments or All Assessments role" />
+    </Frame>
+  </Accordion>
+  <Accordion title="Editing, resetting MFA, or deleting a user">
+    Account Admins see an actions menu (**...**) at the end of each row in **Team
+    Members**. Members do not see it. If your agency signs in through Unity, the menu is
+    not shown either, because users and their sign-in are managed in Unity through
+    **Manage Users**.
+
+    | Action | What it does |
+    | --- | --- |
+    | **Edit** | Opens **Edit user**, where you can change the first name, last name, and role. The email address cannot be changed. |
+    | **Reset MFA** | Removes the user's registered authenticator. They have to set up multi-factor authentication again the next time they sign in. Use it when someone has lost their phone and recovery code. |
+    | **Delete** | Opens **Delete user**. Pick a team member under **Move their assessments to**, then select **Delete user**. The user loses access to Telivy and their assessments move to the person you picked. |
+
+    <Frame>
+      <img src="/images/set-up-telivy-account-overview/set-up-telivy-account-overview-1.png" alt="Team Members list with the actions menu open on a member, showing Edit, Reset MFA and Delete" />
+    </Frame>
+
+    <Frame>
+      <img src="/images/set-up-telivy-account-overview/set-up-telivy-account-overview-2.png" alt="Reset MFA confirmation naming the member's email, with Cancel and Reset MFA buttons" />
+    </Frame>
+
+    See [Multi-Factor Authentication](/getting-started/set-up-telivy-account/multi-factor-authentication)
+    for what the user sees after a reset.
   </Accordion>
   <Accordion title="Sharing an assessment with a teammate">
     To let a teammate help on one assessment without giving them access to every
@@ -83,12 +116,14 @@ it. The sections below follow the order of the side menu.
     - **Share** adds a teammate without removing anyone. Use it for short-term help or
       cover.
 
-    To reassign, tick the assessments on the Assessments list and click **Reassign**. The
-    button shows how many you selected. In **Confirm reassigning assessments user**, choose
-    the new owner under **Assign assessments to** and click **Confirm**. Only admins can
+    To reassign, tick the assessments on the **Companies** page and click **Reassign user** in
+    the bar that appears. In the **Reassign assessments** dialog, choose the new owner under **Assign
+    assessments to** and click **Reassign**. Only admins can
     reassign. The **Archive** button next to it archives the selected assessments instead.
 
-    ![Bulk reassign or archive assessments from the dashboard](/images/reassigning-archiving-assessments.png)
+    <Frame>
+      <img src="/images/reassigning-archiving-assessments.png" alt="Bulk reassign or archive assessments from the dashboard" />
+    </Frame>
   </Accordion>
   <Accordion title="Reassigning assessments to a sub-agency">
     If your agency is a master agency with sub-agencies, the reassign dialog asks for an
@@ -119,5 +154,7 @@ This section is only for Lead Magnet subscribers.
   The **Lead Magnet** page explains, step by step, how to use your lead magnet link to
   collect leads from your website.
 
-  ![Lead Magnet settings with the Easy-Go form link, API endpoint, agent ID and payload](/images/attract-new-clients.jpg)
+  <Frame>
+    <img src="/images/attract-new-clients.jpg" alt="Lead Magnet settings with the Easy-Go form link, API endpoint, agent ID and payload" />
+  </Frame>
 </Accordion>

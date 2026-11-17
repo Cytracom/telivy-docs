@@ -1,6 +1,6 @@
 ---
 title: "Telivy MCP Server for AI Assistants"
-sidebarTitle: "Overview"
+sidebarTitle: "About the MCP Server"
 description: "Connect AI assistants such as Claude, Cursor and GitHub Copilot to Telivy through the remote MCP server to query assessments, findings and scans."
 ---
 
@@ -10,9 +10,38 @@ The server uses the Streamable HTTP transport and authenticates with your agency
 
 ## Prerequisites
 
-- A Telivy agency account with access to **Account → Integrations** in the portal.
+- A Telivy agency account with access to **Account → Integrations → Telivy MCP** in the portal.
 - Your agency's Telivy API key (see [Get your API key](#get-your-api-key)).
 - An MCP client that can send a custom HTTP header with each request, or that can run the `mcp-remote` bridge locally. The client pages linked at the end of this page cover the supported clients.
+
+<Frame>
+  <img src="/images/mcp-overview/mcp-overview-1.png" alt="Account → Integrations → Telivy MCP page with the server URL, Generate API key, the environment variable commands and the Claude Code setup tab" />
+</Frame>
+
+## Set up your client
+
+<CardGroup cols={2}>
+  <Card title="Claude Code" href="/integrations/mcp/claude-code">
+    Add Telivy from the command line or in a project `.mcp.json` file.
+  </Card>
+  <Card title="Claude Desktop" href="/integrations/mcp/claude-desktop">
+    Connect through the local `mcp-remote` bridge.
+  </Card>
+  <Card title="Cursor" href="/integrations/mcp/cursor">
+    Add Telivy to `mcp.json` with the key in an environment variable.
+  </Card>
+  <Card title="VS Code (GitHub Copilot)" href="/integrations/mcp/vscode">
+    Use Telivy tools in Copilot agent mode.
+  </Card>
+  <Card title="Windsurf (Devin Desktop)" href="/integrations/mcp/windsurf">
+    Add Telivy to the MCP configuration file.
+  </Card>
+  <Card title="OpenAI Codex CLI" href="/integrations/mcp/codex">
+    Add Telivy to `config.toml`.
+  </Card>
+</CardGroup>
+
+For prompts that MSP teams use with the Telivy MCP server, see [Example workflows](/integrations/mcp/example-workflows).
 
 ## How it works
 
@@ -43,7 +72,7 @@ The assistant decides which tools to call based on your prompt and the tool desc
 
 ### Get your API key
 
-1. Sign in to the Telivy portal and open [Account → Integrations](https://portal.telivy.com/agent/account/integrations).
+1. Sign in to the Telivy portal and open [Account → Integrations → API Key](https://portal.telivy.com/agent/account/integrations/api-key).
 2. Generate the API key, or copy it if you already have one, and store it somewhere safe such as a password manager.
 
 Telivy shows the key only once, when it is generated. Each agency has one API key, and every integration and MCP client your agency uses shares it.
@@ -80,7 +109,7 @@ Configure your client to ask for approval before it runs any Telivy tool that cr
 
 When the client asks for approval, check which tool the assistant chose and the arguments it filled in, especially the assessment or scan ID, before you approve an action that changes data.
 
-Keep the API key in an environment variable or in the client's secret storage, and reference it from the configuration. Do not commit a configuration file that contains the key to a repository, and do not paste the key into the chat. If the key leaks, regenerate it under **Account → Integrations** and update every MCP client and integration that used the old key.
+Keep the API key in an environment variable or in the client's secret storage, and reference it from the configuration. Do not commit a configuration file that contains the key to a repository, and do not paste the key into the chat. If the key leaks, regenerate it under **Account → Integrations → API Key** and update every MCP client and integration that used the old key.
 
 ## Rate limits
 
@@ -119,28 +148,3 @@ When a tool call fails, the client receives a tool error instead of a result, an
     Regenerating the API key invalidates the old key for every MCP client and integration. Update the key in each client's environment variable or secret storage, restart the client, and update the key in your other integrations.
   </Accordion>
 </AccordionGroup>
-
-## Set up your client
-
-<CardGroup cols={2}>
-  <Card title="Claude Code" href="/integrations/mcp/claude-code">
-    Add Telivy from the command line or in a project `.mcp.json` file.
-  </Card>
-  <Card title="Claude Desktop" href="/integrations/mcp/claude-desktop">
-    Connect through the local `mcp-remote` bridge.
-  </Card>
-  <Card title="Cursor" href="/integrations/mcp/cursor">
-    Add Telivy to `mcp.json` with the key in an environment variable.
-  </Card>
-  <Card title="VS Code (GitHub Copilot)" href="/integrations/mcp/vscode">
-    Use Telivy tools in Copilot agent mode.
-  </Card>
-  <Card title="Windsurf (Devin Desktop)" href="/integrations/mcp/windsurf">
-    Add Telivy to the MCP configuration file.
-  </Card>
-  <Card title="OpenAI Codex CLI" href="/integrations/mcp/codex">
-    Add Telivy to `config.toml`.
-  </Card>
-</CardGroup>
-
-For prompts that MSP teams use with the Telivy MCP server, see [Example workflows](/integrations/mcp/example-workflows).

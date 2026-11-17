@@ -1,0 +1,91 @@
+---
+title: SSL/TLS Certificate Checks
+sidebarTitle: SSL/TLS Certificates
+description: 'How Telivy checks website SSL/TLS certificates for expiry, self-signing, weak signature algorithms, missing issuers, and overly long validity periods.'
+---
+
+An SSL certificate, now more accurately called a TLS certificate, proves that a website is
+who it claims to be and lets browsers encrypt traffic to it. Certificates are issued by
+certificate authorities (CAs), which check that the requester controls the domain before
+issuing one.
+
+## What a certificate does
+
+<Tabs>
+  <Tab title="Authentication">
+    The certificate proves the website's identity, much like an ID card. Visitors rely on
+    this before they type in a password or a card number.
+  </Tab>
+  <Tab title="Encryption">
+    The certificate lets the browser and the website set up an encrypted connection, so
+    anyone intercepting the traffic can't read or change it.
+  </Tab>
+</Tabs>
+
+## What Telivy checks
+
+Telivy checks the certificates on the company's domains and subdomains and raises a
+finding for each problem below.
+
+<Frame>
+  <img src="/images/ssl-tls-certificates/ssl-tls-certificates-1.png" alt="Findings list in Telivy filtered to Certificate, showing Certificate Self-signed and Certificate Expired under Network Security" />
+</Frame>
+
+<Frame>
+  <img src="/images/ssl-tls-certificates/ssl-tls-certificates-2.png" alt="Certificate Self-signed finding in Telivy with its details, risk and recommendation, and the affected hostnames listed below" />
+</Frame>
+
+<AccordionGroup>
+  <Accordion title="Expired certificates and certificates about to expire">
+    An expired certificate makes browsers show a warning, and many visitors leave. It can
+    also make it easier to intercept traffic with a man-in-the-middle attack. Automatic
+    renewal helps, but someone still has to set it up and watch that it works.
+
+    Telivy flags certificates that have expired or expire within 30 days.
+  </Accordion>
+
+  <Accordion title="Self-signed certificates">
+    A self-signed certificate wasn't issued by a trusted CA, so browsers don't trust it and
+    show visitors a security warning.
+
+    Telivy flags self-signed certificates as a Medium severity finding.
+  </Accordion>
+
+  <Accordion title="Weak signature algorithms">
+    Certificates signed with MD5 or SHA-1 are open to collision attacks, which can let an
+    attacker forge a certificate and impersonate the site. Weak algorithms can also fail
+    compliance requirements.
+
+    Telivy flags any certificate on the company's domains and subdomains that is signed
+    with a weak algorithm.
+  </Accordion>
+
+  <Accordion title="Certificate issuer not found">
+    Browsers trust a certificate through a chain: a root CA such as Let's Encrypt or DigiCert
+    signs an intermediate certificate, which signs the website's certificate. If the issuer
+    (usually the intermediate) can't be found, the chain breaks, the browser can't verify the
+    certificate, and visitors see a warning.
+
+    Telivy flags certificates whose issuer can't be found.
+  </Accordion>
+
+  <Accordion title="Certificate validity longer than standard">
+    A long validity period means fewer renewals, but it also gives attackers more time to
+    exploit a weakness in the algorithm or a leaked private key. Browsers increasingly
+    distrust certificates that are valid for longer than the industry standard.
+
+    Telivy flags certificates with a longer validity period than usual and shows the
+    details in the finding.
+  </Accordion>
+</AccordionGroup>
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="SSL/TLS misconfigurations explained" icon="book-open" href="/learning-center/ssl-tls-misconfigurations">
+    What each certificate and HTTPS problem means
+  </Card>
+  <Card title="Unsecured Emails" icon="envelope" href="/products/external-assessments/unsecured-emails">
+    Mail services that accept connections without encryption
+  </Card>
+</CardGroup>

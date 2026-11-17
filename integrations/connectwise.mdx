@@ -1,45 +1,28 @@
 ---
 title: "ConnectWise PSA Integration"
 sidebarTitle: "ConnectWise"
+icon: "/images/integrations/connectwise.png"
 description: "Connect ConnectWise PSA (Manage) to Telivy so security findings open service tickets, follow merges, and resolve in Telivy when the ticket closes."
 ---
 
 The ConnectWise integration opens a ConnectWise PSA (Manage) service ticket for each security finding Telivy raises for a mapped client. When a technician closes the ticket, Telivy marks the finding as resolved. When you resolve or accept a finding in Telivy, Telivy can move its ticket to a status you choose.
 
-Setting it up needs someone who can create API members and Security Roles in ConnectWise and who has access to **Account → Integrations** in Telivy.
+Setting it up needs someone who can create API members and Security Roles in ConnectWise and who has access to **Account → Integrations → PSA** in Telivy.
 
-<iframe src="https://www.youtube.com/embed/zZXIyjQKaqo" title="ConnectWise integration walkthrough" frameborder="0" className="w-full aspect-video rounded-xl" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
+## Setup at a glance
 
-## How the integration works
+1. [Create an API member in ConnectWise](#step-1-create-an-api-member-in-connectwise)
+2. [Connect ConnectWise in Telivy](#step-2-connect-connectwise-in-telivy)
+3. [Choose which findings open tickets](#step-3-choose-which-findings-open-tickets)
+4. [Map each company and turn on sync](#step-4-map-each-company-and-turn-on-sync)
 
-### Tickets
-
-Once ConnectWise is connected and a company is mapped, each finding in a category you chose to sync opens one service ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a service ticket on the board you picked, against the ConnectWise company mapped to that client. The summary starts with `[Telivy]`, the severity and the finding name, for example `[Telivy][HIGH] <finding name>`, and is cut to ConnectWise's 100-character limit. The ticket body covers the finding, the detected value, the risk, the recommended fix and references, and a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab.
-
-### Priority
-
-Telivy reads your instance's own priority list, so customized priority tables work. Critical and High findings get your highest priority, Low and Info get the lowest, and Medium gets your default priority.
-
-### Resolutions read back from ConnectWise
-
-Every hour Telivy checks the tickets it opened. A ticket that is closed, or that sits in a status the board marks as closed or as the **Resolved** escalation step, marks the finding **Resolved in PSA** in Telivy, with the ticket number and status in the reason. If the issue is still there, the next scan raises the finding again.
-
-### Merged tickets
-
-If a technician merges a Telivy ticket into another ticket, Telivy writes later updates to the ticket it was merged into instead of failing on the closed original.
-
-## One PSA at a time
-
-An agency connects one PSA. While Autotask or HaloPSA is enabled, the ConnectWise switch is disabled and Telivy shows **Disable Autotask to connect ConnectWise** (or HaloPSA). Disconnecting a PSA keeps its credentials, ticket settings and company mappings, so you can switch back later.
-
-<Frame>
-  <img src="/images/connectwise/connectwise-1.png" alt="PSA Integrations card with ConnectWise selected and the note to disable HaloPSA first" />
-</Frame>
+The [Prerequisites](#prerequisites) and each step are below. [How the integration works](#how-the-integration-works), after the steps, explains what happens to tickets once sync is on.
 
 ## Prerequisites
 
 - A ConnectWise PSA (Manage) instance and a ConnectWise account that can create API members and Security Roles.
-- A Telivy account with access to **Account → Integrations**.
+- A Telivy account with access to **Account → Integrations → PSA**.
+- No other PSA connected in Telivy. An agency connects one PSA at a time, see [One PSA at a time](#one-psa-at-a-time).
 
 ## Step 1: Create an API member in ConnectWise
 
@@ -65,10 +48,18 @@ An agency connects one PSA. While Autotask or HaloPSA is enabled, the ConnectWis
 
 <Steps>
   <Step title="Pick ConnectWise as your platform">
-    In Telivy, go to **Account → Integrations**. Under **PSA Integrations**, choose **ConnectWise** in the **Platform** picker and turn on the **Enable** switch. The **ConnectWise** dialog opens on its **1. Connect** tab.
+    In Telivy, go to **Account → Integrations → PSA** and choose **ConnectWise** in the **Platform** picker, then turn on the **Enable** switch. The **ConnectWise** dialog opens on its **1. Connect** tab.
+
+    <Frame>
+      <img src="/images/connectwise/connectwise-2.png" alt="PSA settings in Telivy with ConnectWise chosen in the Platform picker and the Enable switch" />
+    </Frame>
   </Step>
   <Step title="Enter the API member keys">
     Fill in **Company ID**, **Company URL** (the domain only, without `https://`), **Public Key** and **Private Key**. Click **Test Connection** to check the keys and permissions without saving, then click **Connect & Enable**. The **2. Settings** tab stays unavailable until the connection succeeds.
+
+    <Frame>
+      <img src="/images/connectwise/connectwise-3.png" alt="Connect tab of the ConnectWise dialog in Telivy with Company ID, Company URL, Public Key and a masked Private Key filled in, and the Test Connection and Connect & Enable buttons" />
+    </Frame>
   </Step>
   <Step title="Choose the ticket settings">
     On the **2. Settings** tab, under **New tickets**, pick the **Service Board** Telivy opens tickets on and the **New Ticket Status** they start in. Both are required.
@@ -79,6 +70,10 @@ An agency connects one PSA. While Autotask or HaloPSA is enabled, the ConnectWis
     - **Accepted Risk Status**: used when someone accepts the risk on a finding.
 
     Leave either blank to keep tickets as they are. Click **Save**. To change these later, click **Configure** on the ConnectWise card.
+
+    <Frame>
+      <img src="/images/connectwise/connectwise-4.png" alt="Settings tab of the ConnectWise dialog in Telivy with Service Board, New Ticket Status, Resolved Status and Accepted Risk Status" />
+    </Frame>
   </Step>
 </Steps>
 
@@ -86,31 +81,69 @@ If a board or status you saved earlier is deleted in ConnectWise, the **2. Setti
 
 ## Step 3: Choose which findings open tickets
 
-Go to **Alerts → Policies** and turn on **PSA sync** for the categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
+Go to **Alerts → Policies**, click **Edit** on each policy whose findings should open tickets (or **Add Policy**), and on its **Delivery** step turn on the **ConnectWise** switch. The policy's trigger condition, such as **Severity Equals High**, decides which findings in that category open tickets. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
 
-Under **Account → Integrations → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether Telivy uses the statuses from Step 2. Without those statuses, tickets are left open.
+<Frame>
+  <img src="/images/connectwise/connectwise-5.png" alt="Delivery step of an alert policy in Telivy with the ConnectWise switch turned on and the One per finding and One per scan ticket choice" />
+</Frame>
+
+Under **Account → Integrations → PSA → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether Telivy uses the statuses from Step 2. Without those statuses, tickets are left open.
 
 ## Step 4: Map each company and turn on sync
 
 <Steps>
   <Step title="Open the mapping dialog">
-    In **Companies**, open the actions menu on a company and choose **Map to PSA**. You can also map from the PSA card on an assessment's **Configuration** tab.
+    In **Companies**, open the actions menu on a company and choose **Map to ConnectWise**. You can also map from the ConnectWise card on an assessment's **Setup → 4. Integrations** step, which is the only place that offers to start syncing right away.
   </Step>
   <Step title="Pick the ConnectWise company">
     In the **Map to a ConnectWise company** dialog, type at least two characters, pick the company, and click **Map company**. A ConnectWise company can belong to one Telivy company at a time. Mapping it again moves it to the new company, and the previous company shows **Not mapped**.
+
+    <Frame>
+      <img src="/images/connectwise/connectwise-6.png" alt="Map to a ConnectWise company dialog in Telivy with search results for Acme Dentistry and the Start syncing findings to ConnectWise after mapping box ticked" />
+    </Frame>
   </Step>
   <Step title="Turn on PSA sync for the assessment">
     Tick **Start syncing findings to ConnectWise after mapping** in the dialog, or turn on **Sync findings to PSA** on the assessment's PSA card later. Telivy then opens tickets for the assessment's existing findings that match your sync policy, and tells you how many it queued.
+
+    <Frame>
+      <img src="/images/connectwise/connectwise-7.png" alt="ConnectWise card on the assessment Setup Integrations step showing the mapped ConnectWise company, the Sync findings to PSA switch turned on, Check ConnectWise for updates, Change mapping and Unmap" />
+    </Frame>
   </Step>
 </Steps>
+
+## How the integration works
+
+### Tickets
+
+Once ConnectWise is connected and a company is mapped, each finding in a category you chose to sync opens one service ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a service ticket on the board you picked, against the ConnectWise company mapped to that client. The summary starts with `[Telivy]`, the severity and the finding name, for example `[Telivy][HIGH] <finding name>`, and is cut to ConnectWise's 100-character limit. The ticket body covers the finding, the detected value, the risk, the recommended fix and references, and a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab.
+
+### Priority
+
+Telivy reads your instance's own priority list, so customized priority tables work. Critical and High findings get your highest priority, Low and Info get the lowest, and Medium gets your default priority.
+
+### Resolutions read back from ConnectWise
+
+Every hour Telivy checks the tickets it opened. A ticket that is closed, or that sits in a status the board marks as closed or as the **Resolved** escalation step, marks the finding **Resolved in PSA** in Telivy, with the ticket number and status in the reason. If the issue is still there, the next scan raises the finding again.
+
+### Merged tickets
+
+If a technician merges a Telivy ticket into another ticket, Telivy writes later updates to the ticket it was merged into instead of failing on the closed original.
+
+## One PSA at a time
+
+An agency connects one PSA. While Autotask or HaloPSA is enabled, the ConnectWise switch is disabled and Telivy shows **Disable Autotask to connect ConnectWise** (or HaloPSA). Disconnecting a PSA keeps its credentials, ticket settings and company mappings, so you can switch back later.
+
+<Frame>
+  <img src="/images/connectwise/connectwise-1.png" alt="PSA settings in Telivy with ConnectWise selected, the Enable switch turned off and the note Disable HaloPSA to connect ConnectWise" />
+</Frame>
 
 ## Work with tickets from Telivy
 
 Finding tables on the **Risk** tab have a **PSA** column. Each dot shows whether the finding is synced, synced but not yet resolved or accepted in Telivy, failed, or not synced. Click a dot to open the existing ticket, or to create one for a finding that has none.
 
-To open tickets for many findings at once, select them and click **Sync to PSA**. **Find unsynced in ConnectWise** lists the assessment's findings that should have a ticket but do not, and queues them.
+To open tickets for many findings at once, select them and click **Sync to ConnectWise**. **Find unsynced in ConnectWise** lists the assessment's findings that should have a ticket but do not, and queues them.
 
-The PSA card on the assessment's **Configuration** tab has **Check ConnectWise for updates**, which runs the hourly read-back straight away for that assessment. The same card has **Unmap**, which stops new tickets for that company. Tickets already in ConnectWise stay as they are, and findings that were synced before do not sync again if you map the company somewhere else.
+The ConnectWise card on the assessment's **Setup → 4. Integrations** step has **Check ConnectWise for updates**, which runs the hourly read-back straight away for that assessment. The same card has **Unmap**, which stops new tickets for that company. Tickets already in ConnectWise stay as they are, and findings that were synced before do not sync again if you map the company somewhere else.
 
 **Disconnect** in the ConnectWise dialog stops Telivy opening and updating tickets for the whole agency. Credentials, ticket settings and mappings are kept.
 
@@ -118,7 +151,7 @@ Deleting a company in Telivy releases its ConnectWise mapping, so the ConnectWis
 
 ## Check that it works
 
-- **Account → Integrations** shows ConnectWise as **Connected**.
+- **Account → Integrations → PSA** shows ConnectWise as **Connected**.
 - The **PSA** column on **Companies** shows the ConnectWise company name.
 - New tickets appear on your chosen board with summaries starting with `[Telivy]`.
 - When a technician closes one of those tickets, the finding shows **Resolved in PSA** within the hour, or straight away after **Check ConnectWise for updates**.
@@ -133,7 +166,7 @@ Deleting a company in Telivy releases its ConnectWise mapping, so the ConnectWis
     Check that the Company ID is the one you sign in with, that the Company URL has no `https://` prefix, and that the public and private keys were copied without extra spaces from the same API key.
   </Accordion>
   <Accordion title="The ConnectWise switch is greyed out">
-    Another PSA is connected. Disable it under **Account → Integrations** first. Its settings and mappings are kept.
+    Another PSA is connected. Disable it under **Account → Integrations → PSA** first. Its settings and mappings are kept.
   </Accordion>
   <Accordion title="Findings are not creating tickets">
     Check that the company is mapped, that **Sync findings to PSA** is on for the assessment, and that the finding's category has PSA sync turned on in **Alerts → Policies**. If ConnectWise rejects a ticket, hover the finding's dot in the **PSA** column to see ConnectWise's reason.

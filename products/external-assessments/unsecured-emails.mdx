@@ -1,0 +1,85 @@
+---
+title: Find Email Services Without SSL/TLS Encryption
+sidebarTitle: Unsecured Emails
+description: 'How Telivy detects mail servers that accept unencrypted POP3, IMAP, or SMTP connections, and what to do about ports 110, 143, and 25.'
+---
+
+Email sent or collected without TLS (or its predecessor, SSL) crosses the network in plain
+text. Anyone positioned to intercept the traffic can read the messages and the passwords
+used to fetch them, much like reading a postcard.
+
+Telivy finds this by checking which mail ports on the company's servers accept unencrypted
+connections. The results are reported as **Email without SSL/TLS Found** in the Network
+Security section of both External Scans and Risk Assessments.
+
+## Finding the results
+
+<Steps>
+  <Step title="Open Network Security">
+    Open the assessment's **Security** tab and go to **Network Security**. It works the same way on External Scans and Risk Assessments.
+    <Frame>
+      <img alt="External Vulnerabilities and Open Ports and Network Vulnerabilities cards on the Security tab" src="/images/unsecured-emails/unsecured-emails-2.jpg" />
+    </Frame>
+  </Step>
+  <Step title="Find the finding">
+    **Email without SSL/TLS Found** is listed in the **Open Ports and Network Vulnerabilities** card, under its severity.
+    <Frame>
+      <img alt="Open Ports and Network Vulnerabilities card with Email without SSL/TLS Found under High severity" src="/images/unsecured-emails/unsecured-emails-1.jpg" />
+    </Frame>
+  </Step>
+  <Step title="Review the ports">
+    Click the finding to see the recommendation and the domains and ports that accept unencrypted mail traffic.
+    <Frame>
+      <img alt="Email without SSL/TLS Found detail with recommendation and the list of affected domains and ports" src="/images/unsecured-emails/unsecured-emails-3.jpg" />
+    </Frame>
+  </Step>
+</Steps>
+
+## Ports this finding can list
+
+<AccordionGroup>
+  <Accordion title="Port 110 (POP3)">
+    POP3 downloads email from a server.
+
+    **Risk:** POP3 on port 110 sends everything, including the password, in plain text, so
+    it can be read by anyone intercepting the traffic. POP3 over SSL (POP3S on port 995)
+    encrypts the connection.
+
+    **What to do:** Check whether anyone still uses POP3. If they do, move them to POP3S on
+    port 995 and close port 110.
+  </Accordion>
+
+  <Accordion title="Port 143 (IMAP)">
+    IMAP reads and manages email on a server.
+
+    **Risk:** Like POP3, IMAP on port 143 sends data in plain text. IMAP over SSL (IMAPS on
+    port 993) encrypts it. How much damage a leaked login could do depends on what the
+    account can access.
+
+    **What to do:** Check whether IMAP is in use and how sensitive the mailboxes are. Move
+    clients to IMAPS on port 993 and close port 143.
+  </Accordion>
+
+  <Accordion title="Port 25 (SMTP)">
+    SMTP sends email between servers, and port 25 has to be open for anyone on the internet
+    to deliver mail to the company.
+
+    **Risk:** A badly configured SMTP server can be abused by spammers to relay mail, and
+    weak authentication lets outsiders send mail through it.
+
+    **What to do:** Decide whether the company needs to run its own SMTP server. If it does,
+    require encryption with STARTTLS, enforce authentication (for example SASL), and block
+    open relaying.
+  </Accordion>
+</AccordionGroup>
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="External Assessments" icon="globe" href="/products/external-assessments/overview">
+    Everything an external scan checks
+  </Card>
+  <Card title="Close Open Ports" icon="door-closed" href="/products/external-assessments/close-open-ports">
+    Fix risky services the scan finds
+  </Card>
+</CardGroup>

@@ -1,0 +1,211 @@
+---
+title: Unity and Cytracom
+sidebarTitle: Unity and Cytracom
+description: 'How Telivy works with Cytracom Unity: signing in, Assess, Monitor and Foundations subscriptions, and linking Telivy clients to Unity customers.'
+---
+
+Telivy is part of Cytracom. Unity is Cytracom's partner platform, and for agencies on Unity it
+handles three things for Telivy: signing in, subscriptions and billing, and the customer
+records that Telivy clients are linked to. Agencies that are not on Unity sign in with a Telivy
+email and password and are billed through the Stripe portal described in
+[Billing, Usage, and Early Access](/getting-started/set-up-telivy-account/billing-usage-and-early-access).
+
+## Signing in through Unity
+
+On the Telivy login page, click **Sign in with Cytracom** to sign in with your Unity account.
+
+<Steps>
+  <Step title="Accept the terms">
+    The first time you sign in through Unity, Telivy shows **Terms and Conditions**. Tick
+    **I have read and agree to Telivy's Terms & Conditions** and click **Confirm**.
+  </Step>
+  <Step title="Merge an existing account, if Telivy finds one">
+    If a Telivy account with the same email address already exists, Telivy shows
+    **Existing Account Found** with that account's email, creation date, and agency. Click
+    **Merge Accounts** to keep the data from the existing account, or **Create New Account**
+    to start a separate account without it.
+  </Step>
+</Steps>
+
+If your Unity account has no Telivy access, Telivy shows **Telivy Access Required** instead
+of signing you in. Click **Go to Unity Marketplace** and subscribe to Telivy there, then sign
+in again.
+
+When your agency is on Unity, users are invited and managed in Unity. The **Users** page in
+Telivy shows a **Manage Users** button that opens Unity's settings, and your agency name and
+logo come from Unity.
+
+### When your agency has moved to Unity
+
+After an agency moves to Unity, its users can no longer use their old Telivy email and
+password. A user who signs in that way sees **Account migration required**, which tells them
+to ask their administrator for a Unity invitation. Once they accept the invitation and sign in
+to Telivy through Unity, all of their previous data is available. The screen offers
+**Go to Unity** and **Log out**, and it does not let the user continue into Telivy.
+
+### Merge Unity Accounts
+
+**Account > Merge Unity Accounts** lists duplicate users and agencies, for example when
+someone created a new account during their first Unity sign-in instead of merging. Merging
+moves all assets and data to the primary account. Only Telivy staff can see this page, so
+contact [support@telivy.com](mailto:support@telivy.com) if you end up with two accounts.
+
+## Subscriptions and what they unlock
+
+| Subscription | Scope | What it unlocks in Telivy |
+| --- | --- | --- |
+| Assess | Your whole agency | Unlimited External Assessments and Risk Assessments for any company |
+| Monitor Core | One client | Continuous monitoring, recurring scans, and risk-change alerts |
+| Monitor Pro | One client | Everything in Monitor Core, plus remediation workflows and compliance |
+| Cytracom Foundations | One client, added in Unity | Telivy coverage bundled with other Cytracom products |
+
+Cytracom Foundations has three tiers in Unity: Core, Advanced, and Premium. Foundations Core
+does not include Telivy. A client on Foundations Advanced or Foundations Premium gets Telivy
+monitoring as part of the bundle and can have a Risk Assessment even without Assess, and
+remediation workflows come with Foundations Premium. Agencies on Foundations add and change
+coverage in Unity, so Telivy never offers them an in-app purchase.
+
+The **Monitor Foundation** badge on the Unity tab is an older Monitor plan. It is a different
+product from Cytracom Foundations.
+
+### What the Create Assessment cards say
+
+When you click **Create Assessment**, each card states whether your plan covers it. Unity adds
+these variations:
+
+| Card shows | Meaning | What you can do |
+| --- | --- | --- |
+| Not included in your plan, Available with Assess, billed through Unity | Your agency needs Assess for this assessment type | Admins click **Unlock with Assess**. Other users see "Ask your agency admin to enable Assess to unlock this." **View pricing on Unity** opens the price in Unity |
+| Not included in your plan, Available through Unity | Your agency is on Foundations and adds this in Unity | Admins click **Manage in Unity**. Other users see "Ask your agency admin to add this in Unity." |
+| Included with Foundations coverage | The Monitored Risk Assessment card, for a Foundations agency | Coverage is added per company in Unity |
+| Not included in your plan, Billed per client. You choose the plan next | The Monitored Risk Assessment card, for an agency that buys Monitor | You pick Monitor Core or Monitor Pro after choosing the client |
+
+The **Monitored Risk Assessment** card appears only for agency admins who signed in through
+Unity. See [Start a Risk Assessment](/products/risk-assessments/start-a-new-risk-assessment)
+for the cards that every agency sees.
+
+### Buying in the app
+
+Agency admins on Unity can buy and upgrade subscriptions in Telivy. Every purchase is a
+recurring charge billed to your Unity account, and any coupons apply in Unity.
+
+<Tabs>
+  <Tab title="Assess">
+    Click **Unlock with Assess** on a locked card, or **Purchase Assess** on the Unity tab.
+    The **Subscribe to Assess** screen explains that one subscription covers the whole agency.
+    Click **Confirm & subscribe**. The External Assessment and Risk Assessment cards unlock
+    as soon as Telivy shows "Assess enabled for your agency".
+  </Tab>
+  <Tab title="Monitor">
+    Choose the **Monitored Risk Assessment** card. The wizard has three steps: **Client**,
+    where you pick or add the client and its Unity customer; **Plan**, where you choose
+    **Monitor Core** or **Monitor Pro**; and **Schedule**, where you choose a weekly, monthly,
+    or quarterly snapshot. Scans run daily, and the schedule only sets how often Telivy
+    captures a snapshot.
+
+    For a client that already has an assessment, use **Add Monitoring** or
+    **Upgrade to Pro** on the Unity tab.
+  </Tab>
+  <Tab title="Foundations">
+    The Monitored Risk Assessment wizard has only **Client** and **Schedule**. A client
+    appears in the picker once Foundations coverage has been added to it in Unity and has
+    synced to Telivy. **Open Unity Foundations** takes you to Unity to add it.
+  </Tab>
+</Tabs>
+
+A feature that the plan doesn't include shows the action that unlocks it, such as
+**Subscribe to Assess**, **Link to Unity**, **Add monitoring**, or
+**Upgrade to Monitor Pro**. Users who are not admins are asked to contact their agency admin.
+
+## Linking Telivy clients to Unity customers
+
+Monitoring, Monitor plans, and the [Tentacle integration](/integrations/tentacle) all need the
+Telivy client to be linked to a Unity customer.
+
+### The Unity Sync modal
+
+When you sign in, Telivy checks Unity for customers that have an active Telivy subscription
+but aren't linked to a Telivy client yet.
+
+- A customer that has a domain and no likely match among your Telivy clients is added as a new
+  Telivy client automatically. Telivy then shows **Your Unity clients are now in Telivy**,
+  from which you can open or start each client's Risk Assessment.
+- Any other customer is listed in **Connect your Unity clients to Telivy**. For each one, the
+  **Link to** menu offers your existing Telivy clients or **Create a new Telivy client**. A
+  client with the same domain is marked **Exact match** and preselected. A similar client is
+  marked **Best match** but is not selected for you. A new client needs a domain if the Unity
+  record doesn't have one.
+
+Click **Sync clients** to apply your choices. **Not now** hides the listed customers for the
+rest of your session, and a customer that appears in Unity later still opens the modal.
+**Manage all Unity syncs** goes to the Unity tab.
+
+### The sync banner
+
+While Unity customers are still waiting to be linked, a banner at the top of the app reads
+"N Unity clients ready to sync to Telivy". **Open sync** reopens the modal with every
+waiting customer, including the ones you hid. The **X** hides the banner for 24 hours.
+
+### The Unity tab
+
+**Account > Integrations > Unity** lists every company with its Unity link and
+subscriptions. It appears only for account admins who signed in through Unity.
+
+The top of the page shows whether Assess is active for the agency, with **Purchase Assess**
+for admins when it isn't. If Unity customers are waiting to be connected, a banner offers
+**Review & connect**, which opens the Unity Sync modal.
+
+The table can be filtered by **All**, **Linked**, and **Not in Unity**, and searched by name
+or domain. The **Unity** column shows one of three states:
+
+| Unity column | Meaning |
+| --- | --- |
+| Linked | The client is linked to a Unity customer. Hover to see which one |
+| Link | A Unity customer matches this client's domain. Click to link them |
+| Not in Unity | No Unity customer matches. **Add to Unity** creates a Unity customer or links an existing one |
+
+**Bulk add to Unity** creates a Unity customer for every client that isn't connected yet,
+using the address on the client's assessment. Prospects are never included. A client without
+a usable address is marked **Needs address** or **Needs attention**, and you can add one with
+**Add billing address**. Click **Create N Unity customers** to start. The progress view lets you
+retry failed rows, and you can resume the run if your Unity session expires.
+
+The **Action** column shows the next useful step for each client:
+
+- **View** or **Open** opens the client's Risk Assessment, or creates one. Creating one needs
+  Assess, a Monitor subscription on that client, or Foundations coverage for that client.
+- **New assessment** starts a fresh Risk Assessment when every assessment for the client is
+  archived. **View** still opens the archived one.
+- **Enable Monitoring** starts recurring scans for a client whose Monitor or Foundations
+  coverage is active but not yet scanning.
+- **Add Monitoring** and **Upgrade to Pro** buy a Monitor plan or move a client from Monitor
+  Core to Monitor Pro. Only admins see them.
+- **Manage in Unity** and **Add coverage in Unity** open Unity for Foundations clients and
+  for agencies on Foundations.
+
+### Linking from an assessment
+
+The assessment's integrations configuration has a **Unity** tile marked **Connected** or
+**Not Connected**. Click a tile that isn't connected to open **Link Unity Client**, then choose
+**Create New** to create a Unity client or **Link Existing** to search for one. A connected tile
+shows the subscriptions on the linked customer and **Manage Unity sync**, which opens the
+Unity tab.
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card
+    title="Billing, Usage, and Early Access"
+    icon="credit-card"
+    href="/getting-started/set-up-telivy-account/billing-usage-and-early-access"
+  >
+    Billable counts per client and how Unity invoices them
+  </Card>
+  <Card
+    title="Risk Monitoring"
+    icon="repeat"
+    href="/products/risk-monitoring/overview"
+  >
+    What monitoring does once a client is covered
+  </Card>
+</CardGroup>

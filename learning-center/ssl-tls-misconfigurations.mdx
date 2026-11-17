@@ -41,8 +41,19 @@ Attackers use these gaps for man-in-the-middle attacks, downgrade attacks that f
 
 ## Remediation
 
-- Renew certificates before they expire and automate renewal where possible. [SSL/TLS certificates](/products/external-assessments/unsecured-emails/ssl-tls-certificates) covers certificate findings in Telivy.
+- Renew certificates before they expire and automate renewal where possible. [SSL/TLS certificates](/products/external-assessments/ssl-tls-certificates) covers certificate findings in Telivy.
 - Replace self-signed, revoked, or weakly signed certificates with ones from a trusted certificate authority.
 - Redirect all HTTP traffic to HTTPS and add an HSTS header with a long `max-age`.
 - Add a Content Security Policy and tighten wildcard directives over time.
 - Rescan after each change to confirm the finding is gone.
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="SSL/TLS Certificate Checks" icon="lock" href="/products/external-assessments/ssl-tls-certificates">
+    How Telivy reports certificate findings
+  </Card>
+  <Card title="External Assessments" icon="globe" href="/products/external-assessments/overview">
+    Run an external scan for a client
+  </Card>
+</CardGroup>

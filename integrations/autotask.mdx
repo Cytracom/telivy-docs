@@ -1,45 +1,30 @@
 ---
 title: "Autotask PSA Integration"
 sidebarTitle: "Autotask"
+icon: "/images/integrations/autotask.png"
 description: "Connect Datto Autotask PSA to Telivy so security findings open Autotask tickets with severity-based priority and resolve in Telivy when tickets complete."
 ---
 
 The Autotask integration opens a Datto Autotask PSA ticket for each security finding Telivy raises for a mapped client. When a technician completes the ticket, Telivy marks the finding as resolved. When you resolve or accept a finding in Telivy, Telivy can move its ticket to a status you choose.
 
-Setting it up needs someone with admin access to Autotask and access to **Account → Integrations** in Telivy.
+Setting it up needs someone with admin access to Autotask and access to **Account → Integrations → PSA** in Telivy.
 
-<iframe src="https://www.youtube.com/embed/dvwwmxbiz44" title="Autotask integration walkthrough" frameborder="0" className="w-full aspect-video rounded-xl" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen />
+## Setup at a glance
 
-## How the integration works
+1. [Activate Telivy in the Autotask Integration Center](#step-1-activate-telivy-in-the-autotask-integration-center)
+2. [Create a security level for the API user](#step-2-create-a-security-level-for-the-api-user)
+3. [Create the API user](#step-3-create-the-api-user)
+4. [Connect Autotask in Telivy](#step-4-connect-autotask-in-telivy)
+5. [Choose which findings open tickets](#step-5-choose-which-findings-open-tickets)
+6. [Map each company and turn on sync](#step-6-map-each-company-and-turn-on-sync)
 
-### Tickets
-
-Once Autotask is connected and a company is mapped, each finding in a category you chose to sync opens one ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a ticket against the Autotask account mapped to that client. The title starts with `[Telivy]`, the severity and the finding name. The description covers the finding, the detected value, the risk, the recommended fix and references, and a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab.
-
-### Priority
-
-Telivy matches the finding's severity to your Autotask priority labels (for example Critical, High, Medium, Low), so a customized priority list works too.
-
-### Resolutions read back from Autotask
-
-Every hour Telivy checks the tickets it opened. A ticket that Autotask records as completed, or that sits in a status whose name means closed (such as **Complete**, **Closed** or **Resolved**, but not a waiting or on-hold status), marks the finding **Resolved in PSA** in Telivy. If the issue is still there, the next scan raises the finding again.
-
-### Decisions made in Telivy
-
-When you resolve or accept a finding in Telivy, Telivy moves its ticket to the status you choose in the ticket settings.
-
-## One PSA at a time
-
-An agency connects one PSA. While ConnectWise or HaloPSA is enabled, the Autotask switch is disabled and Telivy shows **Disable ConnectWise to connect Autotask** (or HaloPSA). Disconnecting a PSA keeps its credentials, ticket settings and company mappings, so you can switch back later.
-
-<Frame>
-  <img src="/images/autotask/autotask-1.png" alt="PSA Integrations card with Autotask selected and the one-PSA-at-a-time note" />
-</Frame>
+The [Prerequisites](#prerequisites) and each step are below. [How the integration works](#how-the-integration-works), after the steps, explains what happens to tickets once sync is on.
 
 ## Prerequisites
 
 - A Datto Autotask PSA subscription and an Autotask account with admin access.
-- A Telivy account with access to **Account → Integrations**.
+- A Telivy account with access to **Account → Integrations → PSA**.
+- No other PSA connected in Telivy. An agency connects one PSA at a time, see [One PSA at a time](#one-psa-at-a-time).
 
 Some terms below are Autotask defaults. If your instance uses different names, see Datto's [Local Terms and Symbols](https://ww2.autotask.net/help/Content/4_Admin/2FeaturesSettings/ApplicationWide/LocalTermsandSymbols.htm) help page.
 
@@ -102,10 +87,14 @@ Some terms below are Autotask defaults. If your instance uses different names, s
 
 <Steps>
   <Step title="Pick Autotask as your platform">
-    In Telivy, go to **Account → Integrations**. Under **PSA Integrations**, choose **Autotask** in the **Platform** picker and turn on the **Enable** switch. The **Autotask** dialog opens on its **1. Connect** tab.
+    In Telivy, go to **Account → Integrations → PSA** and choose **Autotask** in the **Platform** picker, then turn on the **Enable** switch. The **Autotask** dialog opens on its **1. Connect** tab.
   </Step>
   <Step title="Enter the API user credentials">
     Enter the API user's key as **Username** and its **Secret**. Click **Test Connection** to check them without saving, then **Connect & Enable**. The **2. Settings** tab stays unavailable until the connection succeeds.
+
+    <Frame>
+      <img src="/images/autotask/autotask-2.png" alt="Connect tab of the Autotask dialog in Telivy with Username and a masked Secret filled in, and the Test Connection and Connect & Enable buttons" />
+    </Frame>
   </Step>
   <Step title="Choose the ticket settings">
     On the **2. Settings** tab, **New tickets** lists the ticket fields your Autotask instance marks as required, such as **Queue** or **Status**, read from your own picklists. Pick a default for each, and a **Sub Issue Type** if your instance requires one.
@@ -118,36 +107,74 @@ Some terms below are Autotask defaults. If your instance uses different names, s
     - **Complete Status**: used only when no Resolved Status is set.
 
     Leave both blank to keep tickets as they are. Click **Save**. To change these later, click **Configure** on the Autotask card.
+
+    <Frame>
+      <img src="/images/autotask/autotask-3.png" alt="Settings tab of the Autotask dialog in Telivy with Queue, Status and Priority under New tickets, Ticket Source set to telivy-task-manager, and Resolved Status and Complete Status under Finding decisions" />
+    </Frame>
   </Step>
 </Steps>
 
 ## Step 5: Choose which findings open tickets
 
-Go to **Alerts → Policies** and turn on **PSA sync** for the categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
+Go to **Alerts → Policies**, click **Edit** on each policy whose findings should open tickets (or **Add Policy**), and on its **Delivery** step turn on the **Autotask** switch. The policy's trigger condition, such as **Severity Equals High**, decides which findings in that category open tickets. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
 
-Under **Account → Integrations → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether Telivy uses the statuses from Step 4. Without those statuses, tickets are left open.
+Under **Account → Integrations → PSA → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether Telivy uses the statuses from Step 4. Without those statuses, tickets are left open.
 
 ## Step 6: Map each company and turn on sync
 
 <Steps>
   <Step title="Open the mapping dialog">
-    In **Companies**, open the actions menu on a company and choose **Map to PSA**. You can also map from the PSA card on an assessment's **Configuration** tab.
+    In **Companies**, open the actions menu on a company and choose **Map to Autotask**. You can also map from the Autotask card on an assessment's **Setup → 4. Integrations** step, which is the only place that offers to start syncing right away.
   </Step>
   <Step title="Pick the Autotask account">
     In the **Map to an Autotask account** dialog, type at least two characters, pick the account, and click **Map account**. An Autotask account can belong to one Telivy company at a time. Mapping it again moves it to the new company, and the previous company shows **Not mapped**.
+
+    <Frame>
+      <img src="/images/autotask/autotask-4.png" alt="Map to an Autotask account dialog in Telivy with search results for Acme Dentistry and the Start syncing findings to Autotask after mapping box ticked" />
+    </Frame>
   </Step>
   <Step title="Turn on PSA sync for the assessment">
     Tick **Start syncing findings to Autotask after mapping** in the dialog, or turn on **Sync findings to PSA** on the assessment's PSA card later. Telivy then opens tickets for the assessment's existing findings that match your sync policy, and tells you how many it queued.
+
+    <Frame>
+      <img src="/images/autotask/autotask-5.png" alt="Autotask card on the assessment Setup Integrations step showing the mapped Autotask account, the Sync findings to PSA switch turned on, Change mapping and Unmap" />
+    </Frame>
   </Step>
 </Steps>
+
+## How the integration works
+
+### Tickets
+
+Once Autotask is connected and a company is mapped, each finding in a category you chose to sync opens one ticket. When a scan raises a finding in a category you chose to sync, Telivy creates a ticket against the Autotask account mapped to that client. The title starts with `[Telivy]`, the severity and the finding name. The description covers the finding, the detected value, the risk, the recommended fix and references, and a **View in Telivy** link that opens the finding directly on the assessment's **Risk** tab.
+
+### Priority
+
+Telivy matches the finding's severity to your Autotask priority labels (for example Critical, High, Medium, Low), so a customized priority list works too.
+
+### Resolutions read back from Autotask
+
+Every hour Telivy checks the tickets it opened. A ticket that Autotask records as completed, or that sits in a status whose name means closed (such as **Complete**, **Closed** or **Resolved**, but not a waiting or on-hold status), marks the finding **Resolved in PSA** in Telivy. If the issue is still there, the next scan raises the finding again.
+
+### Decisions made in Telivy
+
+When you resolve or accept a finding in Telivy, Telivy moves its ticket to the status you choose in the ticket settings.
+
+## One PSA at a time
+
+An agency connects one PSA. While ConnectWise or HaloPSA is enabled, the Autotask switch is disabled and Telivy shows **Disable ConnectWise to connect Autotask** (or HaloPSA). Disconnecting a PSA keeps its credentials, ticket settings and company mappings, so you can switch back later.
+
+<Frame>
+  <img src="/images/autotask/autotask-1.png" alt="PSA settings in Telivy with Autotask selected, the Enable switch turned off and the note Disable HaloPSA to connect Autotask" />
+</Frame>
 
 ## Work with tickets from Telivy
 
 Finding tables on the **Risk** tab have a **PSA** column. Each dot shows whether the finding is synced, synced but not yet resolved or accepted in Telivy, failed, or not synced. Click a dot to open the existing ticket, or to create one for a finding that has none.
 
-To open tickets for many findings at once, select them and click **Sync to PSA**. **Find unsynced in Autotask** lists the assessment's findings that should have a ticket but do not, and queues them.
+To open tickets for many findings at once, select them and click **Sync to Autotask**. **Find unsynced in Autotask** lists the assessment's findings that should have a ticket but do not, and queues them.
 
-**Unmap** on the assessment's PSA card stops new tickets for that company. Tickets already in Autotask stay as they are, and findings that were synced before do not sync again if you map the company somewhere else.
+**Unmap** on the Autotask card on the assessment's **Setup → 4. Integrations** step stops new tickets for that company. Tickets already in Autotask stay as they are, and findings that were synced before do not sync again if you map the company somewhere else.
 
 **Disconnect** in the Autotask dialog stops Telivy opening and updating tickets for the whole agency. Credentials, ticket settings and mappings are kept.
 
@@ -157,7 +184,7 @@ Deleting a company in Telivy releases its Autotask mapping, so the Autotask acco
 
 ## Check that it works
 
-- **Account → Integrations** shows Autotask as **Connected**.
+- **Account → Integrations → PSA** shows Autotask as **Connected**.
 - The **PSA** column on **Companies** shows the Autotask account name.
 - New tickets appear in your chosen queue with titles starting with `[Telivy]`.
 - Within an hour of a technician completing one of those tickets, the finding shows **Resolved in PSA** in Telivy.
@@ -169,7 +196,7 @@ Deleting a company in Telivy releases its Autotask mapping, so the Autotask acco
     Check that the key and secret were copied without extra spaces, that the API user is active, and that its security level includes **Can login to Web Services API**.
   </Accordion>
   <Accordion title="The Autotask switch is greyed out">
-    Another PSA is connected. Disable it under **Account → Integrations** first. Its settings and mappings are kept.
+    Another PSA is connected. Disable it under **Account → Integrations → PSA** first. Its settings and mappings are kept.
   </Accordion>
   <Accordion title="Findings are not creating tickets">
     Check that the company is mapped, that **Sync findings to PSA** is on for the assessment, and that the finding's category has PSA sync turned on in **Alerts → Policies**. If Autotask rejects a ticket, hover the finding's dot in the **PSA** column to see the reason, then check the queue, status and other defaults on the **2. Settings** tab.
