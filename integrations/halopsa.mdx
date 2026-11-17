@@ -73,7 +73,7 @@ The [Prerequisites](#prerequisites) and each step are below. [How the integratio
     In Telivy, go to **Account → Integrations → PSA** and choose **HaloPSA** in the **Platform** picker.
 
     <Frame>
-      <img src="/images/halopsa/halopsa-5.png" alt="PSA Integrations section in Telivy with HaloPSA chosen in the Platform picker" />
+      <img src="/images/halopsa/halopsa-5.png" alt="PSA settings in Telivy with HaloPSA chosen in the Platform picker" />
     </Frame>
   </Step>
   <Step title="Enter the connection details">
@@ -109,7 +109,7 @@ The [Prerequisites](#prerequisites) and each step are below. [How the integratio
 
 ## Step 3: Choose which findings open tickets
 
-Go to **Alerts → Policies** and turn on **PSA sync** for the finding categories that should open tickets, with an optional severity floor such as **High and above**. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
+Go to **Alerts → Policies**, click **Edit** on each policy whose findings should open tickets (or **Add Policy**), and on its **Delivery** step turn on the **HaloPSA** switch. The policy's trigger condition, such as **Severity Equals High**, decides which findings in that category open tickets. These settings apply to whichever PSA is connected. See [Alerts](/products/risk-monitoring/alerts#send-findings-to-your-psa) for the policy controls. To receive one ticket per scan instead of one per finding, see [Grouped PSA tickets](/integrations/psa-grouped-tickets).
 
 Under **Account → Integrations → PSA → Ticket settings**, the **Close tickets when a finding is accepted or resolved** switch controls whether resolving or accepting a finding in Telivy updates its ticket.
 
@@ -119,7 +119,7 @@ Telivy needs to know which Halo client a company's tickets belong to. Map each c
 
 <Steps>
   <Step title="Open the mapping dialog">
-    In **Companies**, open the actions menu on a company and choose **Map to PSA**. You can also map from an assessment's **Configuration** tab, in the PSA card.
+    In **Companies**, open the actions menu on a company and choose **Map to HaloPSA**. You can also map from the HaloPSA card on an assessment's **Setup → 4. Integrations** step.
   </Step>
   <Step title="Search for the Halo client">
     In the **Map to a HaloPSA client** dialog, type at least two characters of the client's name, pick the client from the results, and click **Map client**. Telivy checks that the client exists in Halo before saving.
@@ -172,16 +172,16 @@ The application signs in as the Halo agent you pick, so tickets are created unde
 An agency connects one PSA. While ConnectWise or Autotask is enabled, the HaloPSA switch is disabled and Telivy shows **Disable ConnectWise to connect HaloPSA** (or Autotask). Disabling a PSA keeps its credentials and company mappings, so you can switch back later. When you switch, your sync settings under **Alerts → Policies** carry over to the newly connected PSA. Company mappings do not carry over, because each PSA has its own company records, so map your companies again after switching.
 
 <Frame>
-  <img src="/images/halopsa/halopsa-10.png" alt="PSA Integrations card with HaloPSA connected and the Close tickets when a finding is accepted or resolved switch" />
+  <img src="/images/halopsa/halopsa-10.png" alt="PSA card with HaloPSA connected and the Close tickets when a finding is accepted or resolved switch" />
 </Frame>
 
 ## Work with tickets from Telivy
 
 Finding tables on the **Risk** tab have a **PSA** column. Each dot shows whether the finding is synced, synced but not yet resolved or accepted in Telivy, failed, or not synced. Click a dot to open the existing ticket, or to create one for a finding that has none.
 
-To open tickets for many findings at once, select them and click **Sync to PSA**. **Find unsynced in HaloPSA** lists the assessment's findings that should have a ticket but do not, and queues them.
+To open tickets for many findings at once, select them and click **Sync to HaloPSA**. **Find unsynced in HaloPSA** lists the assessment's findings that should have a ticket but do not, and queues them.
 
-The PSA card on the assessment's **Configuration** tab has **Check HaloPSA for updates**, which runs the hourly read-back straight away for that assessment. The same card has **Unmap**, which stops new tickets for that company. Tickets already in Halo stay as they are, and findings that were synced before do not sync again if you map the company somewhere else.
+The HaloPSA card on the assessment's **Setup → 4. Integrations** step has **Check HaloPSA for updates**, which runs the hourly read-back straight away for that assessment. The same card has **Unmap**, which stops new tickets for that company. Tickets already in Halo stay as they are, and findings that were synced before do not sync again if you map the company somewhere else.
 
 Deleting a company in Telivy releases its Halo mapping, so the Halo client can be mapped to another company.
 
