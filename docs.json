@@ -119,7 +119,8 @@
                 ]
               },
               "products/risk-assessments/auto-update",
-              "products/risk-assessments/troubleshoot-telivy-agent"
+              "products/risk-assessments/troubleshoot-telivy-agent",
+              "products/risk-assessments/remediator"
             ]
           },
           {
