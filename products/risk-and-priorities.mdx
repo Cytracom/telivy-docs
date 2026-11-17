@@ -35,11 +35,16 @@ vulnerabilities. It is sorted by severity, highest first.
 | Open | Findings still open, with the number that are new or regressed next to an up arrow |
 | Resolved | Findings resolved since the comparison scan |
 | Score Gain | The points the security score would gain if the group were fixed. Only shown when Telivy has a projection |
+| Remediate | **Remediate** or **Fix** when Telivy can apply a fix for the group, otherwise a dash |
 | Actions | **Create Tasks** and **View More**, which opens the group |
 
 Above the list you can search by issue group name, filter by severity in the filters menu,
 and narrow the list to one category with the pills: **All**, **Assets**, **Data**, **Dark
 Web**, **Network Security**, **Threats and Vulnerabilities**, and **Training**.
+
+<Frame>
+  <img src="/images/risk-and-priorities/risk-and-priorities-1.png" alt="Risk tab issue group list with search, Filters, Set Scans, the category pills and rows showing severity, category, CIS control, open and resolved counts and score gain" />
+</Frame>
 
 ### Comparing scans
 
@@ -79,6 +84,10 @@ with a status dot per finding. The dot shows whether the finding has a ticket in
 Clicking a dot syncs that finding now, or opens its existing ticket. In **By CVE** and **By
 Device**, a **PSA Sync** column shows how many of the row's findings are synced.
 
+<Frame>
+  <img src="/images/risk-and-priorities/risk-and-priorities-2.png" alt="Critical Severity CVEs group in the By CVE view with a PSA Sync column and one CVE expanded to show a PSA status dot per device" />
+</Frame>
+
 With sync on, you can also tick findings and use **Sync to** followed by your PSA's name to
 open tickets for the ones not yet synced, and the issue group list shows **Find unsynced in**
 followed by your PSA's name, which counts what a sync would open before you confirm it. See
@@ -102,6 +111,10 @@ Click a finding to open its details in a drawer on the right. It shows:
 
 The current decision in the timeline can be edited or deleted from its pencil and bin icons.
 
+<Frame>
+  <img src="/images/risk-and-priorities/risk-and-priorities-3.png" alt="Finding drawer Timeline with a Risk Accepted decision showing who made it, the reason and the expiry date, followed by Regressed, Resolved, Open and New status changes" />
+</Frame>
+
 ## The Priorities tab
 
 The **Priorities** tab, titled **Risk Priorities**, lists every CVE and every affected device in
@@ -113,6 +126,10 @@ When any CVE on the assessment is in the CISA Known Exploited Vulnerabilities (K
 red banner at the top gives the count, and an amber banner counts the CVEs that have a public
 exploit but are not in KEV. **View** on either banner switches to **By CVE** filtered to those
 CVEs.
+
+<Frame>
+  <img src="/images/risk-and-priorities/risk-and-priorities-4.png" alt="Risk Priorities tab with the red KEV banner and amber public exploit banner above the By CVE table ranked by Max RPS" />
+</Frame>
 
 ### By CVE
 

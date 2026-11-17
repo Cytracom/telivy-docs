@@ -27,6 +27,14 @@ Events go to the webhooks of the agency that owns the assessment. A master agenc
 
 Set up webhooks in the Telivy portal under **Account → Webhooks**. For each webhook you set the destination URL, the events to subscribe to, whether the payload is encrypted, and any extra HTTP headers Telivy should send.
 
+<Frame>
+  <img src="/images/webhooks/webhooks-1.png" alt="Account → Webhooks list with two webhooks showing the active switch, URL, events, encryption, created date and Edit" />
+</Frame>
+
+<Frame>
+  <img src="/images/webhooks/webhooks-2.png" alt="Create New Webhook form with the webhook URL https://hooks.example.com/telivy, event types, Encrypt Payload switch and Headers field" />
+</Frame>
+
 When you create the subscription, Telivy generates a secret key. You use it to verify that requests come from Telivy and to decrypt encrypted payloads.
 
 ## Processing webhooks

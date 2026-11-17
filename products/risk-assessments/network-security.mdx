@@ -34,6 +34,10 @@ The **Summary** card shows three numbers: **Devices** is the number of devices t
 
 This card shows two charts built from the agent scan, **Vulnerability by Devices** and **Vulnerability by Risk Level**. The number next to the title is the count of scanned devices.
 
+<Frame>
+  <img src="/images/network-security/network-security-1.png" alt="Network view Summary card with devices, critical and high vulnerability counts, above the Internal Vulnerabilities card with Vulnerability by Devices and Vulnerability by Risk Level charts" />
+</Frame>
+
 ### Trends
 
 **Trends** plots the number of critical vulnerabilities across all devices for each scan over time. Use **Filter Assets** to limit the line to selected devices, and **Select Period** to choose **7 days**, **30 days**, **2 months**, or **YTD**. A device name followed by an asterisk in the chart tooltip had not finished scanning when that point was recorded.
@@ -80,6 +84,10 @@ Select a row or a CVE ID to open its details: the description, source product an
 
 **Export Report** generates the **Vulnerabilities Report (CSV)** for the assessment and downloads it.
 
+<Frame>
+  <img src="/images/network-security/network-security-2.png" alt="Vulnerabilities by CVEs card with the CVE search, severity tabs, Export Report and a table of CVEs with title, source, published date, EPSS, CVSS, severity and assets" />
+</Frame>
+
 ### External Vulnerabilities
 
 Vulnerabilities in the services Telivy found on the client's public domains and IP addresses. The count next to the title leaves out informational findings. While the external scan is running, the title also shows **(External scan ongoing)**. Select a finding to open its details page. To scan more domains or IP addresses, see [Add Domains and IPs](/products/external-assessments/add-domains-and-ips).
@@ -101,6 +109,10 @@ Select **Threats & Vulns** on the **Security** tab. It appears only on assessmen
 - **By CVE** has one row per CVE. The columns are **CVE ID**, **Max RPS**, **KEV**, **Exploit**, **CVSS**, **EPSS**, **Category**, and the number of affected devices. **KEV** reads **Yes** when CISA lists the CVE as exploited in real attacks, and **Exploit** reads **Yes** when public exploit code exists. Select **Show N devices** on a row to list each affected device with its finding **Status** and its own RPS. Select a CVE ID to open the finding.
 - **By Device** has one row per device. The columns are **Hostname**, **OS**, **Total CVEs**, **Max RPS**, **Max CVSS**, **Max EPSS**, **Asset Criticality**, and **PII Exposure**. Select **Show N CVEs** to list the device's CVEs with **CVSS**, **EPSS**, **Severity**, **Patch status**, **RPS**, **Status**, and **Product**. When the findings are for domains or other assets, the tab is named **By Domain** or **By Asset** and leaves out the device-only columns.
 - **All findings** lists every finding in the group with its full details.
+
+<Frame>
+  <img src="/images/network-security/network-security-3.png" alt="Threats and Vulns By CVE tab with status and exploitability filters and one CVE row expanded to list its two affected devices with status and RPS" />
+</Frame>
 
 **Max RPS** is the highest RPS among the findings in the row. Select a score to see how it was calculated. **Asset Criticality** comes from the device's data and from any override you set; see [Setting asset criticality](/scoring/risk-scoring#setting-asset-criticality). For **Patch status**, see [Patch status per device](/products/risk-register#patch-status-per-device).
 

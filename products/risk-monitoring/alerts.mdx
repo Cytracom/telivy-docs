@@ -57,10 +57,18 @@ Click **Enable recommended** to add policies for every recommended category that
 ### Add or edit a policy
 
 1. Click **Add Policy**, or **Edit** on an existing row.
-2. In **Configure Alert Policy**, choose the **Alert Category** and the **Trigger Condition**. Some categories take an **Alert Metric** and a **Value**, for example a CVSS or EPSS threshold for Internal Vulnerabilities.
-3. Click **Next: Select Users**.
+2. In **Configure Alert Policy**, choose the **Alert Category** and the **Trigger Condition**. Some categories take an **Alert Metric** and a **Threshold Value**, for example a CVSS or EPSS threshold for Internal Vulnerabilities.
+3. Click **Next: Delivery**.
 4. In **Configure Alert Delivery**, choose the people to email. If a PSA is connected, its switch also opens tickets for this category's findings. If not, this step offers to connect one.
 5. Click **Save**.
+
+<Frame>
+  <img src="/images/alerts/alerts-2.png" alt="Configure Alert Policy step for Internal Vulnerabilities with the Alert Metric set to CVSS Greater Than and a Threshold Value of 7" />
+</Frame>
+
+<Frame>
+  <img src="/images/alerts/alerts-3.png" alt="Configure Alert Delivery step with the PSA ticket switch, the Tickets choice of one per finding or one per scan, and the email recipients" />
+</Frame>
 
 A policy needs at least one recipient or PSA delivery. Saving with neither removes the policy.
 

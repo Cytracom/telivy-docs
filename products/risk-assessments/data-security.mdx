@@ -90,6 +90,10 @@ Change the costs when a client is in a regulated industry with known per-record 
 
 The **Overview** tab of every assessment has a **Financial Exposure** card that estimates what a cyber incident could cost the client. It shows three figures on the left and the **Financial Risk Calculator** on the right.
 
+<Frame>
+  <img src="/images/data-security/data-security-2.png" alt="Financial Exposure card with Ransomware Cost, Interruption Cost and Data Breach Cost on the left and the Financial Risk Calculator Industry step on the right" />
+</Frame>
+
 | Figure | What it estimates | What drives it |
 | --- | --- | --- |
 | **Ransomware Cost** | The cost of a ransomware attack | Industry and annual revenue |
@@ -103,6 +107,10 @@ These figures come from the assessment's questionnaire answers, not from the PII
 **Ransomware Cost** and **Interruption Cost** start from a base cost for the client's industry sector (the first two digits of its NAICS code) and scale it by annual revenue. The cost grows more slowly than revenue: doubling revenue raises the Ransomware Cost by about 60% and the Interruption Cost by about 65%. Revenue below $1 million is counted as $1 million. If no industry is set, both figures are zero.
 
 **Data Breach Cost** is the sum of seven items, each worked out from the estimated number of personal records. Select **Show Cost Breakdown** under the figure to open the **Data Breach Cost Breakdown**, which lists each item with its amount.
+
+<Frame>
+  <img src="/images/data-security/data-security-3.png" alt="Data Breach Cost Breakdown dialog listing Breach Coach, Crisis Management, Notification, Call Center, Credit Monitoring, Regulatory Fines and Class Action Settlements amounts" />
+</Frame>
 
 | Item | How it is estimated |
 | --- | --- |
@@ -122,7 +130,7 @@ All amounts are calculated in US dollars and then converted with a fixed exchang
 
 ### Changing the inputs
 
-The **Financial Risk Calculator** on the right side of the card has two steps. **1. Industry** asks for **Annual Revenue (Sales)** and the industry. **2. Data & Compliance** asks for **Estimated Personal Records**, **Total Personal Records** when you pick Other, **PCI-DSS Compliance**, and **HIPAA Compliance**. These are the same answers as in the assessment's questionnaire.
+The **Financial Risk Calculator** on the right side of the card has two steps. **1. Industry** asks for **Annual Revenue (Sales)** and **Primary Operations**, the client's industry. **2. Data & Compliance** asks for **Estimated Personal Records**, **Total Personal Records** when you pick Other, **PCI-DSS Compliance**, and **HIPAA Compliance**. These are the same answers as in the assessment's questionnaire.
 
 <Steps>
   <Step title="Pick a step">

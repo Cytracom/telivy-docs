@@ -20,6 +20,10 @@ The sub-tabs sit in a selector at the top, and each label shows a count, for exa
 
 **Security Graph** draws the local network as one diagram per router, with each device connected to its gateway. Devices running the Telivy agent are marked **Telivy Deployed**, routers are marked **Router**, and everything else is **Other Devices**. Select a router's header to expand or collapse its diagram, scroll to zoom, and drag to pan. **Select Router** limits the view to one router. When there are many routers, the diagrams are split into pages.
 
+<Frame>
+  <img src="/images/inventory/inventory-1.png" alt="Security Graph with the legend and one router expanded to show its devices, agent-deployed devices highlighted with their vulnerability counts and data risk" />
+</Frame>
+
 ### Devices
 
 **Devices** lists every host the agent found when it scanned the client's local network, including printers, phones, and other devices that cannot run the agent. Search by hostname or IP address, or use the filters for **Router**, **Gateway Status**, and **Deployment Status** (**Deployed** or **Not Deployed**).
@@ -31,11 +35,15 @@ The sub-tabs sit in a selector at the top, and each label shows a count, for exa
 | Host Name | The hostname, when the network reports one |
 | Primary Mac Address | The host's MAC address |
 | Device Vendor | The manufacturer, looked up from the MAC address |
-| Telivy Deployed | A check mark when the Telivy agent runs on the host |
+| Telivy Deployed | A green dot when the Telivy agent runs on the host |
 | OS Version | The operating system, for hosts with the agent |
 | Open Ports | The ports that answered the scan |
 | Potential Services | The services those ports usually run |
 | Results | **View** opens the host details |
+
+<Frame>
+  <img src="/images/inventory/inventory-2.png" alt="Network Devices table with routers and devices, their IP and MAC addresses, vendor, Telivy deployed dot, OS version, open ports and potential services" />
+</Frame>
 
 The host details show **Device Info** (hostname, IP and MAC address, and vendor), **Network Connection** (device type and gateway), and, when available, **OS Detected**, **Port Scan - Potential Services**, and **Processes Listening on Ports**.
 
@@ -79,6 +87,10 @@ A strip at the top shows how many endpoints pass each check, as a count and a ba
 - **Remediator**: Windows devices running the Telivy Remediator, which applies the fixes you approve. This item and the matching column appear only when the Remediator is enabled for your agency.
 
 Endpoints that have not reported a check yet are listed below the bar as "not reported yet (counted as unprotected)".
+
+<Frame>
+  <img src="/images/inventory/inventory-3.png" alt="Endpoint Posture card with the Antivirus, Firewall and Encryption summary bars above the endpoints table sorted by Max RPS" />
+</Frame>
 
 ### Columns
 
