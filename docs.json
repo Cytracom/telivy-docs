@@ -91,7 +91,8 @@
                   "products/risk-assessments/google-workspace-security",
                   "products/risk-assessments/compliance",
                   "products/risk-assessments/auto-update",
-                  "products/risk-assessments/uninstall-telivy-agent-windows"
+                  "products/risk-assessments/uninstall-telivy-agent-windows",
+                  "products/risk-assessments/remediator"
                 ]
               },
               {
