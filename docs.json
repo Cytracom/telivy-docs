@@ -36,16 +36,15 @@
             "group": "Your Clients",
             "pages": [
               "getting-started/companies",
-              "getting-started/insights",
-              {
-                "group": "Lead Magnet",
-                "expanded": false,
-                "pages": [
-                  "products/lead-magnet/configure-with-easy-go-link",
-                  "products/lead-magnet/configure-with-custom-form",
-                  "products/lead-magnet/track-submissions-with-utm-source"
-                ]
-              }
+              "getting-started/insights"
+            ]
+          },
+          {
+            "group": "Grow Your Business",
+            "pages": [
+              "products/lead-magnet/configure-with-easy-go-link",
+              "products/lead-magnet/configure-with-custom-form",
+              "products/lead-magnet/track-submissions-with-utm-source"
             ]
           }
         ]
@@ -213,8 +212,7 @@
           {
             "group": "Support",
             "pages": [
-              "help/get-help",
-              "additional-information/release-notes"
+              "help/get-help"
             ]
           },
           {
@@ -237,6 +235,12 @@
               "learning-center/typo-squatting",
               "learning-center/disk-encryption-detection",
               "learning-center/vulnerability-data-sources"
+            ]
+          },
+          {
+            "group": "Product Updates",
+            "pages": [
+              "additional-information/release-notes"
             ]
           }
         ]
